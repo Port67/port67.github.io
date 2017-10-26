@@ -36,7 +36,10 @@
     <article id="content" class="center-col">
       <div id="toc">
 <ul>
-<li><a href="#variable-declarations">Variable Declarations</a></li>
+<li><a href="#variable-declarations">Variable Declarations</a><ul>
+<li><a href="#compiler-warnings">Compiler Warnings</a></li>
+</ul></li>
+<li><a href="#next">Next</a></li>
 </ul>
       </div>
 <h1 id="variable-declarations">Variable Declarations</h1>
@@ -60,6 +63,7 @@
 }
 
 <span class="co">// Code that now uses x</span></code></pre></div>
+<h2 id="compiler-warnings">Compiler Warnings</h2>
 <p>The second solution to this problem is to use the <code>-Wall</code> flag to your compiler. This flag tells the compiler to warn you about every place in your code that something fishy is happening. Modern compilers are actually quite good at spotting bugs like these, so I would recommend <em>always</em> using <code>-Wall</code>. As an example, let’s look at this program that uses an undefined <code>x</code>.</p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="co">// undefined_x.c</span>
 
@@ -68,7 +72,7 @@
     x = x + <span class="dv">1</span>;
     <span class="cf">return</span> <span class="dv">0</span>;
 }</code></pre></div>
-<p>Compiling with and without <code>-Wall</code>,</p>
+<p>Compiling without and with <code>-Wall</code>,</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">gcc</span> undefined_x.c
 $ <span class="fu">gcc</span> -Wall undefined_x.c
 <span class="ex">undefined_x.c</span>:5:9: warning: variable <span class="st">&#39;x&#39;</span> is uninitialized when used here
@@ -92,6 +96,7 @@ $ <span class="fu">gcc</span> -Wall undefined_x.c
 <p>The compiler went above and beyond here to offer a solution to our problem. And notice, it was the first option I gave above. These suggestions are not always great, but they are usually good starting points for fixing your code.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">1</span> warning generated.</code></pre></div>
 <p>As a quick summary, we see that there was only 1 warning generated when reading our code. This number can sometimes be inflated when a single error causes a large number of warnings. Finding the root of your problems just takes practice.</p>
+<h1 id="next">Next</h1>
 <p><a href="5-functions.html">Functions</a></p>
     </article>
 

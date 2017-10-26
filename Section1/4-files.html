@@ -36,7 +36,11 @@
     <article id="content" class="center-col">
       <div id="toc">
 <ul>
-<li><a href="#files">Files</a></li>
+<li><a href="#files">Files</a><ul>
+<li><a href="#file-types">File Types</a></li>
+<li><a href="#vim">Vim</a></li>
+</ul></li>
+<li><a href="#next">Next</a></li>
 </ul>
       </div>
 <h1 id="files">Files</h1>
@@ -48,6 +52,7 @@ $ <span class="bu">cd</span> Projects
 $ <span class="fu">ls</span>
 $</code></pre></div>
 <p>We now have a directory called <code>Projects</code> that will hold all of our files. No matter where you are in your filesystem, you can always get here with <code>cd ~/Projects</code>, remembering that <code>~</code> is just a special symbol for your home directory. If we find that we need more organization, we can make more directories (perhaps <code>~/Projects/Python</code> to hold Python specific files). But for now, we should be good with a single directory.</p>
+<h2 id="file-types">File Types</h2>
 <p>We are going to flex our terminal muscles now to investigate how the computer works with files. Note that we can speed the process up by passing all of the new files we want to <code>touch</code> at the same time.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">touch</span> test.html test.png</code></pre></div>
 <p>Files can be named anything you want. However, if you follow the convention of finishing the name with a period and an “extension”, you can provide the computer with some extra information about the contents of that file. To test this, we can see what the operating system expects to be in each of these three files. This is the trick that lets double-clicking to open files work, so we are going to do the command line version of that.</p>
@@ -60,8 +65,10 @@ $ <span class="ex">see</span> test.png</code></pre></div>
 <p>Your computer most likely has a set of preferences that let you decide what the default for each file type should be. When you open <code>test.html</code>, your browser should open a blank page. And <code>open test.png</code> should open some photo viewing application, possibly with an error message.</p>
 <p>In both of these cases, the files are exactly the same. They are completely blank, like sheets of paper. By adding the extension, we are telling the computer what it should expect to be written in those files. As such, it finds a proper application to read that content. Browsers are made to view HTML, photo applications know how to read PNG’s, and so on. Some of these formats, like HTML, are completely readable by humans. They will look like words and symbols that you could type if you wanted to. Other formats, like PNG’s, are farther along in the conversion to electricity. Often they will be simple binary strings of 0’s and 1’s.</p>
 <p>Luckily for us, programming languages are both human readable and typeable. However, we now need a tool to edit these files. We want to write “plain text” (i.e. words and symbols, not 0’s and 1’s). Interestingly, programs like Microsoft Word and Open Office Writer won’t work for us. They include things like formatting and style in their file formats, while we need to operate on bare “plain text”.</p>
+<h2 id="vim">Vim</h2>
 <p>There are many apps that <em>do</em> let us edit files the way we need to, but we are going to stick to terminal programs for the time being. There are two modern powerhouses in the terminal text editing game: Vim and Emacs. People have been fighting over which one is better since the dawn of time and will most likely continue to do so forever. In the end, the decision is pretty much meaningless, and just depends on who teaches you. In this case, that is me, and I am a Vim guy. You are certainly welcome to use any editor you want (so long as it doesn’t include extra stuff like Word or Open Office), but I would recommend Vim for now. Eventually, you will be able to choose an editor for yourself, maybe even branching into the graphical ones like Atom or Sublime.</p>
 <p>One of the better qualities of Vim is that it comes installed on most systems. And when it is not, it is highly likely and older version called Vi is. (Vim comes from “Vi Improved”). Vim is going to take a full lesson to get started with, so I’ll end this here. In fact, one of the most Google’d questions about programming is, “how do I exit Vim?” So I’ll wait until next time to suggest opening it.</p>
+<h1 id="next">Next</h1>
 <p><a href="5-vim.html">Vim</a></p>
     </article>
 

@@ -37,17 +37,18 @@
       <div id="toc">
 <ul>
 <li><a href="#control-flow">Control Flow</a><ul>
-<li><a href="#if-statements">If Statements</a></li>
+<li><a href="#if">If</a></li>
 <li><a href="#while">While</a></li>
 <li><a href="#for">For</a></li>
 </ul></li>
 <li><a href="#an-example">An Example</a></li>
+<li><a href="#next">Next</a></li>
 </ul>
       </div>
 <h1 id="control-flow">Control Flow</h1>
 <p>Our programs so far have been somewhat lackluster. One of the most glaring issues is that they do exactly the same thing every time. The program that asked us for the sides of a triangle before printing the hypotenuse could give different answers, but was still somewhat boring.</p>
 <p>In all the code we have written so far, Python has simply executed every line from top to bottom, in order. You could imagine a small pointer moving down line by line, indicating which line Python is executing. (This pointer does in fact exist inside the computer and is called the <code>program counter</code>.) The way this pointer moves is called <code>control flow</code>, and we are now going to learn how to make it do more than fall from top to bottom.</p>
-<h2 id="if-statements">If Statements</h2>
+<h2 id="if">If</h2>
 <p>Our first tool to affect control flow is the <code>if</code> statement.</p>
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="cf">if</span> x:
     <span class="bu">print</span> <span class="st">&quot;x is True&quot;</span></code></pre></div>
@@ -121,7 +122,7 @@ because they really are the same number.  But try checking
 main()</code></pre></div>
 <p>As a matter of good practice, I have added comments to my code. Some are to help understand how it works, like the explanation of <code>break</code> and <code>elif</code>. Others explain why I chose to do something, like print the previous guesses.</p>
 <p>This game has lots of area for improvement. Some things to think about and improve: what happens when the player runs out of guesses? what if the player wants to play again? Could you make the previous guess information more useful by also telling the player if the guess was too high or too low? Working through these kinds of problems is the difference between good code and bad code. Interestingly, it is also the difference between a good game and a bad game. These exercises will also force you to work through some of the most common bugs and tough spots in programs.</p>
-<p>We aren’t looking for pretty code just yet! Learning how to make code readable requires seeing a large amount of unreadable code. That way you can see for yourself what does and doesn’t work. For now the most important idea is understanding how the program runs. Once you get a good handle on that, you can start to see patterns and apply some of the tools that people have made to help.</p>
+<h1 id="next">Next</h1>
 <p><a href="10-reflection.html">A Reflection</a></p>
     </article>
 

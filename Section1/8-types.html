@@ -36,11 +36,17 @@
     <article id="content" class="center-col">
       <div id="toc">
 <ul>
-<li><a href="#types">Types</a></li>
+<li><a href="#types">Types</a><ul>
+<li><a href="#type-errors">Type Errors</a></li>
+<li><a href="#int-and-str">Int and Str</a></li>
+<li><a href="#combining-types">Combining Types</a></li>
+</ul></li>
+<li><a href="#next">Next</a></li>
 </ul>
       </div>
 <h1 id="types">Types</h1>
 <p>One of the features that differentiates programming languages is how they handle “types.” Type systems are a set of rules that control how you are allowed to use different values. When you tell the computer to run your program, it doesn’t check to make sure that what you are doing is sensible. It just runs your set of instructions until it reaches the end or causes an error. Type systems help diminish the chance of the runtime errors and provide extra information in error messages.</p>
+<h2 id="type-errors">Type Errors</h2>
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="op">&gt;&gt;&gt;</span> w <span class="op">=</span> <span class="dv">0</span>
 <span class="op">&gt;&gt;&gt;</span> x <span class="op">=</span> <span class="dv">1</span>
 <span class="op">&gt;&gt;&gt;</span> y <span class="op">=</span> <span class="dv">2</span>
@@ -56,10 +62,12 @@ Traceback (most recent call last):
 <p>This example demonstrates a basic programming mistake that a type system can catch. Accidentally using the wrong variable is often a source of difficult to find bugs. Luckily, types help us in many cases, like this one! Let’s look at what the error is telling us,</p>
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="pp">TypeError</span>: unsupported operand <span class="bu">type</span>(s) <span class="cf">for</span> <span class="op">+</span>: <span class="st">&#39;int&#39;</span> <span class="kw">and</span> <span class="st">&#39;str&#39;</span></code></pre></div>
 <p>There are a number of new concepts here. First, Python is telling us that there was a <code>TypeError</code>. That means that one of the rule of the type system was violated. Next it will tell us which rule, <code>unsupported operand type(s) for +</code>. An “operand” is an argument to an “operator”, in this case <code>+</code> is our “operator” and <code>y</code>/<code>z</code> are our “operands”. The error is that <code>+</code> expects its “operands” to have certain types, but <code>y</code> and <code>z</code> don’t match those. Finally, it tells us that the types that failed are <code>'int'</code> and <code>'str'</code>.</p>
+<h2 id="int-and-str">Int and Str</h2>
 <p>So what are <code>'int'</code> and <code>'str'</code>? They are specific types. <code>'int'</code> stands for Integer. The integers are the Natural numbers (or counting numbers) and their negatives. That is, …, -2, -1, 0, 1, 2, … From negative infinity to infinity. (They are actually bounded above and below due to hardware restrictions, but we will get to that when we talk about representation of types in C.)</p>
 <p><code>'str'</code> is the String type. Strings are pieces of text. For example, <code>'hello'</code> is a string. We also have <code>''</code> the empty string, or the entire text of Moby Dick. You can think of Strings as a sequence of 0 or more Characters, where a Character is a letter, number, space, or punctuation. Python does not have a specific type for individual characters, but many other languages do.</p>
 <p>One final type we can talk about here is Float, or floating-point numbers. These are all the rational numbers, which can be represented as fractions. However, fractions are not a great representation for the computer to hold, so we use floating-points instead. These are numbers like 0.5 (one half), or 82934.123845132452, or 1.0.</p>
 <p>With this knowledge in hand, the error is slightly clearer. We are trying to add an Integer (…, -1, 0, 1, …) to a String. But that doesn’t make much sense. Adding two values of the same type is usually fairly easy to define. With numbers, it is just simple addition. Take a guess what happens when you try to add two strings, and test it out in the REPL. But how should the computer add a string to an int? There really isn’t a sensible answer, and so we get an error.</p>
+<h2 id="combining-types">Combining Types</h2>
 <p>Sometimes different types can actually work well together though. What happens when you try to add an int and a float? How do these types relate to each other? You can always turn an int like <code>2</code> into a float by just adding a <code>.0</code> to the end. But can you turn a float like <code>0.5</code> into an int? You could by just dropping everything after the decimal, but that is not a great solution. So let’s convert our int into a float and proceed as normal. Thus the type of <code>'int' + 'float'</code> is <code>'float'</code>.</p>
 <p>If you were to try out all the different combinations of types and addition, you would find some errors and some values. The type system is the tool we use to determine whether or not some calculation makes sense. Often, the rules of the type system catch simple errors that you made. It is unlikely that we meant to add an int and a string above. More reasonably, we meant to add <code>w + x</code>.</p>
 <p>While the type system caught our mistake here, we can also take this as an opportunity to learn a good habit. Naming variables meaningfully is a good practice to get into. We could have avoided this mistake by using better names.</p>
@@ -76,6 +84,7 @@ Traceback (most recent call last):
   File <span class="st">&quot;&lt;stdin&gt;&quot;</span>, line <span class="dv">1</span>, <span class="kw">in</span> <span class="op">&lt;</span>module<span class="op">&gt;</span>
 <span class="pp">TypeError</span>: unsupported operand <span class="bu">type</span>(s) <span class="cf">for</span> <span class="op">+</span>: <span class="st">&#39;int&#39;</span> <span class="kw">and</span> <span class="st">&#39;str&#39;</span></code></pre></div>
 <p>Notice that our error is easy to see without even running the code.</p>
+<h1 id="next">Next</h1>
 <p><a href="9-control-flow.html">Control Flow</a></p>
     </article>
 

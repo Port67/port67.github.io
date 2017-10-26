@@ -38,11 +38,11 @@
 <ul>
 <li><a href="#the-filesystem">The Filesystem</a><ul>
 <li><a href="#paths">Paths</a></li>
-<li><a href="#trees-are-recursive">Trees are Recursive</a></li>
-<li><a href="#files-cant-have-children">Files Can’t Have Children</a></li>
+<li><a href="#branches-and-leaves">Branches and Leaves</a></li>
 <li><a href="#directories-are-infinite">Directories are Infinite</a></li>
-<li><a href="#basic-commands">Basic Commands</a></li>
 </ul></li>
+<li><a href="#basic-commands">Basic Commands</a></li>
+<li><a href="#next">Next</a></li>
 </ul>
       </div>
 <h1 id="the-filesystem">The Filesystem</h1>
@@ -57,7 +57,7 @@
   / \
  /\ /\
 o  oo o</code></pre>
-<p>Computer science trees are almost all bark and almost always upside-down. (Caption)</p>
+<p>Computer science trees are almost all bark and almost always upside-down.</p>
 <p>We use the term tree as “something with branches and leaves.” So let’s consider the filesystem again. In this case, it might look like:</p>
 <pre><code>                  Home
                 /      \
@@ -86,7 +86,7 @@ resume.doc          song.mp3    picture.png</code></pre>
 <li>Move down to <code>resume.doc</code></li>
 </ul>
 <p>Translated, we have <code>../Documents/resume.doc</code>. Paths are a simple but powerful way of describing how to move around the filesystem, and we will see how to exploit them shortly.</p>
-<h2 id="trees-are-recursive">Trees are Recursive</h2>
+<h2 id="branches-and-leaves">Branches and Leaves</h2>
 <p>If we cut off any branch and just examine it, we can see that it is still a tree. We even include a single leaf in our definition of trees. This property leads to a simple design. A nice example of this is moving entire chunks of the tree. For example, let’s make <code>Downloads</code> a child of <code>Documents</code>. We cut off the connection between <code>Home</code> and <code>Downloads</code> and recreate it under <code>Documents</code>:</p>
 <pre><code>                 Home
                 /
@@ -95,21 +95,20 @@ resume.doc          song.mp3    picture.png</code></pre>
 resume.doc       Downloads
                  /        \
              song.mp3    picture.png</code></pre>
-<p>Our tree is now a little lopsided, but that is fine. We just moved all of those files by changing one little line. This is a major win for us. Also relative paths…</p>
-<h2 id="files-cant-have-children">Files Can’t Have Children</h2>
+<p>Our tree is now a little lopsided, but that is fine. We just moved all of those files by changing one little line. This is a major win for us. Notice that all of the paths under <code>Downloads</code> stayes the same. If we are in Downloads, we can still find <code>picture.png</code> with <code>./picture.png</code>.</p>
 <p>In the tree jargon, files are leaves. In the same way that real leaves can’t have branches coming out of them, files can’t have directories or other files below them. Files exist to hold data, while directories exist to keep things in order.</p>
 <h2 id="directories-are-infinite">Directories are Infinite</h2>
-<p>To complement files not having any children, directories can have as many as you want. (Probably like 2^32 or something…) Expanding on the example above, you could have:</p>
+<p>To complement files not having any children, directories can have as many as you want. (Well, there is a cap, but you are unlikely to run into it.) Expanding on the example above, you could have:</p>
 <pre><code>                             Home
      _________________________|______________________________
     /               /            \             \             \
 Documents      Downloads      Pictures      TODO.txt      Recipes</code></pre>
-<p>Here we have four child directories and a file. But you could have however many make sense for you. You might be someone who takes pictures all day, in which case you could have thousands of pictures in your Pictures folder. Or you might have a set of directories within Pictures for Family, Vacation, Work, etc. which help you keep track of all your photos.</p>
-<h2 id="basic-commands">Basic Commands</h2>
+<p>Here we have four child directories and a child file. But you could have however many make sense for you. You might be someone who takes pictures all day, in which case you could have thousands of pictures in your Pictures folder. Or you might have a set of directories within Pictures for Family, Vacation, Work, etc. which help you keep track of all your photos.</p>
+<h1 id="basic-commands">Basic Commands</h1>
 <p>Now that we know all about paths and the tree structure, let’s see what we can do. Assume our present working directory is Home, and we are working from the tree that has Downloads as a child of Documents.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">ls</span> <span class="op">&lt;</span>path<span class="op">&gt;</span></code></pre></div>
-<p><strong>L</strong>i<strong>s</strong>t the contents of the given directory at <path>. With no argument, list the contents of the present working directory.</p>
-<p>Possibly the most useful command, <code>ls</code> shows you what files and folders are around you. If we want to know what is in Documents, we could do <code>ls Documents</code>, returning <code>resume.doc Downloads</code>. We could even look inside Downloads with <code>ls Documents/Downloads</code>, but this quickly gets out of hand.</p>
+<p><strong>L</strong>i<strong>s</strong>t the contents of the given directory at <code>&lt;path&gt;</code>. With no argument, list the contents of the present working directory.</p>
+<p>Possibly the most useful command, <code>ls</code> shows you what files and folders are around you. If we want to know what is in Documents, we could do <code>ls Documents</code>, returning <code>resume.doc Downloads</code>. We could even look inside Downloads with <code>ls Documents/Downloads</code>, but going too deep becomes complicated.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="bu">cd</span> <span class="op">&lt;</span>path<span class="op">&gt;</span></code></pre></div>
 <p><strong>C</strong>hange <strong>d</strong>irectory. With no argument, move to the user’s home directory.</p>
 <p><code>cd</code> is the solution to our issue above. Instead of referencing <code>Documents/Downloads/song.mp3</code>, we can first move: <code>cd Documents/Downloads</code>, and then just use <code>song.mp3</code>. Try moving somewhere for yourself and then <code>pwd</code>. You can also use a relative path here, so <code>cd ../..</code> would move us to the parent of our parent. In our case, it would move us from <code>Home/Documents/Downloads</code> back up to <code>Home</code>. Just <code>cd</code> by itself should always take you back to the start.</p>
@@ -140,6 +139,7 @@ Documents      Downloads      Pictures      TODO.txt      Recipes</code></pre>
 <p>Format and display the on-line <strong>man</strong>ual pages.</p>
 <p>This is how you learn more about commands or check how they work. If you try <code>man man</code> you’ll see that I shamelessly copied some of my descriptions from the man pages for the above commands. <code>man</code> should always be your first stop if you have any questions about commands.</p>
 <p>Once you are in a man page, you can move up and down with “j” and “k”, and quit with “q”. This actually opens a program called “less” (a joke on the earlier program “more”…). Also this style of movement will come up again, so keep it in mind.</p>
+<h1 id="next">Next</h1>
 <p><a href="3-python.html">Python</a></p>
     </article>
 

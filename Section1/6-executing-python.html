@@ -36,18 +36,21 @@
     <article id="content" class="center-col">
       <div id="toc">
 <ul>
-<li><a href="#putting-python-in-a-file-and-executing-it">Putting Python in a File and Executing It</a></li>
+<li><a href="#executing-a-python-file">Executing a Python File</a><ul>
+<li><a href="#importing">Importing</a></li>
+</ul></li>
+<li><a href="#next">Next</a></li>
 </ul>
       </div>
-<h1 id="putting-python-in-a-file-and-executing-it">Putting Python in a File and Executing It</h1>
-<p>So far we have just used a Python interpreter, but Python is more traditionally a scripting language. That is, it excels at short programs that help with certain tasks or problems. We are going to write a short program that solves the Pythagorean Theorem (a^2 + b^2 = c^2). Solving for the hypotenuse of a right triangle is a surprisingly good example for us. It is straightforward, often too difficult to do manually, and extremely useful in computer science. The Pythagorean Theorem comes up in graphics, physics, game logic, AI, and more.</p>
+<h1 id="executing-a-python-file">Executing a Python File</h1>
+<p>So far we have just used a Python interpreter, but Python is more traditionally a scripting language. That is, it excels at short programs that help with certain tasks or problems. We are going to write a short program that solves the Pythagorean Theorem: <code>a^2 + b^2 = c^2</code>. Solving for the hypotenuse of a right triangle is a surprisingly good example for us. It is straightforward, often too difficult to do manually, and extremely useful in computer science. The Pythagorean Theorem comes up in graphics, physics, game logic, AI, and more.</p>
 <p>A brief overview of the equation will help us determine how to structure our program:</p>
 <pre><code>  |\
   | \ c
 a |  \
   |___\
     b</code></pre>
-<p>Working from my stunning graphic, we have the two sides, of length <code>a</code> and <code>b</code>, as well as a hypotenuse of size <code>c</code>. We really want to find <code>c</code> and not <code>c^2</code>, so let’s rearrange the equation a little bit: <code>\sqrt{a^2 + b^2} = c</code>. If we flip the sides (<code>c = \sqrt{a^2 + b^2}</code>), we have something awfully similar to a variable assignment.</p>
+<p>Working from my stunning graphic, we have the two sides, of length <code>a</code> and <code>b</code>, as well as a hypotenuse of size <code>c</code>. We really want to find <code>c</code> and not <code>c^2</code>, so let’s rearrange the equation a little bit: <code>sqrt(a*a + b*b) = c</code>. If we flip the sides (<code>c = sqrt(a*a + b*b)</code>), we have something awfully similar to a variable assignment.</p>
 <p>Thinking back to our circumference example, our variables fall into two groups: those we are given (often called parameters or arguments), and those we want to find. In this case, <code>a</code> and <code>b</code> are going to be our arguments, and <code>c</code> our return value. Now that we know where everything goes, our function mostly just falls into place.</p>
 <p>Using our knowledge of Vim, we can write and save a function in a file. After that, we will be able to use it whenever we want without writing it again. If you haven’t already, now would be a good time to start setting up a directory to use for work. I like <code>~/Projects</code>, but it is completely up to you. In the future I won’t explicitly tell you what to do with your files, but:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="bu">cd</span>
@@ -57,11 +60,12 @@ $ <span class="fu">mkdir</span> Python
 $ <span class="bu">cd</span> Python
 $ <span class="fu">touch</span> pyt.py
 $ <span class="ex">vim</span> pyt.py</code></pre></div>
-<p>We now have a file (<code>pyt.py</code>) to work in and a way to edit it (Vim). So let’s write our function:</p>
+<p>We now have a file, <code>pyt.py</code>, to work in and a way to edit it, Vim. So let’s write our function:</p>
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> pythagorean_theorem(a, b):
     c <span class="op">=</span> sqrt(a<span class="op">*</span>a <span class="op">+</span> b<span class="op">*</span>b)
     <span class="cf">return</span> c</code></pre></div>
 <p>This looks good, except for one slight problem. The function <code>sqrt()</code> is not actually available to us. Most programming languages have it, but not always immediately accessible. Languages often come with “standard libraries”, which are essentially big collections of functions that you will probably need at some point. We need to ask Python to go get some of that code for us because <code>sqrt()</code> is there. To do that we only have to make a small addition to our program.</p>
+<h2 id="importing">Importing</h2>
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> math
 
 <span class="kw">def</span> pythagorean_theorem(a, b):
@@ -92,6 +96,7 @@ x <span class="op">=</span> pythagorean_theorem(<span class="dv">5</span>, <span
 <span class="op">&gt;&gt;&gt;</span> pyt.x
 <span class="fl">13.92838827718412</span></code></pre></div>
 <p>We’ve successfully made Python find the hypotenuse of a triangle all by itself. Unfortunately, we need one more piece before our script is really useful. Right now it calculates the answer, but doesn’t do anything with it. Next time, we are going to learn how to talk to Python and make it talk back.</p>
+<h1 id="next">Next</h1>
 <p><a href="7-io.html">Input Output</a></p>
     </article>
 

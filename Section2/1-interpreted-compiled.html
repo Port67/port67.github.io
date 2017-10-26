@@ -36,7 +36,10 @@
     <article id="content" class="center-col">
       <div id="toc">
 <ul>
-<li><a href="#compiling">Compiling</a></li>
+<li><a href="#compiling">Compiling</a><ul>
+<li><a href="#special-characters">Special Characters</a></li>
+</ul></li>
+<li><a href="#next">Next</a></li>
 </ul>
       </div>
 <h1 id="compiling">Compiling</h1>
@@ -58,10 +61,11 @@
 <p>This is because <code>bash</code> has a list of places that it looks for executables, and <code>a.out</code> isn’t in any of those places. But you can tell <code>bash</code> where it is using <code>.</code>. This is just shorthand for “right here”. You can use any valid path for <code>a.out</code> to tell <code>bash</code> how to find it. For example, adjusting these to be appropriate for your computer, any of these should work:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">./a.out</span>
 $ <span class="ex">../c/a.out</span>         <span class="co"># Assuming you followed my structure above</span>
-$ <span class="ex">~/Projects/c/a.out</span> <span class="co"># Same as above</span>
+$ <span class="ex">~/Projects/c/a.out</span> <span class="co"># Assuming you followed my structure above</span>
 $ <span class="ex">/Users/USERNAME/Projects/c/a.out</span> <span class="co"># On Macs</span>
 $ <span class="ex">/home/USERNAME/Projects/c/a.out</span>  <span class="co"># On Linux</span></code></pre></div>
 <p>The last two use “absolute” paths, which you can find using <code>pwd</code> in the directory that holds <code>a.out</code>.</p>
+<h2 id="special-characters">Special Characters</h2>
 <p>If you did run any of those commands above, you might find something strange. The output did not work as well as hoped,</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">./a.out</span>
 <span class="ex">Hello</span>, world!$ ../c/a.out
@@ -86,6 +90,7 @@ line <span class="dv">1</span>
 line <span class="dv">2</span>
 <span class="op">&gt;&gt;&gt;</span></code></pre></div>
 <p>The design choice that Python made was to simply assume that you <em>always</em> want a newline at the end of the strings you print. Which is a reasonably fair assumption, but does hide things from us. C assumes nothing, which is both a blessing and a curse.</p>
+<h1 id="next">Next</h1>
 <p><a href="2-control-flow.html">Control Flow</a></p>
     </article>
 

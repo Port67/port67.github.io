@@ -36,7 +36,14 @@
     <article id="content" class="center-col">
       <div id="toc">
 <ul>
-<li><a href="#main-breakdown">Main Breakdown</a></li>
+<li><a href="#main-breakdown">Main Breakdown</a><ul>
+<li><a href="#return-type">Return Type</a></li>
+<li><a href="#function-name">Function Name</a></li>
+<li><a href="#function-arguments">Function Arguments</a></li>
+<li><a href="#function-body">Function Body</a></li>
+<li><a href="#importing">Importing</a></li>
+</ul></li>
+<li><a href="#next">Next</a></li>
 </ul>
       </div>
 <h1 id="main-breakdown">Main Breakdown</h1>
@@ -52,23 +59,28 @@
 }</code></pre></div>
 <p>When the program is compiled and run, it calls the <code>main</code> function. This requirement makes it harder to play around like we can in Python, and is part of the reason why C doesn’t have an interpreter. Just like in Python though, we can define other functions and import code from other files so our programs have some structure.</p>
 <p>If we are going to have to write <code>main</code> the same way every time, it is probably a good idea to get a sense of what it is. Let’s build up piece-by-piece.</p>
+<h2 id="return-type">Return Type</h2>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span></code></pre></div>
 <p>The first thing we declare for any function is the return type. That is, the type of the value that the function will return. In this case, <code>main</code> always returns a single integer representing the success or failure of a program. It is standard to return 0 for success, and 1 for failure. You can also return other numbers to represent particular failures.</p>
 <p>As an example, your program might take two numbers and divide them. If the code successfully runs, it returns 0. If the user tries to divide by 0, you could return 1. If the user gives a letter instead of a number, then you might return 2. When you give your code to other people, it is best to document the various return values, so they know what went wrong.</p>
+<h2 id="function-name">Function Name</h2>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> main</code></pre></div>
 <p>Next comes the name of the function. <code>main</code> is special, in that it is the single function that C requires to be there. You can name other functions anything you want, but it is standard to use lowercase and underscores to separate words. For example: <code>multiply</code>, <code>test_code</code>, <code>blargh</code>. Names typically should be as short and descriptive as possible.</p>
+<h2 id="function-arguments">Function Arguments</h2>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> main(<span class="dt">int</span> argc</code></pre></div>
 <p>The comma separated values inside the parentheses are the arguments to the function, just like in Python. The only difference is that we include types here. The first argument to <code>main</code> is an integer (<strong>arg c</strong>ount) indicating the number of arguments passed on the command line. We will test this out in a bit.</p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {
     <span class="co">// Code here</span>
 }</code></pre></div>
 <p>The next argument (<strong>arg v</strong>ector) is the list of arguments passed on the command line. We are going to need to do a bit more work to understand exactly what the <code>char **</code> type means, but I will show you what it represents in a moment.</p>
+<h2 id="function-body">Function Body</h2>
 <p>After that, we just have the <code>{}</code>’s which mark the start and end of the body of code and the comment which starts with <code>//</code>. I want to remind you that we could write this function like this,</p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {<span class="co">//Code here}</span></code></pre></div>
 <p>But we always want to strive to make code as readable as possible. One good way to ensure code is easy on the eyes is to keep it consistent. And so, we will stick with,</p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {
     <span class="co">// Code here</span>
 }</code></pre></div>
+<h2 id="importing">Importing</h2>
 <p>We just need one more piece to demonstrate <code>main</code>, and that is to import our printing function, <code>printf</code>. Instead of Python’s <code>import</code>, we use <code>#include</code> and surround the name with <code>&lt;&gt;</code>’s.</p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></code></pre></div>
 <p>Without further ado, here is a program that demonstrates the arguments to <code>main</code>. There are things that I haven’t talked about yet, but hopefully you can get the jist.</p>
@@ -95,6 +107,7 @@ $ <span class="ex">./a.out</span> this is a test
 <span class="ex">Argument</span> 3: a
 <span class="ex">Argument</span> 4: test</code></pre></div>
 <p>You should try getting rid of that horrible grammar mistake <code>There are 1 arguments</code>. All it takes is an <code>if</code> statement, which you know all about!</p>
+<h1 id="next">Next</h1>
 <p><a href="4-variables.html">Variables</a></p>
     </article>
 

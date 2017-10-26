@@ -36,7 +36,10 @@
     <article id="content" class="center-col">
       <div id="toc">
 <ul>
-<li><a href="#function-headers">Function Headers</a></li>
+<li><a href="#function-headers">Function Headers</a><ul>
+<li><a href="#a-challenge">A Challenge</a></li>
+</ul></li>
+<li><a href="#next">Next</a></li>
 </ul>
       </div>
 <h1 id="function-headers">Function Headers</h1>
@@ -72,8 +75,9 @@
     <span class="cf">return</span> <span class="dv">2</span> * radius * <span class="fl">3.14159</span>;
 }</code></pre></div>
 <p>Notice there is a subtle difference here between variable declarations and function declarations. With variables, we have to be very careful to make sure that the variable has a value before we try to use it. With functions, we can use the function above where we define it in the code. This is because the compiler reads all your code, and can match up function declarations with bodies. But the value of your variable isn’t known until the code is run.</p>
+<h2 id="a-challenge">A Challenge</h2>
 <p>I don’t expect you to fully understand how this works right now because I haven’t even begun talking about compilers. But it’s always good to leave some questions open for you to think about and work through on your own. As an exercise, pretend you are a compiler. Looking at the code, you are welcome to write down any information you want about this program. Using that information, see what you can simplify about it. (A great compiler would just simplify this entire program to <code>return 0</code>. The key observation being that <code>x</code> is never used. Ignoring that option, there are still plenty of places you could improve).</p>
-<p>While the above program can be optimized in many places, the following code cannot. Think about the differences between <code>x</code> and <code>y</code> and what that means for the compiler.</p>
+<p>While the above program can be optimized in many places, the following code is harder to optimize. Think about the differences between <code>x</code> and <code>y</code> and what that means for the compiler.</p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">float</span> circumference(<span class="dt">float</span> radius);
 
 <span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {
@@ -89,6 +93,7 @@
 <span class="dt">float</span> circumference(<span class="dt">float</span> radius) {
     <span class="cf">return</span> <span class="dv">2</span> * radius * <span class="fl">3.14159</span>;
 }</code></pre></div>
+<h1 id="next">Next</h1>
 <p><a href="6-binary.html">Binary</a></p>
     </article>
 

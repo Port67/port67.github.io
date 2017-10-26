@@ -36,10 +36,15 @@
     <article id="content" class="center-col">
       <div id="toc">
 <ul>
-<li><a href="#scope">Scope</a></li>
+<li><a href="#pointers">Pointers</a><ul>
+<li><a href="#using-memory">Using Memory</a></li>
+<li><a href="#pointers-vs.values">Pointers vs. Values</a></li>
+<li><a href="#double-pointer-as-a-list-of-strings">Double Pointer as a List of Strings</a></li>
+</ul></li>
+<li><a href="#next">Next</a></li>
 </ul>
       </div>
-<h1 id="scope">Scope</h1>
+<h1 id="pointers">Pointers</h1>
 <p>We have almost covered everything we need to understand the declaration of the <code>main</code> function. For reference:</p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {}</code></pre></div>
 <p>The last piece to decipher is <code>char **argv</code>. As with other variable declarations, <code>argv</code> is just the name of the variable. And we know from our study of types that <code>char</code> is a one-byte value that is interpreted as an ASCII character. So what’s the deal with the <code>**</code>’s?</p>
@@ -54,9 +59,10 @@
 <p>Remember that each <code>char</code> takes up exactly one byte. So our variable <code>argv</code> is 8 bytes. As <code>argv</code> is an array, it would be ideal if we could get the first argument with <code>argv[0]</code> and the second with <code>argv[1]</code> and so on. However, how would that work? As we talked about last time, strings can be any length! There is no way for the compiled program to know how long the string arguments will be. I could just have easily passed:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">./a.out</span> aa bb arg3</code></pre></div>
 <p>And <code>argv</code> would have needed 11 bytes. So there is no way for our index trick to work. If we had <code>argv[1]</code> and wanted to move over 1 “string” length, we could not find the first string without just looking for the first <code>\0</code> byte in the array. So this solution won’t work if we want a reasonable way to access the different arguements.</p>
+<h2 id="using-memory">Using Memory</h2>
 <p>To solve this, we need to use memory more flexibly. So far we have been packing our data in tightly. Values have been given an exact size, with a little bit of wiggle room depending on the type. But with strings, there could really be any number of characters. <code>char</code>’s fit nicely into a single byte. <code>int</code>’s at 2 or 4 bytes cover most use cases. But strings can easily be a single word or an entire book, so we need a different way to store them.</p>
 <p>The good news is that we don’t need to be overly concerned with how well we are utilizing the space we have. Remember that we have <strong>billions</strong> of bytes to work with, and we are only using up around 10 right here. Even on the oldest systems, 10 bytes is not very much.</p>
-<p>So instead of packing them all together, let’s give each string it’s own space to live in. If we think about when we were maintaining the boxes, it would be as if we stored the programs boxes in different areas of a warehouse instead of just the 8 we had in front of us. In picture form:</p>
+<p>So instead of packing them all together, let’s give each string it’s own space to live in. If we think about when we were maintaining the boxes, it would be as if we stored the program’s data in different areas of a warehouse instead of just the 8 boxes we had in front of us. In picture form:</p>
 <pre><code>   +===+====+        +===+====+              +===+===+===+====+
    |&#39;a&#39;|&#39;\0&#39;|        |&#39;b&#39;|&#39;\0&#39;|              |&#39;a&#39;|&#39;r&#39;|&#39;g&#39;|&#39;\0&#39;|
    +===+====+        +===+====+              +===+===+===+====+
@@ -95,6 +101,7 @@
             |
      my_array + 1*sizeof(int) = 54</code></pre>
 <p>For some hypothetical array <code>int my_array[] = { 74, 42 };</code>, our indexing system works perfectly. Assuming <code>int</code>’s are 4 bytes long, if we start at 50 the next <code>int</code> will be at address 54. Hopefully this makes you appreciate the simple <code>array[1]</code> syntax! If you had to calculate the size inside every time and track addresses, things would get complicated fast.</p>
+<h2 id="pointers-vs.values">Pointers vs. Values</h2>
 <p>Back to our string problem, we need a way to describe the difference between a value like <code>'a'</code>, and the address of that value, 37. This is why we introduce the <code>*</code> symbol. Again, a picture should help.</p>
 <pre><code>char *ptr               char x
 +========+            +========+
@@ -108,6 +115,7 @@ ptr[<span class="dv">2</span>] = ???;   <span class="co">// DANGER: This is past
                 <span class="co">// C let&#39;s us do this, but the value is undefined.</span>
                 <span class="co">// It can be anything!</span></code></pre></div>
 <p>Like we talked about before, there is no way to just know the length of a string. But C is good about including the null characters on the end of them, so we just need to check for them.</p>
+<h2 id="double-pointer-as-a-list-of-strings">Double Pointer as a List of Strings</h2>
 <p>Given that example, we can see that <code>char *my_string</code> can be treated as a list of characters, otherwise known as a string. We have the starting address of the string, and we can walk down it <code>char</code> by <code>char</code> to find every element.</p>
 <p>If a <code>char *</code> is a list of <code>char</code>’s, then a <code>char **</code> is a list of lists of <code>char</code>’s. Or, said another way, a list of strings! Which is what we have been looking for! This is a tough concept to explain in words, so here is another picture:</p>
 <pre><code>   char **argv (pointer to list of strings)
@@ -128,18 +136,19 @@ ptr[<span class="dv">2</span>] = ???;   <span class="co">// DANGER: This is past
 +=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</code></pre>
 <p>This is not the easiest picture to understand, however you should spend some time with it. One major win we get from this pointer business is that <code>argv[1]</code> is the second argument. Breaking that down should help give you a grasp on how this works together.</p>
 <p>We start with <code>char **argv</code>, a pointer to a pointer to a <code>char</code>. Then we calculate <code>argv[1]</code>:</p>
-<pre><code>argv[1]
+<pre class="none"><code>argv[1]
 argv + 1*sizeof(char *)
 60 + 8
 68 (points to 105)</code></pre>
 <p>Pointers are all the same size, but that size depends on your computer. 4 and 8 byte pointers are common these days, but other sizes are possible. I’m going to use 8 as a standard from now on, but know that it is not always the case.</p>
 <p>So now we have a new pointer. Let’s give it a name and say <code>char *arg2 = argv[1];</code> Now let’s try to determine what <code>arg2[0]</code> is:</p>
-<pre><code>arg2[0]
+<pre class="none"><code>arg2[0]
 arg2 + 0 * sizeof(char *)
 105 + 0
 105 (points to &#39;b&#39;)</code></pre>
 <p>We’ve successfully made it down to <code>'b'</code>! And if we eliminate the intermediate variable, it’s actually a nice syntax: <code>argv[1][0]</code>. Read from right to left, that says “take the first element of the second element of <code>argv</code>”. Which, filling in our types, says “take the first character of the second string of <code>argv</code>”. Which is pretty easy!</p>
 <p>Note: Pointers are one of the biggest humps to get over when learning C. Don’t worry if you don’t understand them just yet. We will use them non-stop going forward, so you will get all the practice you could ever want.</p>
+<h1 id="next">Next</h1>
 <p><a href="13-stack-vs-heap.html">Stack vs. Heap</a></p>
     </article>
 

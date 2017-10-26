@@ -36,7 +36,11 @@
     <article id="content" class="center-col">
       <div id="toc">
 <ul>
-<li><a href="#data-structures">Data Structures</a></li>
+<li><a href="#data-structures">Data Structures</a><ul>
+<li><a href="#using-structs">Using Structs</a></li>
+<li><a href="#struct-internals">Struct Internals</a></li>
+</ul></li>
+<li><a href="#next">Next</a></li>
 </ul>
       </div>
 <h1 id="data-structures">Data Structures</h1>
@@ -58,7 +62,8 @@
                    <span class="dt">int</span> score2, <span class="dt">char</span> *inits2, <span class="dt">int</span> time2);
 <span class="dt">char</span> *better_score(HighScore hs1, HighScore hs2);</code></pre></div>
 <p>As you can see, it fills up space quickly.</p>
-<p>But enough talk, let’s use them,</p>
+<h2 id="using-structs">Using Structs</h2>
+<p>Enough talk, let’s use them,</p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
 
 <span class="kw">struct</span> HighScore {
@@ -109,6 +114,7 @@
 
     <span class="cf">return</span> <span class="dv">0</span>;
 }</code></pre></div>
+<h2 id="struct-internals">Struct Internals</h2>
 <p><code>hs</code> is just like any other variable. We can pass it to functions, we can get a pointer to it, and we can change it’s value. But we don’t know how the type is stored in memory or how it is interpreted. Luckily, we have all the pieces to understand it, so lets take a look.</p>
 <pre><code>               struct HighScore
        +=====+=====+=====+=====+=====+
@@ -169,6 +175,7 @@ hs</code></pre>
 hs + offset(initials)
 hs + 4</code></pre>
 <p>Our <code>.</code> is just simple addition to find the field in memory.</p>
+<h1 id="next">Next</h1>
 <p><a href="17-io.html">Input Output</a></p>
     </article>
 

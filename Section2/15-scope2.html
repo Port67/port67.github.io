@@ -37,8 +37,10 @@
       <div id="toc">
 <ul>
 <li><a href="#scope-2-the-heap">Scope 2: The Heap</a><ul>
+<li><a href="#malloc">Malloc</a></li>
 <li><a href="#allocating-strings">Allocating Strings</a></li>
 </ul></li>
+<li><a href="#next">Next</a></li>
 </ul>
       </div>
 <h1 id="scope-2-the-heap">Scope 2: The Heap</h1>
@@ -110,6 +112,7 @@ $ <span class="ex">./a.out</span>
 | +------+
 |&gt; ?????</code></pre>
 <p>But there is nothing there. And so, C informs us that there has been a memory error.</p>
+<h2 id="malloc">Malloc</h2>
 <p>The time has come to use the heap. We want <code>c</code> to be a valid pointer after the function returns. That means we need memory outside of the stack. To get it, we call <code>malloc()</code>, for <strong>m</strong>emory <strong>alloc</strong>ation.</p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
 <span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span>
@@ -174,6 +177,7 @@ $ <span class="ex">./a.out</span>
 }</code></pre></div>
 <p>After changing all the <code>int *</code>’s to <code>char *</code>’s, there is only one big difference. We have to remember the null byte on the end of our string! If we want a string that has 3 characters, like <code>&quot;Hey&quot;</code>, we need to ask for <strong>4</strong> bytes of memory so that we can make sure the last byte is null.</p>
 <p>The really big problem here is that if you forget, you aren’t always punished. It could be that the next byte in memory happens to be 0, in which case things will operate as expected. But if that changes for any reason, suddenly your program will stop working. C strings always end with a null byte! Don’t forget it!</p>
+<h1 id="next">Next</h1>
 <p><a href="16-structs.html">Structs</a></p>
     </article>
 

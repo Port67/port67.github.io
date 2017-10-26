@@ -43,6 +43,7 @@
 <li><a href="#best-practice">Best Practice</a></li>
 <li><a href="#special-files">Special Files</a></li>
 </ul></li>
+<li><a href="#next">Next</a></li>
 </ul>
       </div>
 <h1 id="io-in-c">IO in C</h1>
@@ -129,6 +130,7 @@ fclose(file);</code></pre></div>
 <h2 id="special-files">Special Files</h2>
 <p>It turns out that <code>printf</code> is just a special case of <code>fprintf</code>. There are three files that you always have access to, <code>stdin</code>, <code>stdout</code>, and <code>stderr</code>. These are short for “standard input”, “standard output”, and “standard error”. <code>printf</code> is the same as <code>fprintf(stdout, ...</code>. Similarly, <code>scanf</code> is just <code>fscanf(stdin, ...</code>.</p>
 <p>We won’t need to specifically use these three very often, but it is good practice to print your errors on <code>stderr</code>. You won’t be able to tell the difference just looking at output on the command line, but there are ways to separate <code>stdout</code> and <code>stderr</code> that make users’ life nicer. Sometimes programs spew out a large amount of information and you only care about the errors. In that case, it is nice to have separate streams of information.</p>
+<h1 id="next">Next</h1>
 <p><a href="18-c-program.html">A C Program</a></p>
     </article>
 

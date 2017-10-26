@@ -36,7 +36,10 @@
     <article id="content" class="center-col">
       <div id="toc">
 <ul>
-<li><a href="#strings">Strings</a></li>
+<li><a href="#strings">Strings</a><ul>
+<li><a href="#null-terminated-strings">Null-terminated Strings</a></li>
+</ul></li>
+<li><a href="#next">Next</a></li>
 </ul>
       </div>
 <h1 id="strings">Strings</h1>
@@ -59,6 +62,7 @@ printf(<span class="st">&quot;my_string contains the string: %s</span><span clas
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">char</span> my_name[<span class="dv">50</span>];</code></pre></div>
 <p>That way we set aside enough space to hold any name. But we won’t always use the entire space. And when we call <code>printf</code> on <code>my_name</code>, we want it to print out just my name without any of the extra garbage that is in the array after it.</p>
 <p>(Interestingly, it turns out that 50 probably isn’t enough to hold even just first names. Many large companies have written about how hard it is to deal with names from around the world. Properly handling every name is not an easy task!)</p>
+<h2 id="null-terminated-strings">Null-terminated Strings</h2>
 <p>To handle this, we set up a conventional rule. We promise to always signal the end of our data with a null byte, a byte composed of all zeros. So our picture from before is actually incorrect. Our <code>&quot;Hello&quot;</code> actually looks like this in memory.</p>
 <pre><code>                   my_string
 +========+========+========+========+========+========+
@@ -73,6 +77,7 @@ printf(<span class="st">&quot;%s</span><span class="sc">\n</span><span class="st
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">printf(<span class="st">&quot;The final byte is %d!</span><span class="sc">\n</span><span class="st">&quot;</span>, my_string[<span class="dv">5</span>]);</code></pre></div>
 <p>Now I cheated a little bit here. I used <code>%d</code> even though I wanted to print out a <code>char</code>. The issue is that <code>%c</code> doesn’t print anything when it is given a null byte. When we read that block as an <code>int</code> using <code>%d</code>, we see that the byte is in fact all 0’s. Try with <code>%c</code> to see what happens.</p>
 <p>Strings are a tricky part of C. They are the source of many <em>huge</em> security issues. However, knowing how and why everything works is the best way I know of avoiding these traps. Whenever you have an issue with strings, you should ask yourself if you are holding up your end of the bargain. Do all of your strings end with <code>\0</code>? Does your string have a null byte earlier than it should? Sometimes the compiler knows where to put them to help you, but you should always think about your ending null bytes when working in C.</p>
+<h1 id="next">Next</h1>
 <p><a href="12-pointers.html">Pointers</a></p>
     </article>
 

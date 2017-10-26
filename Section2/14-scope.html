@@ -36,7 +36,11 @@
     <article id="content" class="center-col">
       <div id="toc">
 <ul>
-<li><a href="#scope">Scope</a></li>
+<li><a href="#scope">Scope</a><ul>
+<li><a href="#returning-a-new-value">Returning a New Value</a></li>
+<li><a href="#using-pointers">Using Pointers</a></li>
+</ul></li>
+<li><a href="#next">Next</a></li>
 </ul>
       </div>
 <h1 id="scope">Scope</h1>
@@ -110,6 +114,7 @@ $ <span class="ex">./plus_one</span>
 |      |  plus_one&#39;s stack is cleared
 +------+</code></pre>
 <p>So we have found our culprit! C passes arguments to functions “by value”, which means the function is given the value of the variable, not the variable itself. That’s why our <code>x</code> was made. It holds the value of <code>c</code> when the function starts. But when we change it, we aren’t affecting <code>c</code> at all.</p>
+<h2 id="returning-a-new-value">Returning a New Value</h2>
 <p>To fix this, we have two options. The first is to <code>return</code> the new value, and update <code>c</code> to match. That would look like this, with the old version in comments above the changes:</p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
 
@@ -174,6 +179,7 @@ $ <span class="ex">./plus_one</span>
        |      |  plus_one&#39;s stack is cleared
        +------+</code></pre>
 <p>The keyword <code>return</code> effectively sets the value of calling the function to the return value. In our case, <code>plus_one(c) == 11</code>. The function is run, and then the return value is substituted into its place. So we set <code>c == plus_one(c) == 11</code>. It is slightly confusing to set <code>c</code> to a value that includes it, but we have seen something like it before. <code>x = x + 1</code> first evaluates <code>x + 1</code>, and then stores that result back into <code>x</code>. This works the same way.</p>
+<h2 id="using-pointers">Using Pointers</h2>
 <p>So our first option was to explicity set the value of <code>c</code> to the returned value. But we have another tool that can work here: pointers! Here’s the pointer version with the original and <code>return</code> versions in comments:</p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
 
@@ -246,6 +252,7 @@ $ <span class="ex">./plus_one</span>
 <p>In contrast, the pointer version is quite efficient. The only space we need is to store the pointer. However, it becomes much harder to tell if <code>plus_one</code> modifies <code>c</code>. From the function declaration, we know that it uses the address of <code>c</code> somehow. But we have to look at the actual function body to know what happens.</p>
 <p>These tradeoffs represent two different ends of the spectrum of program design. On the one hand, you worry about space efficieny. Does your program use a reasonable amount of memory when it runs? It’s always good to keep that number as low as possible. However, you also have to consider further work on the program. Have you documented and designed your program well enough that a reader should know what <code>plus_one</code> does to <code>c</code>? If not, it may be worth it to use the <code>return</code> version. How easy it is to read and understand your program is a good measure of its quality.</p>
 <p>This post has grown quite lengthy due to the pictures, but I haven’t even made it to the heap yet! Next time, we will solve the problem of passing new data back up to <code>main</code>.</p>
+<h1 id="next">Next</h1>
 <p><a href="15-scope2.html">Variable Scope 2</a></p>
     </article>
 

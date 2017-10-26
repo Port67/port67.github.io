@@ -40,6 +40,7 @@
 <li><a href="#the-robot">The Robot</a></li>
 <li><a href="#movement">Movement</a></li>
 </ul></li>
+<li><a href="#next">Next</a></li>
 </ul>
       </div>
 <h1 id="adding-a-robot">Adding a Robot</h1>
@@ -174,6 +175,7 @@ robo-&gt;y = <span class="dv">0</span>;</code></pre></div>
 <p>As written, these implementations are very similar. They are only a couple of lines different in length. The actual logic is identical aside from the extra direction processing in the single function. So the differences are not very clear yet. We mostly only know that the single function is a little more flexible. Any direction can be passed, so we don’t have to be sure which direction we are moving when we want to move. In contrast, the multiple functions are more rigid. They can only move in a single direction, but they do tell us which direction that is.</p>
 <p>You can never really be sure which solution will be best until you try to use and extend it. For example, if we want to add a check to prevent walking onto stones or walls we have to add it in four separate places. This is a hint that we haven’t found the perfect way to write this yet.</p>
 <p>Another way to test the implementation is to try and use it. If we know exactly how it is used, then we might be able to simplify things. Next time, we are going to write the code that needs to call our movement functions.</p>
+<h1 id="next">Next</h1>
 <p><a href="20-c-program3.html">A C Program 3</a></p>
     </article>
 
