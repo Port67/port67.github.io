@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>Scope - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#scope">Scope</a></li>
+</ul>
+      </div>
+<h1 id="scope">Scope</h1>
+<p>Our next task is to see how the stack and heap affect you when programming. The easiest way to see this is with functions. Here is an attempt at writing a function that increases the value of the argument by one:</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
+
+<span class="dt">void</span> plus_one(<span class="dt">int</span> x);
+
+<span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {
+    <span class="dt">int</span> c = <span class="dv">10</span>;
+
+    plus_one(c);
+
+    printf(<span class="st">&quot;The value of c is: %d</span><span class="sc">\n</span><span class="st">&quot;</span>, c);
+
+    <span class="cf">if</span> (c == <span class="dv">11</span>) {
+        printf(<span class="st">&quot;Changed!</span><span class="sc">\n</span><span class="st">&quot;</span>);
+        <span class="cf">return</span> <span class="dv">0</span>;
+    } <span class="cf">else</span> {
+        printf(<span class="st">&quot;Not changed!</span><span class="sc">\n</span><span class="st">&quot;</span>);
+        <span class="cf">return</span> <span class="dv">1</span>;
+    }
+}
+
+<span class="dt">void</span> plus_one(<span class="dt">int</span> x) {
+    x += <span class="dv">1</span>;
+}</code></pre></div>
+<p>I’ve added a bit of error handling to our code. This is an easy way to test what we believe is true. That way, it is easier to find bugs quickly. Let’s run this and see what happens:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">gcc</span> -Wall plus_one.c -o plus_one
+$ <span class="ex">./plus_one</span>
+<span class="ex">The</span> value of c is: 10
+<span class="ex">Not</span> changed!</code></pre></div>
+<p>First, I added the <code>-o</code> flag to our compiler call. This chooses an <strong>o</strong>utput name for our compiled program other than <code>a.out</code>. It is an easy quality of life change. Now we can keep different versions in the same directory. Or we can just know by name what the executable file should do.</p>
+<p>Second, our program failed. We hoped to add one to <code>c</code>, but we did not. This is because we are not actually being given <code>c</code>, we are given it’s value. Here is the sequence of events that the stack processes:</p>
+<p>Right before we call <code>plus_one(c)</code></p>
+<pre><code>+------+
+| argc |  \
++------+  |
+| argv |  | Belongs to main
++------+  |
+|   c  |  /
++------+</code></pre>
+<p>We call <code>plus_one(c)</code></p>
+<pre><code>+------+
+| argc |  \
++------+  |
+| argv |  | Belongs to main
++------+  |
+| c=10 |  /
++------+
+| x=10 |  Belongs to plus_one
++------+</code></pre>
+<p>x += 1</p>
+<pre><code>+------+
+| argc |  \
++------+  |
+| argv |  | Belongs to main
++------+  |
+| c=10 |  /
++------+
+| x=11 |  Belongs to plus_one
++------+</code></pre>
+<p>Leave <code>plus_one(c)</code></p>
+<pre><code>+------+
+| argc |  \
++------+  |
+| argv |  | Belongs to main
++------+  |
+| c=10 |  /
++------+
+|      |  plus_one&#39;s stack is cleared
++------+</code></pre>
+<p>So we have found our culprit! C passes arguments to functions “by value”, which means the function is given the value of the variable, not the variable itself. That’s why our <code>x</code> was made. It holds the value of <code>c</code> when the function starts. But when we change it, we aren’t affecting <code>c</code> at all.</p>
+<p>To fix this, we have two options. The first is to <code>return</code> the new value, and update <code>c</code> to match. That would look like this, with the old version in comments above the changes:</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
+
+<span class="co">// void plus_one(int x);</span>
+<span class="dt">int</span> plus_one(<span class="dt">int</span> x);
+
+<span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {
+    <span class="dt">int</span> c = <span class="dv">10</span>;
+
+    <span class="co">// plus_one(c);</span>
+    c = plus_one(c);
+
+    printf(<span class="st">&quot;The value of c is: %d</span><span class="sc">\n</span><span class="st">&quot;</span>, c);
+
+    <span class="cf">if</span> (c == <span class="dv">11</span>) {
+        printf(<span class="st">&quot;Changed!</span><span class="sc">\n</span><span class="st">&quot;</span>);
+        <span class="cf">return</span> <span class="dv">0</span>;
+    } <span class="cf">else</span> {
+        printf(<span class="st">&quot;Not changed!</span><span class="sc">\n</span><span class="st">&quot;</span>);
+        <span class="cf">return</span> <span class="dv">1</span>;
+    }
+}
+
+<span class="co">// void plus_one(int x);</span>
+<span class="dt">int</span> plus_one(<span class="dt">int</span> x) {
+    x += <span class="dv">1</span>;
+
+    <span class="co">// no old code</span>
+    <span class="cf">return</span> x;
+}</code></pre></div>
+<p>Running this proves that it works, but let’s convince ourselves that it <strong>should</strong> work! Here are the stack changes:</p>
+<pre><code>We call plus_one(c)
+
+       +------+
+       | argc |  \
+       +------+  |
+       | argv |  | Belongs to main
+       +------+  |
+       | c=10 |  /
+       +------+
+       | x=10 |  Belongs to plus_one
+       +------+</code></pre>
+<pre><code>x += 1
+       +------+
+       | argc |  \
+       +------+  |
+       | argv |  | Belongs to main
+       +------+  |
+       | c=10 |  /
+       +------+
+       | x=11 |  Belongs to plus_one
+       +------+</code></pre>
+<pre><code>c = 11; // plus_one(c); is replaced with its return value
+
+       +------+
+       | argc |  \
+       +------+  |
+       | argv |  | Belongs to main
+       +------+  |
+       | c=11 |  /
+       +------+
+       |      |  plus_one&#39;s stack is cleared
+       +------+</code></pre>
+<p>The keyword <code>return</code> effectively sets the value of calling the function to the return value. In our case, <code>plus_one(c) == 11</code>. The function is run, and then the return value is substituted into its place. So we set <code>c == plus_one(c) == 11</code>. It is slightly confusing to set <code>c</code> to a value that includes it, but we have seen something like it before. <code>x = x + 1</code> first evaluates <code>x + 1</code>, and then stores that result back into <code>x</code>. This works the same way.</p>
+<p>So our first option was to explicity set the value of <code>c</code> to the returned value. But we have another tool that can work here: pointers! Here’s the pointer version with the original and <code>return</code> versions in comments:</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
+
+<span class="co">// void plus_one(int x);</span>
+<span class="co">// int plus_one(int x);</span>
+<span class="dt">void</span> plus_one(<span class="dt">int</span> *x);
+
+<span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {
+    <span class="dt">int</span> c = <span class="dv">10</span>;
+
+    <span class="co">// plus_one(c);</span>
+    <span class="co">// c = plus_one(c);</span>
+    plus_one(&amp;c);
+
+    printf(<span class="st">&quot;The value of c is: %d</span><span class="sc">\n</span><span class="st">&quot;</span>, c);
+
+    <span class="cf">if</span> (c == <span class="dv">11</span>) {
+        printf(<span class="st">&quot;Changed!</span><span class="sc">\n</span><span class="st">&quot;</span>);
+        <span class="cf">return</span> <span class="dv">0</span>;
+    } <span class="cf">else</span> {
+        printf(<span class="st">&quot;Not changed!</span><span class="sc">\n</span><span class="st">&quot;</span>);
+        <span class="cf">return</span> <span class="dv">1</span>;
+    }
+}
+
+<span class="co">// void plus_one(int x) {</span>
+<span class="co">// int plus_one(int x) {</span>
+<span class="dt">void</span> plus_one(<span class="dt">int</span> *x) {
+    *x += <span class="dv">1</span>;
+
+    <span class="co">// no original code</span>
+    <span class="co">// return x;</span>
+}</code></pre></div>
+<p>Well that looks an awful lot like the original. All we had to add was 3 <code>*</code>’s and 1 <code>&amp;</code>. Two of the <code>*</code>’s we have seen before. <code>int *x</code> means that <code>x</code> holds the address of an <code>int</code>.</p>
+<p><code>&amp;</code> is how we take the address of a value. I like to think “ampersand”/“and” <em>sortof</em> sounds like “address”, so that’s how I remember. So <code>&amp;c</code> gives us a pointer to <code>c</code>.</p>
+<p><code>*</code> is the opposite. It is how we “dereference” a pointer. A pointer is a “reference” to a value, so “de”-“referencing” it gives us back the value. So <code>*x += 1</code> increases the value at address <code>x</code> by 1. One final sequence of stacks:</p>
+<pre><code>We call plus_one(c)
+
+       +------+
+       | argc |  \
+       +------+  |
+       | argv |  | Belongs to main
+       +------+  |
+    |-&gt;| c=10 |  /
+    |  +------+
+    |--| x=3  |  Belongs to plus_one
+       +------+</code></pre>
+<pre><code>*x += 1
+       +------+
+       | argc |  \
+       +------+  |
+       | argv |  | Belongs to main
+       +------+  |
+    |-&gt;| c=11 |  /
+    |  +------+
+    |--| x=3  |  Belongs to plus_one
+       +------+</code></pre>
+<pre><code>plus_one finishes
+
+       +------+
+       | argc |  \
+       +------+  |
+       | argv |  | Belongs to main
+       +------+  |
+       | c=11 |  /
+       +------+
+       |      |  plus_one&#39;s stack is cleared
+       +------+</code></pre>
+<p>Either of the two styles we used is a good solution. It is good to understand the tradeoffs though. The <code>return</code> version uses some extra space because it has to copy <code>c</code>. This isn’t a problem with single <code>int</code>’s, but it could start causing problems if you are passing bigger data around. It is also very clear that <code>plus_one</code> is changing the value of <code>c</code>.</p>
+<p>In contrast, the pointer version is quite efficient. The only space we need is to store the pointer. However, it becomes much harder to tell if <code>plus_one</code> modifies <code>c</code>. From the function declaration, we know that it uses the address of <code>c</code> somehow. But we have to look at the actual function body to know what happens.</p>
+<p>These tradeoffs represent two different ends of the spectrum of program design. On the one hand, you worry about space efficieny. Does your program use a reasonable amount of memory when it runs? It’s always good to keep that number as low as possible. However, you also have to consider further work on the program. Have you documented and designed your program well enough that a reader should know what <code>plus_one</code> does to <code>c</code>? If not, it may be worth it to use the <code>return</code> version. How easy it is to read and understand your program is a good measure of its quality.</p>
+<p>This post has grown quite lengthy due to the pictures, but I haven’t even made it to the heap yet! Next time, we will solve the problem of passing new data back up to <code>main</code>.</p>
+<p><a href="15-scope2.html">Variable Scope 2</a></p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

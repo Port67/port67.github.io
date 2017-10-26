@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>Control Flow - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#control-flow">Control Flow</a><ul>
+<li><a href="#if">If</a></li>
+<li><a href="#while">While</a></li>
+<li><a href="#for">For</a></li>
+</ul></li>
+</ul>
+      </div>
+<h1 id="control-flow">Control Flow</h1>
+<p>Control flow is very similar in C to what we have seen in Python. The syntax is a little bit different, but you’ll start to get a feel for it.</p>
+<h2 id="if">If</h2>
+<p>One of the clearest differences is the mandatory brackets and parenthesis.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="cf">if</span> (<span class="dv">1</span> == <span class="dv">1</span>) {
+    printf(<span class="st">&quot;True!</span><span class="sc">\n</span><span class="st">&quot;</span>);
+} <span class="cf">else</span> {
+    printf(<span class="st">&quot;False</span><span class="sc">\n</span><span class="st">&quot;</span>);
+}</code></pre></div>
+<p>The expression that <code>if</code> checks must be in parentheses, and instead of a <code>:</code> with indentation, we use <code>{}</code> to block of the body of the <code>if</code>. And again, after every statement in C, we place a <code>;</code>.</p>
+<p>This brings us up against a fairly large user space difference between C and Python. Python is whitespace sensitive. That is, it uses indentation and newlines to help determine what you are asking of it. In C, whitespace can almost always be removed. To see what I mean, here are multiple valid ways of writing the above <code>if else</code> block.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="cf">if</span> (<span class="dv">1</span> == <span class="dv">1</span>) { printf(<span class="st">&quot;True!</span><span class="sc">\n</span><span class="st">&quot;</span>); }
+<span class="cf">else</span> { printf(<span class="st">&quot;False</span><span class="sc">\n</span><span class="st">&quot;</span>); }
+
+        <span class="cf">if</span> (<span class="dv">1</span> == <span class="dv">1</span>)
+{ printf (<span class="st">&quot;True!</span><span class="sc">\n</span><span class="st">&quot;</span>); } <span class="cf">else</span> {
+printf(<span class="st">&quot;False</span><span class="sc">\n</span><span class="st">&quot;</span>); }
+
+<span class="cf">if</span>(<span class="dv">1</span>==<span class="dv">1</span>){printf(<span class="st">&quot;True!</span><span class="sc">\n</span><span class="st">&quot;</span>);}<span class="cf">else</span>{printf(<span class="st">&quot;False</span><span class="sc">\n</span><span class="st">&quot;</span>);}</code></pre></div>
+<p>Hopefully you can see why we don’t write code like this. While the computer is happy to read this, most humans are not. I am not going to force you into any particular style, but I am going to try and be consistent with my own. This will help you read my code, which follows mostly standard rules. If you come across another style that you like better, go for it. But never impose your style on someone else’s code.</p>
+<p>As a quick example, there are two fairly popular ways of writing brackets for functions and blocks.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="co">// The option I prefer</span>
+<span class="cf">if</span> (<span class="dv">1</span> == <span class="dv">1</span>) {
+    printf(<span class="st">&quot;True!</span><span class="sc">\n</span><span class="st">&quot;</span>);
+} <span class="cf">else</span> {
+    printf(<span class="st">&quot;False</span><span class="sc">\n</span><span class="st">&quot;</span>);
+}
+
+<span class="co">// Another popular style</span>
+<span class="cf">if</span> (<span class="dv">1</span> == <span class="dv">1</span>)
+{
+    printf(<span class="st">&quot;True!</span><span class="sc">\n</span><span class="st">&quot;</span>);
+}
+<span class="cf">else</span>
+{
+    printf(<span class="st">&quot;False</span><span class="sc">\n</span><span class="st">&quot;</span>);
+}</code></pre></div>
+<p>I personally think find the first version perfectly satisfactory, while other people like having their <code>{}</code>’s line up. Once we get into longer programs, you can see why this might come up. The number one rule of style though is to be consistent. If it’s your code, stick to one set of rules. If it is someone else’s, follow their lead.</p>
+<p>One final note about <code>if</code> blocks in C: chaining them together is just writing them next to each other. There is no special <code>elif</code> keyword. You just follow an <code>else</code> with another <code>if</code>. Like so,</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="cf">if</span> (x == <span class="dv">1</span>) {
+    printf(<span class="st">&quot;1</span><span class="sc">\n</span><span class="st">&quot;</span>);
+} <span class="cf">else</span> <span class="cf">if</span> (x == <span class="dv">2</span>) {
+    printf(<span class="st">&quot;1</span><span class="sc">\n</span><span class="st">&quot;</span>);
+} <span class="cf">else</span> <span class="cf">if</span> (x == <span class="dv">3</span>) {
+    printf(<span class="st">&quot;1</span><span class="sc">\n</span><span class="st">&quot;</span>);
+}</code></pre></div>
+<h2 id="while">While</h2>
+<p>While loops are identical save the syntax. We just have to add in some <code>{}</code>’s.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> x = <span class="dv">1</span>
+<span class="cf">while</span> (x &lt; <span class="dv">10</span>) {
+    printf(<span class="st">&quot;Counting...</span><span class="sc">\n</span><span class="st">&quot;</span>);
+    x++;
+}</code></pre></div>
+<p>I’ve thrown in a new operator here too. While C does support the <code>x += 1</code> method of incrementing <code>x</code>, adding 1 to a variable is so common that it has special syntax. <code>x++</code> increases the value of <code>x</code> by 1.</p>
+<h2 id="for">For</h2>
+<p>For loops are fairly different in C. They are much closer to a while loop than to Python’s for loop. When we start using them more heavily, we will see why Python went the way it did. For now though, let’s look at an example.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="cf">for</span> (<span class="dt">int</span> x = <span class="dv">1</span>; x &lt; <span class="dv">10</span>; x++) {
+    printf(<span class="st">&quot;Counting...</span><span class="sc">\n</span><span class="st">&quot;</span>);
+}</code></pre></div>
+<p>This code is functionally identical to the while loop above. We just packed all of the information into the first expression. There isn’t a great way to read a for loop into English, but it works like this: starting with <code>x = 1</code>, check if <code>x &lt; 10</code>. If it is, then run the body of the loop followed by <code>x++</code>. If <code>x</code> is not less than 10, continue on past the loop. For now, it’s best to see this as a better way of writing the <code>while</code> loops we have been writing that increment some variable before looping again.</p>
+<p><a href="3-main-breakdown.html">main Breakdown</a></p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

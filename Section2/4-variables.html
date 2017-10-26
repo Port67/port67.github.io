@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>Variables - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#variable-declarations">Variable Declarations</a></li>
+</ul>
+      </div>
+<h1 id="variable-declarations">Variable Declarations</h1>
+<p>Working with variables in C has a few more rules than in Python. Take this program for example,</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {
+    <span class="dt">float</span> x;
+    x = x + <span class="dv">1</span>;
+    <span class="cf">return</span> <span class="dv">0</span>;
+}</code></pre></div>
+<p>The declaration of <code>x</code> is something that I glossed over last time. In C, you not only have to give types to your functions, but also your variables. Here I am declaring <code>x</code> to be a variable of type <code>float</code> without giving it a value. One of the “gotcha”s of C is that it does not stop you from using variables with no value. The most dangerous part is that this behaviour is “undefined”. This means that the compiler (<code>gcc</code>, <code>clang</code>, or any other) does not have to ensure that something reasonable occurs.</p>
+<p>The first option is to initialize the variable at declaration. You can declare and set <code>x</code> in one fell swoop,</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">float</span> x = <span class="fl">3.14</span>;</code></pre></div>
+<p>If you don’t know the value you want <code>x</code> to have at that time, you can always set it to some default and then check for that default before you use it.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">float</span> x = <span class="dv">0</span>;
+
+<span class="co">// A bunch of code...</span>
+
+<span class="cf">if</span> (x == <span class="dv">0</span>) {
+    <span class="co">// We need to set x</span>
+    x = <span class="fl">3.14</span>;
+}
+
+<span class="co">// Code that now uses x</span></code></pre></div>
+<p>The second solution to this problem is to use the <code>-Wall</code> flag to your compiler. This flag tells the compiler to warn you about every place in your code that something fishy is happening. Modern compilers are actually quite good at spotting bugs like these, so I would recommend <em>always</em> using <code>-Wall</code>. As an example, let’s look at this program that uses an undefined <code>x</code>.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="co">// undefined_x.c</span>
+
+<span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {
+    <span class="dt">float</span> x;
+    x = x + <span class="dv">1</span>;
+    <span class="cf">return</span> <span class="dv">0</span>;
+}</code></pre></div>
+<p>Compiling with and without <code>-Wall</code>,</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">gcc</span> undefined_x.c
+$ <span class="fu">gcc</span> -Wall undefined_x.c
+<span class="ex">undefined_x.c</span>:5:9: warning: variable <span class="st">&#39;x&#39;</span> is uninitialized when used here
+      [<span class="ex">-Wuninitialized</span>]
+    <span class="ex">x</span> = x + 1<span class="kw">;</span>
+        ^
+<span class="ex">undefined_x.c</span>:4:12: note: initialize the variable <span class="st">&#39;x&#39;</span> to silence this warning
+    <span class="ex">float</span> x<span class="kw">;</span>
+           ^
+            = <span class="ex">0.0</span>
+<span class="ex">1</span> warning generated.</code></pre></div>
+<p>Without <code>-Wall</code> we get no warnings. With <code>-Wall</code>, we get loads of useful information. Reading compiler output is sometimes easy and sometimes a bit misleading. I will try to run you into many of these warnings so you get practice with them.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">undefined_x.c</span>:5:9: warning:</code></pre></div>
+<p>This piece is extremely useful. It tells you <code>file_name:line_number:character_number</code> where the warning is. If you open the file with <code>vim</code>, you can jump right to that line by typing <code>:line_number</code>. In our case, <code>:5</code>.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">warning</span>: variable <span class="kw">`</span><span class="ex">x</span><span class="kw">`</span> is uninitialized when used here</code></pre></div>
+<p>Perfect, it caught exactly the error we hoped it would. I used <code>x</code> without initializing it to any value. Then I tried to use it, even though I had never given it a value.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">undefined_x.c</span>:4:12: note: initialize the variable <span class="st">&#39;x&#39;</span> to silence this warning
+    <span class="ex">float</span> x<span class="kw">;</span>
+           ^
+            = <span class="ex">0.0</span></code></pre></div>
+<p>The compiler went above and beyond here to offer a solution to our problem. And notice, it was the first option I gave above. These suggestions are not always great, but they are usually good starting points for fixing your code.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">1</span> warning generated.</code></pre></div>
+<p>As a quick summary, we see that there was only 1 warning generated when reading our code. This number can sometimes be inflated when a single error causes a large number of warnings. Finding the root of your problems just takes practice.</p>
+<p><a href="5-functions.html">Functions</a></p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

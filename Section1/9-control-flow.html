@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>Control Flow - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#control-flow">Control Flow</a><ul>
+<li><a href="#if-statements">If Statements</a></li>
+<li><a href="#while">While</a></li>
+<li><a href="#for">For</a></li>
+</ul></li>
+<li><a href="#an-example">An Example</a></li>
+</ul>
+      </div>
+<h1 id="control-flow">Control Flow</h1>
+<p>Our programs so far have been somewhat lackluster. One of the most glaring issues is that they do exactly the same thing every time. The program that asked us for the sides of a triangle before printing the hypotenuse could give different answers, but was still somewhat boring.</p>
+<p>In all the code we have written so far, Python has simply executed every line from top to bottom, in order. You could imagine a small pointer moving down line by line, indicating which line Python is executing. (This pointer does in fact exist inside the computer and is called the <code>program counter</code>.) The way this pointer moves is called <code>control flow</code>, and we are now going to learn how to make it do more than fall from top to bottom.</p>
+<h2 id="if-statements">If Statements</h2>
+<p>Our first tool to affect control flow is the <code>if</code> statement.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="cf">if</span> x:
+    <span class="bu">print</span> <span class="st">&quot;x is True&quot;</span></code></pre></div>
+<p>In many cases, names in computer science are not terribly helpful, but in this case reading this code aloud should tell you what it does: “if x (is True), (then) print ‘x is True’”.</p>
+<p>But what is <code>x</code>? Remembering types from last time, <code>x</code> is anything that can be converted into a Boolen (or truth value). There is a function <code>==</code> which checks if two things are equal to each other. (It is easy to confuse <code>=</code> and <code>==</code>. The first sets the value of a variable, and the second compares two values). <code>if x:</code> works by evaluating <code>x == True</code>. This might look like <code>(1 &gt; 0) == True</code> which then transforms into <code>True == True</code>, and finally to <code>True</code>. If we were to flip the 1 and 0, we would have <code>(0 &gt; 1) == True</code>, which evaluates to <code>False == True</code>, and finally <code>False</code>.</p>
+<pre class="note"><code>I would suggest playing with == in the REPL, as it often has
+unexpected values. For instance, try comparing all the different
+pairs of True/1/1.0/0. 1 == 1.0 gives you True, which is good
+because they really are the same number.  But try checking
+1 == True and 1.0 == True.</code></pre>
+<p>This brings up a point of style. While <code>if 1:</code> is valid Python, it is not the most readable Python. For the sake of those who have to read your code and understand it (including you!), try to be explicit about what you are checking. In this case, <code>if 1 != 0:</code> or <code>if 1 &lt; 23:</code> might be better options. (<code>!=</code> is read “not equal”, and is the opposite of <code>==</code>.)</p>
+<p>We can also add a way to react when <code>x</code> is not <code>True</code>.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="cf">if</span> x:
+    <span class="bu">print</span> <span class="st">&quot;x is True&quot;</span>
+<span class="cf">else</span>:
+    <span class="bu">print</span> <span class="st">&quot;x is False&quot;</span></code></pre></div>
+<h2 id="while">While</h2>
+<p>Sometimes you find yourself in a situation where you want to perform a certain piece of code many times until some condition is true. For example, let’s print the numbers 1-1000:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">x <span class="op">=</span> <span class="dv">1</span>
+<span class="cf">while</span> (x <span class="op">&lt;=</span> <span class="dv">1000</span>):
+    <span class="bu">print</span> x
+    x <span class="op">+=</span> <span class="dv">1</span></code></pre></div>
+<p>This is called a “while loop”. It starts by checking the condition, “is x less than or equal to 1000”. Since this is true for <code>x == 1</code>, we run the code inside. Then we loop back and check the condition again.</p>
+<p>Because we are in this loop, we have to be careful to make sure that the condition will eventually be false. Otherwise we will get caught in an infinite loop. Try removing the <code>x += 1</code> line. Before running the code, guess what will happen. This is a good habit to get into as it helps you find the differences between how you think it will work and the bugs it has.</p>
+<p>Once you run the program, it will just print <code>1</code>’s infinitely. When you realize your code has a bug or you forgot something, you can stop a running program by typing Ctrl-C (Control and C together). This sends a message to your program that says “stop what you are doing right now”. Try not to let infinite programs run for too long, as they just make your computer do useless work and burn through your battery/electricity bill.</p>
+<h2 id="for">For</h2>
+<p>Our final control flow statement is <code>for</code>. It is similar to <code>while</code>, except you do not change the values of the variable. <code>for</code> is used to loop over the values in a collection. In Python, we can create a list of object using this format,</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>]</code></pre></div>
+<p>This represents the numbers 1, 2, and 3 in that order. This is a new type, called <code>'list'</code>. Python’s lists can contain any number of values (including 0, the empty list []), be they variables, strings, ints, floats, etc.</p>
+<p>The <code>for</code> statement then looks like this,</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="cf">for</span> x <span class="kw">in</span> [<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">4</span>]:
+    <span class="bu">print</span> x</code></pre></div>
+<p>One at a time, the variable will be bound to <code>x</code>, and processed in the loop. This is convenient when you know exactly what you want to loop over.</p>
+<h1 id="an-example">An Example</h1>
+<p>To practice reading code and see some of these statements in action, I’ve written up the comp sci 101 classic “Guess a Number” game. Read through this code and try to understand how it works before running it. Additionally, look at the Python <a href="https://docs.python.org/2/library/random.html#random.randint">documentation</a> for the <code>randint</code> function I imported. Learning to read (and write!) documentation will be one of the best investments you can make.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> random
+
+<span class="kw">def</span> main():
+    <span class="co"># Secret is the number that the player is trying to guess</span>
+    secret <span class="op">=</span> random.randint(<span class="dv">1</span>, <span class="dv">10</span>)
+
+    <span class="bu">print</span> <span class="st">&quot;I&#39;m thinking of a number between 1 and 10&quot;</span>
+
+    num_guesses <span class="op">=</span> <span class="dv">3</span>
+    guessed_vals <span class="op">=</span> []
+    <span class="cf">while</span> (num_guesses <span class="op">&gt;</span> <span class="dv">0</span>):
+
+        <span class="co"># We don&#39;t want the player wasting guesses they have</span>
+        <span class="co"># already tried, so we tell them what their earlier</span>
+        <span class="co"># guesses were.</span>
+        <span class="cf">for</span> g <span class="kw">in</span> guessed_vals:
+            <span class="bu">print</span> <span class="st">&quot;You have guessed: &quot;</span>, g
+
+        <span class="bu">print</span> <span class="st">&quot;You have&quot;</span>, num_guesses, <span class="st">&quot;guesses left&quot;</span>
+
+        x <span class="op">=</span> <span class="bu">input</span>(<span class="st">&quot;Guess: &quot;</span>)
+
+        <span class="cf">if</span> x <span class="op">&lt;</span> secret:
+            <span class="bu">print</span> <span class="st">&quot;Too low!&quot;</span>
+        <span class="co"># &quot;else if&quot; lets us chain together multiple if statements</span>
+        <span class="cf">elif</span> x <span class="op">&gt;</span> secret:
+            <span class="bu">print</span> <span class="st">&quot;Too high!&quot;</span>
+        <span class="cf">else</span>:
+            <span class="bu">print</span> <span class="st">&quot;You got it!&quot;</span>
+            <span class="co"># Immediately exit the while loop, the game is over</span>
+            <span class="cf">break</span>
+
+        num_guesses <span class="op">-=</span> <span class="dv">1</span>
+        guessed_vals.append(x)
+
+main()</code></pre></div>
+<p>As a matter of good practice, I have added comments to my code. Some are to help understand how it works, like the explanation of <code>break</code> and <code>elif</code>. Others explain why I chose to do something, like print the previous guesses.</p>
+<p>This game has lots of area for improvement. Some things to think about and improve: what happens when the player runs out of guesses? what if the player wants to play again? Could you make the previous guess information more useful by also telling the player if the guess was too high or too low? Working through these kinds of problems is the difference between good code and bad code. Interestingly, it is also the difference between a good game and a bad game. These exercises will also force you to work through some of the most common bugs and tough spots in programs.</p>
+<p>We aren’t looking for pretty code just yet! Learning how to make code readable requires seeing a large amount of unreadable code. That way you can see for yourself what does and doesn’t work. For now the most important idea is understanding how the program runs. Once you get a good handle on that, you can start to see patterns and apply some of the tools that people have made to help.</p>
+<p><a href="10-reflection.html">A Reflection</a></p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

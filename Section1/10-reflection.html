@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>A Reflection - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#reflecting-on-python">Reflecting on Python</a><ul>
+<li><a href="#age">Age</a></li>
+<li><a href="#interpreted-vs.compiled">Interpreted vs. Compiled</a></li>
+<li><a href="#syntax">Syntax</a></li>
+<li><a href="#type-system">Type System</a></li>
+</ul></li>
+</ul>
+      </div>
+<h1 id="reflecting-on-python">Reflecting on Python</h1>
+<p>What we have seen so far of Python is by no means the whole language. Yet it is more than enough to write interesting programs. We are going to drop Python for a bit and move on to C. But before we do that, I want to lay out some of the pros and cons of Python. This will help us understand the differences between the two languages.</p>
+<h2 id="age">Age</h2>
+<p>Probably the biggest source of differences between Python and C comes from their age gap. C was created in the early 70’s, while Python was released in the early 90’s. Twenty years is a long time in computer science. Not only did the theory behind programming languages grow considerably, but the power of the hardware drastically changed. One measure of computing power is the number of transistors in your computer. These are pieces of hardware responsible for controlling the electric current inside your computer. At the time C was invented, computers had ~2,300 transistors. When Python was released, they had crossed 1,000,000. Since then, we have passed 10,000,000,000.</p>
+<p>While these numbers are not exact measures of the ability of computers, they do give a sense of the rapid growth in technology. Smartphones are more powerful than the mainframes that businesses used to use, and those were so big that rooms had to be specifically built for them. One of the most impressive feats of C is living through all this and still being relevant. No programming language has stood the test of time quite as well as C. Python, on the other hand, was able to learn from the mistakes of older languages to make great design choices.</p>
+<h2 id="interpreted-vs.compiled">Interpreted vs. Compiled</h2>
+<p>One major advantage that Python has over C is that Python had C to work with. Python is just a C program. It reads the code you give to it, shuffles some stuff around, and then runs C code. This is the difference between “interpreted” languages and “compiled” languages. The code you run in Python has to be processed by Python every time you run it. Whereas C is compiled into file that the computer knows how to run. We will do this ourselves shortly.</p>
+<p>Interpretation is both a blessing and a curse for Python. The good news is that Python is far easier to write than C. Many of the bugs that occur in C either cannot happen in Python or are gracefully handled and reported to you. Python excels at creating prototypes and short scripts because it handles things in the background so you can worry about making your program, not difficult bugs.</p>
+<p>The downside to this is that Python trades performance for ease of use. The steps that Python takes of reading the code and transforming it to C don’t happen when you just use C. No matter how good Python is at generating C, you could always just write the same C yourself. Some people have gone through enormous efforts to make Python performant, in particular, the NumPy library for math is so highly optimized that you can get stellar performance from it. However, there are limits to how fast you can make it.</p>
+<h2 id="syntax">Syntax</h2>
+<p>For comparison, here is a Python and C “Hello, world!”.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> main():
+    <span class="bu">print</span> <span class="st">&quot;Hello, world!&quot;</span>
+
+main()</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
+
+<span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {
+
+    printf(<span class="st">&quot;Hello, world!&quot;</span>);
+    <span class="cf">return</span> <span class="dv">0</span>;
+}</code></pre></div>
+<p>Without getting into details, it is clear that, at the very least, C is more verbose. While not necessary, I included a <code>main</code> function in the Python source to make the comparison slightly more fair. Two changes that immediately stand out are the <code>{}</code>’s and <code>;</code>’s. In Python, we use indentation and newlines to differentiate commands. In C, we have to clearly mark everything.</p>
+<p>Also note the type indicators everywhere: <code>int main</code>, <code>int argc</code>, <code>char **argv</code>. These are required in C. While Python mostly hides the types from you, here we have to handle all of that ourselves. That is really the core of the difference between Python and C. Python hides much of the work, while C forces you to handle it yourself. As with every decision in computer science, this is a tradeoff. Python is easier to use, C is more powerful.</p>
+<h2 id="type-system">Type System</h2>
+<p>Here is another short program for comparison.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">x <span class="op">=</span> <span class="dv">1</span>
+<span class="co"># x == 1</span>
+<span class="co"># type(x) == &#39;int&#39;</span>
+x <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> <span class="fl">1.5</span>
+<span class="co"># x == 2.5</span>
+<span class="co"># type(x) == &#39;float&#39;</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {
+    <span class="dt">int</span> i;
+
+    i = <span class="dv">1</span> + <span class="fl">1.5</span>;
+    <span class="co">// i == 2</span>
+    <span class="cf">return</span> <span class="dv">0</span>;
+}</code></pre></div>
+<p>In Python, values have types, and variables just hold values. In C, variables have types and do whatever is necessary to convert the value into that type. We can see that the value of <code>x</code> and <code>i</code> should both be 2.5. In Python, <code>x</code> just changes its type to accommodate the value. But in C, <code>i</code> just pretends 2.5 is an int because that is all <code>i</code> can hold. And so, <code>i == 2</code>. (Also note the syntax for comments in C, it is <code>//</code> at the start of the comment.)</p>
+<p>While Python is nice, it is time to take off the training wheels and get our hands dirty with C. We need to learn all the bits that Python is hiding from us. Once we know those, we can come back to Python or any other language and make better design choices.</p>
+<p><a href="Fun/index.html">Fun</a></p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

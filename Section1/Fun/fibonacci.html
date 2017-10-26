@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>Fibonacci - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#fibonacci">Fibonacci</a></li>
+</ul>
+      </div>
+<h1 id="fibonacci">Fibonacci</h1>
+<p>The fibonacci sequence is another classic programming task. It is useful because it easy to understand and do the early parts by hand, but introduces a whole new idea called “recursion”. A recursive function is a function that calls itself in its body. Let’s state the fibonacci sequence equation and then see what that means for our code.</p>
+<pre><code>fib(0) = 1
+fib(1) = 1
+fib(n) = fib(n-1) + fib(n-2)</code></pre>
+<p>For reference, here are the first 10 numbers in the fibonacci sequence.</p>
+<pre><code>1, 1, 2, 3, 5, 8, 13, 21, 34, 55</code></pre>
+<p>To get any number after the first two, you just add the previous two together. Using comments to sketch out the program can help us determine exactly what we need to do.</p>
+<p>I’d suggest moving to a suitable place in your filesystem (like <code>~/Projects/Python/</code>), creating a file called <code>fibo.py</code>, and following along.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co"># fibo.py</span>
+
+<span class="co"># fib(0) = 1</span>
+
+<span class="co"># fib(1) = 1</span>
+
+<span class="co"># fib(n) = fib(n-1) + fib(n-2)</span></code></pre></div>
+<p>Hopefully, the first obvious thing to do is make a function called <code>fib</code> that takes a single argument <code>n</code>.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co"># fibo.py</span>
+
+<span class="kw">def</span> fib(n):</code></pre></div>
+<p>Now we can attack the tasks one at a time.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co"># fibo.py</span>
+
+<span class="kw">def</span> fib(n):
+    <span class="co"># fib(0) = 1</span>
+    <span class="cf">if</span> n <span class="op">==</span> <span class="dv">0</span>:
+        <span class="cf">return</span> <span class="dv">1</span></code></pre></div>
+<p>Easy! The next one is just as easy using the <code>elif</code> keyword. <code>elif</code> is short for <code>else if</code>, and it lets us chain together <code>if</code> statements. See the <a href="FizzBuzz.md">fizzbuzz</a> program for more information.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co"># fibo.py</span>
+
+<span class="kw">def</span> fib(n):
+    <span class="co"># fib(0) = 1</span>
+    <span class="cf">if</span> n <span class="op">==</span> <span class="dv">0</span>:
+        <span class="cf">return</span> <span class="dv">1</span>
+    <span class="co"># fib(1) = 1</span>
+    <span class="cf">elif</span> n <span class="op">==</span> <span class="dv">1</span>:
+        <span class="cf">return</span> <span class="dv">1</span></code></pre></div>
+<p>Perhaps surprisingly, our last case can be handled by just calling <code>fib</code> <strong>inside</strong> our <code>fib</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co"># fibo.py</span>
+
+<span class="kw">def</span> fib(n):
+    <span class="co"># fib(0) = 1</span>
+    <span class="cf">if</span> n <span class="op">==</span> <span class="dv">0</span>:
+        <span class="cf">return</span> <span class="dv">1</span>
+    <span class="co"># fib(1) = 1</span>
+    <span class="cf">elif</span> n <span class="op">==</span> <span class="dv">1</span>:
+        <span class="cf">return</span> <span class="dv">1</span>
+    <span class="co"># fib(n) = fib(n-1) + fib(n-2)</span>
+    <span class="cf">else</span>:
+        <span class="cf">return</span> fib(n<span class="dv">-1</span>) <span class="op">+</span> fib(n<span class="dv">-2</span>)
+
+<span class="bu">print</span> fib(<span class="dv">0</span>)
+<span class="bu">print</span> fib(<span class="dv">1</span>)
+<span class="bu">print</span> fib(<span class="dv">5</span>)
+<span class="bu">print</span> fib(<span class="dv">9</span>)</code></pre></div>
+<p>Testing our function and referring to our list above to check,</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">python</span> fibo.py
+<span class="ex">1</span>
+<span class="ex">1</span>
+<span class="ex">8</span>
+<span class="ex">55</span></code></pre></div>
+<p>Exactly what we expected! A word of warning though: recursive functions can be a source of infinite loops. Consider these small programs,</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> loop(n)
+    <span class="cf">if</span> n <span class="op">==</span> <span class="dv">0</span>:
+        <span class="cf">return</span> <span class="dv">0</span>
+    <span class="cf">else</span>:
+        <span class="cf">return</span> loop(n)
+
+<span class="kw">def</span> loop2(n):
+    <span class="cf">if</span> n <span class="op">==</span> <span class="dv">0</span>:
+        <span class="cf">return</span> <span class="dv">0</span>
+    <span class="cf">else</span>:
+        <span class="cf">return</span> loop2(n<span class="dv">-2</span>)</code></pre></div>
+<p>Without running them, try to figure out what they will do. In particular, try to come up with return values for:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">loop(<span class="dv">0</span>)
+loop(<span class="dv">1</span>)
+loop(<span class="dv">2</span>)
+
+loop2(<span class="dv">0</span>)
+loop2(<span class="dv">1</span>)
+loop2(<span class="dv">2</span>)</code></pre></div>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

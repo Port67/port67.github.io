@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>C IO - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#io-in-c">IO in C</a><ul>
+<li><a href="#scanf">Scanf</a></li>
+<li><a href="#opening-files">Opening Files</a></li>
+<li><a href="#io-with-files">IO with Files</a></li>
+<li><a href="#best-practice">Best Practice</a></li>
+<li><a href="#special-files">Special Files</a></li>
+</ul></li>
+</ul>
+      </div>
+<h1 id="io-in-c">IO in C</h1>
+<p>We have one last topic to cover in C to match everything we covered in Python: Input and Output. So far, we have seen one method for input, <code>argc</code> and <code>argv</code>, and one method for output, <code>printf</code>. But those are fairly limited. The first function we need is something similar to Python’s <code>input</code> function, which reads user input from the command line.</p>
+<h2 id="scanf">Scanf</h2>
+<p>This function is <code>scanf</code>. It functions very similarly to <code>printf</code>, but reads values into variables instead of out of them. Also, it needs the address of the variable instead of the variable itself. In code,</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
+
+<span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {
+    <span class="dt">int</span> x, ret;
+    ret = scanf(<span class="st">&quot;%d&quot;</span>, &amp;x);
+    printf(<span class="st">&quot;The value entered was: %d</span><span class="sc">\n</span><span class="st">&quot;</span>, x);
+    printf(<span class="st">&quot;The value returned was: %d</span><span class="sc">\n</span><span class="st">&quot;</span>, ret);
+}</code></pre></div>
+<p>When we compile and run this we can try a couple different inputs,</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">./a.out</span>
+<span class="ex">10</span>
+<span class="ex">The</span> entered value was: 10
+<span class="ex">The</span> returned value was: 1
+$ <span class="ex">./a.out</span>
+<span class="ex">hey</span>
+<span class="ex">The</span> entered value was: 0
+<span class="ex">The</span> returned value was: 0</code></pre></div>
+<p>In our first attempt, we input a reasonable integer value, <code>10</code>. <code>scanf</code> was able to read that as an integer, and so it set <code>x</code> equal to <code>10</code>. The return value of <code>scanf</code> is the number of variables it successfully read. In the first example, that is 1 for <code>10</code> bound to <code>x</code>. In the second example, <code>scanf</code> fails to read <code>hey</code> as an <code>int</code>. The value of <code>x</code> is then whatever it was before the call to <code>scanf</code>. In our case, it was uninitialized. Finally, <code>scanf</code> returns 0 because it couldn’t read an integer into <code>x</code> from the input.</p>
+<h2 id="opening-files">Opening Files</h2>
+<p>Working with the command line is useful, but often we need to interact with files. Files allow us to make information “persistent.” That is, it will be there after the program ends and even after the computer is restarted. We might use this to create a log of events inside the program or read in data.</p>
+<p>To work with a file, we first have to open it. The functions we need all come from <code>stdio.h</code>, so we need to make sure to include it at the top of our file.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="co">// Create a variable that will represent our file</span>
+FILE *file;
+
+file = fopen(<span class="st">&quot;file.txt&quot;</span>, <span class="st">&quot;r&quot;</span>);
+
+<span class="cf">if</span> (file == NULL) {
+    printf(<span class="st">&quot;Can&#39;t open specified file</span><span class="sc">\n</span><span class="st">&quot;</span>);
+    exit(<span class="dv">1</span>);
+}
+
+do_something(file);
+
+fclose(file);</code></pre></div>
+<p>This pattern will come every time you want to work with a file. You declare a variable of type <code>FILE *</code>. <code>FILE</code> is a structure inside of <code>stdio.h</code> that represents a set of information that is needed to work with files.</p>
+<p>Next, you set the variable to the value returned by <code>fopen(filepath, permissions)</code>. This function opens the file at <code>filepath</code>, returning a pointer to the new <code>FILE</code> struct that represents the file. The permissions can be <code>&quot;r&quot;</code>, <code>&quot;w&quot;</code>, or <code>&quot;a&quot;</code> for reading, writing, and appending respectively. If you only want to get the information from a file, the you only need to read it. If you would like to create a new file or write over what is already there, then you choose <code>&quot;w&quot;</code>. If you would like to add new information, but only at the end, use <code>&quot;a&quot;</code>. Appending just means “adding at the end.”</p>
+<p>Sometimes, the computer can’t open the file. For example, you might try to write to the file <code>&quot;data/test.c&quot;</code>, but the <code>data</code> directory does not exist. C can create the file <code>test.c</code> only if all the parent directories already exist. Or you might ask C to read a file that doesn’t exist. In all of these cases, the pointer returned will be <code>NULL</code>. If you try to then use the <code>NULL</code> pointer, your program will end with an error. Thus, we have to make sure it succeeded.</p>
+<p>Once you ensure that the file pointer is not <code>NULL</code>, you can use it as you please. We will look at functions to do that shortly.</p>
+<p>Finally, you need to make sure to <code>fclose</code> the file. Managing your resources is an important part of C. Closing the file cleans up the memory we used. It frees the <code>FILE</code> structure and lets other programs have access to the file again.</p>
+<h2 id="io-with-files">IO with Files</h2>
+<p>C has a very simple naming structure for the functions we need. Instead of <code>printf</code> and <code>scanf</code>, we have <code>fprintf</code> and <code>fscanf</code> for files. They work exactly the same, except the first argument is the file you want to work with.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">do_something(FILE *file) {
+    <span class="dt">int</span> x = <span class="dv">10</span>;
+
+    <span class="co">// Write to file (needs &quot;w&quot; or &quot;a&quot; permission)</span>
+    fprintf(file, <span class="st">&quot;The value of x is: %d&quot;</span>, x);
+    
+    <span class="co">// Read from file (needs &quot;r&quot; permission)</span>
+    <span class="co">// Expect a line in `file` that looks like</span>
+    <span class="co">// x: 10</span>
+    fscanf(file, <span class="st">&quot;x: %d&quot;</span>, &amp;x);
+}</code></pre></div>
+<h2 id="best-practice">Best Practice</h2>
+<p>Reading from files is unfortunately complicated. We can’t really be sure of what the information looks like or even if there is anything there. There are many different errors that could happen, so to make it a little easier and safer we use a common pattern.</p>
+<p>Instead of reading directly from the file, we read as much of a single line as we can into an array, and then process the array using <code>sscanf</code>. Just like <code>fscanf</code>, <code>sscanf</code> works like <code>scanf</code>, except for strings instead of the command line or files. First, let’s see how it works,</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">do_something(file) {
+    <span class="co">// An array to hold a line of input</span>
+    <span class="co">// holds up to 31 characters and a null byte</span>
+    <span class="dt">char</span> buffer[<span class="dv">32</span>];
+    <span class="dt">int</span> x;
+
+    <span class="co">// Safely get a line from the file</span>
+    <span class="cf">if</span> (fgets(buffer, <span class="kw">sizeof</span>(buffer), file) != NULL) {
+        <span class="co">// Now scan that line for input</span>
+        sscanf(buffer, <span class="st">&quot;x: %d&quot;</span>, &amp;x);
+    }</code></pre></div>
+<p><code>fgets</code> takes a place to store the result, the number of bytes it can read, and the source file to read from. In this case, we are reading from <code>file</code> into <code>buffer</code> and can read 32 bytes from the file, making sure that the final null byte fits in our buffer.</p>
+<p>This small pattern helps us separate error cases. First, <code>fgets</code> will return NULL if there is nothing else to read in the file. Second, <code>fgets</code> helps protect us from overflowing our buffer that we allocated for the string. If the line is longer than 31 bytes, we only take the initial part. If needed, we could do some extra processing to handle that case. You might walk down the string looking for <code>\n</code> to make sure you have the whole thing.</p>
+<p>Once those cases are handled, it is much easier to then process the string for data. We know that we do have a string, it just might not match our expectations. If you knew the file could have lines that looked like either <code>x: &lt;number&gt;</code> or <code>y: &lt;number&gt;</code>, you could just try to <code>sscanf</code> both.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="cf">if</span> (sscanf(buffer, <span class="st">&quot;x: %d&quot;</span>, &amp;x) != <span class="dv">0</span>) {
+    <span class="co">// do something with x</span>
+} <span class="cf">else</span> <span class="cf">if</span> (sscanf(buffer, <span class="st">&quot;y: %d&quot;</span>, &amp;y) != <span class="dv">0</span>) {
+    <span class="co">// do something with y</span>
+} <span class="cf">else</span> {
+    printf(<span class="st">&quot;error, did not understand line: %s&quot;</span>, buffer);
+}</code></pre></div>
+<p>The reason the <code>if</code> statement works is that <code>sscanf</code> returns the number of format variables successfully matched. If it returns 0, that means it failed. It should return 1 because we only try to assign 1 variable.</p>
+<h2 id="special-files">Special Files</h2>
+<p>It turns out that <code>printf</code> is just a special case of <code>fprintf</code>. There are three files that you always have access to, <code>stdin</code>, <code>stdout</code>, and <code>stderr</code>. These are short for “standard input”, “standard output”, and “standard error”. <code>printf</code> is the same as <code>fprintf(stdout, ...</code>. Similarly, <code>scanf</code> is just <code>fscanf(stdin, ...</code>.</p>
+<p>We won’t need to specifically use these three very often, but it is good practice to print your errors on <code>stderr</code>. You won’t be able to tell the difference just looking at output on the command line, but there are ways to separate <code>stdout</code> and <code>stderr</code> that make users’ life nicer. Sometimes programs spew out a large amount of information and you only care about the errors. In that case, it is nice to have separate streams of information.</p>
+<p><a href="18-c-program.html">A C Program</a></p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

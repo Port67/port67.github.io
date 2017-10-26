@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>Stack vs. Heap - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#stack-vs.heap">Stack vs. Heap</a><ul>
+<li><a href="#the-stack">The Stack</a></li>
+<li><a href="#the-heap">The Heap</a></li>
+</ul></li>
+</ul>
+      </div>
+<h1 id="stack-vs.heap">Stack vs. Heap</h1>
+<p>Now, at this point you may be thinking to yourself: “why do we need pointers?” And that would be a reasonable question to ask! So far we have seen pointers used very similarly to arrays. As we saw a little bit of last time though, pointers give us a bit of flexibility that arrays do not.</p>
+<p>The main advantage we saw was that we could spread out our data in memory, so that each had room to grow. That way, we held pointers that were all the same size, even though the strings could be any size they wanted to be. If we had arrays, then all the data would have to be packed into one, long, continuous chunk. And finding the second or third string would require looking for null bytes. Instead of all that, we could just use <code>argv[1]</code> to get the second pointer, and that string could change size without troubling us.</p>
+<p>The second reason we need pointers is because the “memory” I have been talking about is actually divided into sections. There are two that matter to us right now, the “stack” and the “heap”.</p>
+<h2 id="the-stack">The Stack</h2>
+<p>The first piece of memory is the smaller of the two. A typical size for the stack is 8MB (that is, eight megabytes, or 8,000,000 bits). At the moment, it is hard to imagine using up all that space, but trust me, it is possible.</p>
+<p>The name comes from the everyday idea of a stack. For example, commonly people use the word “stack” for a pile of papers. And that is a good image to have in your head. Our memory stack works very much like a stack of papers. When you declare a new variable, the computer puts that memory on the end of the stack, just like we did when we were managing the boxes.</p>
+<p>Let’s look at some code:</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {
+    <span class="dt">int</span> x = <span class="dv">10</span>;
+    <span class="dt">char</span> y = &#39;a&#39;;
+    <span class="dt">float</span> z = <span class="fl">5.0</span>;
+
+    <span class="cf">return</span> <span class="dv">0</span>;
+}</code></pre></div>
+<p>One the three variables are declared, our stack would look like this:</p>
+<pre><code>+------------+
+|     10     |
++------------+
+|     &#39;a&#39;    |
++------------+
+|     5.0    |
++------------+</code></pre>
+<p>Just like trees, our stacks are upside-down. Also, it is standard to display the heap and the stack vertically. Because I have no particular reason not to, I am going to stick to tradition on these sorts of things.</p>
+<p>There are two notable properties of the stack. First, just like a stack of papers, it is very easy to add to the top of it (well, in our case the bottom). You just drop the next item on, and it grows. Second, also like a stack of papers, it becomes harder and harder to adjust the stack the larger it grows. For example, if we wanted to delete <code>'a'</code> from our stack, we would have to move backwards from <code>5.0</code>, take out the <code>'a'</code>, and then shift <code>5.0</code> into <code>'a'</code>’s place.</p>
+<p>Because of this, the stack is mostly for short-lived variables. For example, if we had a function:</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> square() {
+    <span class="dt">int</span> x = <span class="dv">3</span>;
+
+    <span class="cf">return</span> x * x;
+}</code></pre></div>
+<p>Once that value was returned, we would really have no more reason for <code>x</code>. We will get into the details next time, but, due to the issues deleting things from the stack, every so often we just completely remove it and start over. If we keep only short-lived variables on the stack, then wiping it and making a new one should be no trouble at all.</p>
+<h2 id="the-heap">The Heap</h2>
+<p>The alternative to the stack is the heap. It is the larger of the two and usually is a couple gigabytes in size.</p>
+<p>Like the stack, the heap is named after an everyday idea. In the heap, we don’t care about data being perfectly lined up, we just care that it is there. A good mental image might be a pile of clothes. There might not be an order to it, but your clothes are all there. And, if you were the one that made the pile, you might have a pretty good idea of where a particular shirt is.</p>
+<p>Here’s some hypothtical code:</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {
+    heap <span class="dt">int</span> x = <span class="dv">3</span>;
+    heap <span class="dt">char</span> y = &#39;a&#39;;
+    heap <span class="dt">float</span> z = <span class="fl">5.0</span>;
+
+    <span class="cf">return</span> <span class="dv">0</span>;
+}</code></pre></div>
+<p>In the above, I have invented a keyword <code>heap</code> that forces our values to be on the heap. This is not a real thing, but it will illustrate the idea.</p>
+<pre><code>+-------------+
+|    stack    |
++-------------+
+
+      ...
+
++-------------+
+|     5.0     |
++-------------+
+|     &#39;a&#39;     |
++-------------+
+|             |
++-------------+
+|             |
++-------------+
+|             |
++-------------+
+|      10     |
++-------------+</code></pre>
+<p>In the standard picture, the stack is at the top, and grows downward, while the heap is at the bottom and grows upward. As you can see, our heap is not as tightly packed as our stack was. Data is spread out, and there are many blank spaces.</p>
+<p>This is why we need pointers! To help us find things in the stack. If we add some addresses to our heap:</p>
+<pre><code>  +-------------+ 
+  |    stack    | 
+  +-------------+ 
+                 
+        ...       
+                 
+  +-------------+ 
+73|     5.0     | 
+  +-------------+ 
+72|     &#39;a&#39;     | 
+  +-------------+ 
+  |             | 
+  +-------------+ 
+  |             | 
+  +-------------+ 
+ 4|             | 
+  +-------------+ 
+ 0|      10     | 
+  +-------------+ </code></pre>
+<p>We can see that this is just a vertical picture of what we had with our array of strings last time. The nice thing about the heap is that the computer can put data in it, like the arguments to the program, and then it just has to give us the address so we can access it too!</p>
+<p>Without pointers, it would be very difficult to keep track of where all our data is. With pointers, we can use as much space as we want for long term storage. We sacrifice a little bit of speed so that the computer doesn’t have to worry about packing the data in tightly. It is also much easier to delete from the heap. We just tell the computer we don’t want the storage anymore, and it can do whatever it wants with it.</p>
+<p><a href="14-scope.html">Variable Scope</a></p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

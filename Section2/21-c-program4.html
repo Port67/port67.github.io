@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>C Program 4 - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#the-final-product">The Final Product</a></li>
+</ul>
+      </div>
+<h1 id="the-final-product">The Final Product</h1>
+<p>All that’s left for us to do is assemble all of the pieces. The way I have done it here isn’t the only way to do it, so feel free to reorganize as you’d like.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
+<span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span>
+<span class="pp">#include </span><span class="im">&lt;string.h&gt;</span>
+
+<span class="kw">struct</span> robot {
+    <span class="co">// The grid position</span>
+    <span class="dt">int</span> x;
+    <span class="dt">int</span> y;
+}
+
+<span class="co">// Initialization functions</span>
+<span class="kw">struct</span> robot *new_robot();
+
+<span class="dt">void</span> read_commands(FILE *file);
+
+<span class="co">// Movement functions</span>
+<span class="dt">int</span> move_left(<span class="kw">struct</span> robot *robo);
+<span class="dt">int</span> move_right(<span class="kw">struct</span> robot *robo);
+<span class="dt">int</span> move_up(<span class="kw">struct</span> robot *robo);
+<span class="dt">int</span> move_down(<span class="kw">struct</span> robot *robo);
+
+<span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {
+
+    <span class="co">// Setup map</span>
+    <span class="dt">int</span> grid[<span class="dv">5</span>][<span class="dv">5</span>] = {
+        { <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">1</span>},
+        { <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>},
+        { <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>},
+        { <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">2</span>},
+        { <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>}
+    };
+
+    <span class="co">// Get the FILE *</span>
+    <span class="cf">if</span> (argc != <span class="dv">2</span>) {
+        fprintf(stderr, <span class="st">&quot;Expected a single file argument</span><span class="sc">\n</span><span class="st">&quot;</span>);
+        exit(<span class="dv">1</span>);
+    }
+    
+    FILE *file;
+    
+    file = fopen(argv[<span class="dv">1</span>], <span class="st">&quot;r&quot;</span>);
+    
+    <span class="cf">if</span> (file == NULL) {
+        printf(<span class="st">&quot;Can&#39;t open specified file</span><span class="sc">\n</span><span class="st">&quot;</span>);
+        exit(<span class="dv">1</span>);
+    }
+    
+    <span class="co">// Run game</span>
+    do_something(file);
+    
+    <span class="co">// Cleanup resources</span>
+    fclose(file);
+
+    <span class="cf">return</span> <span class="dv">0</span>;
+}
+
+<span class="co">// Create a new `struct robot`</span>
+<span class="kw">struct</span> robot *new_robot() {
+
+    <span class="co">// Setup robot</span>
+    <span class="kw">struct</span> robot *robo = malloc(<span class="kw">sizeof</span>(*robo));
+    
+    <span class="cf">if</span> (robo == NULL) {
+        fprintf(stderr, <span class="st">&quot;malloc for robot failed</span><span class="sc">\n</span><span class="st">&quot;</span>);
+        exit(<span class="dv">1</span>);
+    }
+    
+    robo-&gt;x = <span class="dv">0</span>;
+    robo-&gt;y = <span class="dv">0</span>;
+
+    <span class="cf">return</span> robo;
+}
+
+<span class="co">// Read and execute sequence of commands from a file</span>
+<span class="dt">void</span> read_commands(FILE *file) {
+    <span class="co">// An array that will hold each command.</span>
+    <span class="co">// We know 8 is big enough to hold any command, the newline, and the null</span>
+    <span class="dt">char</span> buffer[<span class="dv">8</span>];
+
+    <span class="co">// Loop over every line in the file</span>
+    <span class="co">// if `fgets` cannot fill the buffer, it returns NULL</span>
+    <span class="cf">while</span> (fgets(buffer, <span class="kw">sizeof</span>(buffer), file) != NULL) {
+        <span class="cf">if</span> (strcmp(buffer, <span class="st">&quot;right</span><span class="sc">\n</span><span class="st">&quot;</span>) == <span class="dv">0</span>) {
+            <span class="co">// Move right</span>
+        } <span class="cf">else</span> <span class="cf">if</span> (strcmp(buffer, <span class="st">&quot;left</span><span class="sc">\n</span><span class="st">&quot;</span>) == <span class="dv">0</span>) {
+            <span class="co">// Move left</span>
+        } <span class="cf">else</span> <span class="cf">if</span> (strcmp(buffer, <span class="st">&quot;up</span><span class="sc">\n</span><span class="st">&quot;</span>) == <span class="dv">0</span>) {
+            <span class="co">// Move up</span>
+        } <span class="cf">else</span> <span class="cf">if</span> (strcmp(buffer, <span class="st">&quot;down</span><span class="sc">\n</span><span class="st">&quot;</span>) == <span class="dv">0</span>) {
+            <span class="co">// Move down</span>
+        } <span class="cf">else</span> {
+            <span class="co">// Unknown input</span>
+            fprintf(stderr, <span class="st">&quot;error: unknown command %s</span><span class="sc">\n</span><span class="st">&quot;</span>, buffer);
+            exit(<span class="dv">1</span>);
+        }
+    }
+}
+
+<span class="co">// Move 1 unit to the right</span>
+<span class="dt">int</span> move_right(<span class="kw">struct</span> robot *robo) {
+
+    <span class="co">// Check move, assume grid has width 5</span>
+    <span class="cf">if</span> (robo-&gt;x + <span class="dv">1</span> &gt; <span class="dv">4</span>) {
+        fprintf(<span class="st">&quot;error: moved off map</span><span class="sc">\n</span><span class="st">&quot;</span>);
+        <span class="cf">return</span> <span class="dv">1</span>;
+    }
+
+    <span class="co">// Apply move</span>
+    robo-&gt;x += <span class="dv">1</span>;
+    <span class="cf">return</span> <span class="dv">0</span>;
+}
+
+<span class="co">// Move 1 unit to the left</span>
+<span class="dt">int</span> move_left(<span class="kw">struct</span> robot *robo) {
+
+    <span class="co">// Check move, assume grid has width 5</span>
+    <span class="cf">if</span> (robo-&gt;x - <span class="dv">1</span> &lt; <span class="dv">0</span>) {
+        fprintf(<span class="st">&quot;error: moved off map</span><span class="sc">\n</span><span class="st">&quot;</span>);
+        <span class="cf">return</span> <span class="dv">1</span>;
+    }
+
+    <span class="co">// Apply move</span>
+    robo-&gt;x += <span class="dv">1</span>;
+    <span class="cf">return</span> <span class="dv">0</span>;
+}
+
+<span class="co">// Move 1 unit upwards</span>
+<span class="dt">int</span> move_up(<span class="kw">struct</span> robot *robo) {
+
+    <span class="co">// Check move, assume grid has height 5</span>
+    <span class="cf">if</span> (robo-&gt;y + <span class="dv">1</span> &gt; <span class="dv">4</span>) {
+        fprintf(<span class="st">&quot;error: moved off map</span><span class="sc">\n</span><span class="st">&quot;</span>);
+        <span class="cf">return</span> <span class="dv">1</span>;
+    }
+
+    <span class="co">// Apply move</span>
+    robo-&gt;y += <span class="dv">1</span>;
+    <span class="cf">return</span> <span class="dv">0</span>;
+}
+
+<span class="co">// Move 1 unit downwards</span>
+<span class="dt">int</span> move_down(<span class="kw">struct</span> robot *robo) {
+
+    <span class="co">// Check move, assume grid has height 5</span>
+    <span class="cf">if</span> (robo-&gt;y - <span class="dv">1</span> &lt; <span class="dv">0</span>) {
+        fprintf(<span class="st">&quot;error: moved off map</span><span class="sc">\n</span><span class="st">&quot;</span>);
+        <span class="cf">return</span> <span class="dv">1</span>;
+    }
+
+    <span class="co">// Apply move</span>
+    robo-&gt;y -= <span class="dv">1</span>;
+    <span class="cf">return</span> <span class="dv">0</span>;
+}</code></pre></div>
+<p>commands.txt</p>
+<pre><code>down
+down
+down
+right
+right
+right
+down
+right</code></pre>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">gcc</span> -Wall robot.c
+$ <span class="ex">./a.out</span> commands.txt
+<span class="ex">You</span> made it!</code></pre></div>
+<p><a href="reflection.html">A Reflection</a></p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

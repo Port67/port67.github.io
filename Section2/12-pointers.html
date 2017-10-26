@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>Pointers - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#scope">Scope</a></li>
+</ul>
+      </div>
+<h1 id="scope">Scope</h1>
+<p>We have almost covered everything we need to understand the declaration of the <code>main</code> function. For reference:</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {}</code></pre></div>
+<p>The last piece to decipher is <code>char **argv</code>. As with other variable declarations, <code>argv</code> is just the name of the variable. And we know from our study of types that <code>char</code> is a one-byte value that is interpreted as an ASCII character. So what’s the deal with the <code>**</code>’s?</p>
+<p>I briefly introduced <code>argc</code> and <code>argv</code> way back in the beginning. They both help us process the arguments on the command line. If we compiled a program into a file called <code>a.out</code>, and ran it like so:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">./a.out</span> a b arg</code></pre></div>
+<p><code>main</code> would be able to check the values of <code>argc</code> and <code>argv</code> to see that there were 4 arguments <code>[&quot;./a.out&quot;, &quot;a&quot;, &quot;b&quot;, &quot;c&quot;]</code>. Thus <code>argc</code> counts the number of arguments, and <code>argv</code> stores them all.</p>
+<p>We know how to store a single string from our last lesson, it is a null terminated array of <code>char</code>’s. We have also seen that we can store multiple values of a type in arrays, so it might be our inclination to imagine <code>argv</code> as an array of strings. Ignoring the first element of the array for the sake of brevity, let’s look at this hypothetical.</p>
+<pre><code>                                   argv
++========+========+========+========+========+========+========+========+
+|   &#39;a&#39;  |  &#39;\0&#39;  |   &#39;b&#39;  |  &#39;\0&#39;  |   &#39;a&#39;  |   &#39;r&#39;  |   &#39;g&#39;  |  &#39;\0&#39;  |
++========+========+========+========+========+========+========+========+</code></pre>
+<p>Remember that each <code>char</code> takes up exactly one byte. So our variable <code>argv</code> is 8 bytes. As <code>argv</code> is an array, it would be ideal if we could get the first argument with <code>argv[0]</code> and the second with <code>argv[1]</code> and so on. However, how would that work? As we talked about last time, strings can be any length! There is no way for the compiled program to know how long the string arguments will be. I could just have easily passed:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">./a.out</span> aa bb arg3</code></pre></div>
+<p>And <code>argv</code> would have needed 11 bytes. So there is no way for our index trick to work. If we had <code>argv[1]</code> and wanted to move over 1 “string” length, we could not find the first string without just looking for the first <code>\0</code> byte in the array. So this solution won’t work if we want a reasonable way to access the different arguements.</p>
+<p>To solve this, we need to use memory more flexibly. So far we have been packing our data in tightly. Values have been given an exact size, with a little bit of wiggle room depending on the type. But with strings, there could really be any number of characters. <code>char</code>’s fit nicely into a single byte. <code>int</code>’s at 2 or 4 bytes cover most use cases. But strings can easily be a single word or an entire book, so we need a different way to store them.</p>
+<p>The good news is that we don’t need to be overly concerned with how well we are utilizing the space we have. Remember that we have <strong>billions</strong> of bytes to work with, and we are only using up around 10 right here. Even on the oldest systems, 10 bytes is not very much.</p>
+<p>So instead of packing them all together, let’s give each string it’s own space to live in. If we think about when we were maintaining the boxes, it would be as if we stored the programs boxes in different areas of a warehouse instead of just the 8 we had in front of us. In picture form:</p>
+<pre><code>   +===+====+        +===+====+              +===+===+===+====+
+   |&#39;a&#39;|&#39;\0&#39;|        |&#39;b&#39;|&#39;\0&#39;|              |&#39;a&#39;|&#39;r&#39;|&#39;g&#39;|&#39;\0&#39;|
+   +===+====+        +===+====+              +===+===+===+====+
+      \ /               \ /                         \ /
++=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |
++=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</code></pre>
+<p>I’ve squished things down a bit to fit in the picture, but hopefully it makes sense. The big row across the bottom is a portion of memory. The boxes are not specific units, they just to give a sense of the incredibly long list of empty boxes that make up memory. Our strings are just tiny spots in the larger chunk of memory.</p>
+<p>Now that we’ve found ample space for our strings, we need to make sure we don’t lose them! To keep track of where everything is, we add an address system. Like house numbers, every single byte of memory gets an address. To keep things simple, we just number the bytes from 0 to the total number of bytes that the memory can hold. Let’s add some addresses to our data:</p>
+<pre><code>     37  38             105  106                987 988 989  990
+   +===+====+          +===+====+              +===+===+===+====+
+   |&#39;a&#39;|&#39;\0&#39;|          |&#39;b&#39;|&#39;\0&#39;|              |&#39;a&#39;|&#39;r&#39;|&#39;g&#39;|&#39;\0&#39;|
+   +===+====+          +===+====+              +===+===+===+====+
+      \ /                 \ /                         \ /
++=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |
++=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</code></pre>
+<p>Great! Now, instead of storing the strings themselves, we can just store their addresses. When I first introduced arrays, I added a little arrow at the beginning. This arrow is exactly the same as our addresses. So now let’s revisit that picture with our new information.</p>
+<pre><code>my_array = 37
+   |
+   V
+   +========+========+
+   |   &#39;a&#39;  |  &#39;\0&#39;  |
+   +========+========+
+            ^
+            |
+     my_array + 1*sizeof(char) = 38</code></pre>
+<p>So our previous picture was actually perfectly accurate, we just didn’t have the addresses. To make sure this system really works, let’s try with <code>int</code>’s:</p>
+<pre><code>my_array = 50
+   |
+   V
+   +========+========+
+   |   74   |   42   |
+   +========+========+
+            ^
+            |
+     my_array + 1*sizeof(int) = 54</code></pre>
+<p>For some hypothetical array <code>int my_array[] = { 74, 42 };</code>, our indexing system works perfectly. Assuming <code>int</code>’s are 4 bytes long, if we start at 50 the next <code>int</code> will be at address 54. Hopefully this makes you appreciate the simple <code>array[1]</code> syntax! If you had to calculate the size inside every time and track addresses, things would get complicated fast.</p>
+<p>Back to our string problem, we need a way to describe the difference between a value like <code>'a'</code>, and the address of that value, 37. This is why we introduce the <code>*</code> symbol. Again, a picture should help.</p>
+<pre><code>char *ptr               char x
++========+            +========+
+|   37   | ----------&gt;|   &#39;a&#39;  | 
++========+            +========+</code></pre>
+<p>We call these addresses “pointers” because they “point” to the value in memory. So <code>char *ptr = 37;</code> means that <code>ptr</code> is holding the address of some <code>char</code>. We can now use <code>ptr</code> like an array. so:</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">ptr[<span class="dv">0</span>] = &#39;a&#39;;   <span class="co">// The value at address 37</span>
+ptr[<span class="dv">1</span>] = &#39;\<span class="dv">0</span>&#39;;  <span class="co">// The value at address 38</span>
+                <span class="co">// (because 37 + sizeof(char) = 38)</span>
+ptr[<span class="dv">2</span>] = ???;   <span class="co">// DANGER: This is past the end of our string!</span>
+                <span class="co">// C let&#39;s us do this, but the value is undefined.</span>
+                <span class="co">// It can be anything!</span></code></pre></div>
+<p>Like we talked about before, there is no way to just know the length of a string. But C is good about including the null characters on the end of them, so we just need to check for them.</p>
+<p>Given that example, we can see that <code>char *my_string</code> can be treated as a list of characters, otherwise known as a string. We have the starting address of the string, and we can walk down it <code>char</code> by <code>char</code> to find every element.</p>
+<p>If a <code>char *</code> is a list of <code>char</code>’s, then a <code>char **</code> is a list of lists of <code>char</code>’s. Or, said another way, a list of strings! Which is what we have been looking for! This is a tough concept to explain in words, so here is another picture:</p>
+<pre><code>   char **argv (pointer to list of strings)
+     +====+
+     | 60 |-------
+     +====+      |
+                 v  char *strs (pointers to lists of chars)
+                 +===+===+===+
+                 | 37|105|987|
+                 +===+===+===+                     (list of chars)
+     37  38       60   |   76     105  106        987 988 989  990
+   +===+====+          |         +===+====+      +===+===+===+====+
+   |&#39;a&#39;|&#39;\0&#39;|          |         |&#39;b&#39;|&#39;\0&#39;|      |&#39;a&#39;|&#39;r&#39;|&#39;g&#39;|&#39;\0&#39;|
+   +===+====+          |         +===+====+      +===+===+===+====+
+      \ /             \ /           \ /                 \ /
++=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+
+| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |
++=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+</code></pre>
+<p>This is not the easiest picture to understand, however you should spend some time with it. One major win we get from this pointer business is that <code>argv[1]</code> is the second argument. Breaking that down should help give you a grasp on how this works together.</p>
+<p>We start with <code>char **argv</code>, a pointer to a pointer to a <code>char</code>. Then we calculate <code>argv[1]</code>:</p>
+<pre><code>argv[1]
+argv + 1*sizeof(char *)
+60 + 8
+68 (points to 105)</code></pre>
+<p>Pointers are all the same size, but that size depends on your computer. 4 and 8 byte pointers are common these days, but other sizes are possible. I’m going to use 8 as a standard from now on, but know that it is not always the case.</p>
+<p>So now we have a new pointer. Let’s give it a name and say <code>char *arg2 = argv[1];</code> Now let’s try to determine what <code>arg2[0]</code> is:</p>
+<pre><code>arg2[0]
+arg2 + 0 * sizeof(char *)
+105 + 0
+105 (points to &#39;b&#39;)</code></pre>
+<p>We’ve successfully made it down to <code>'b'</code>! And if we eliminate the intermediate variable, it’s actually a nice syntax: <code>argv[1][0]</code>. Read from right to left, that says “take the first element of the second element of <code>argv</code>”. Which, filling in our types, says “take the first character of the second string of <code>argv</code>”. Which is pretty easy!</p>
+<p>Note: Pointers are one of the biggest humps to get over when learning C. Don’t worry if you don’t understand them just yet. We will use them non-stop going forward, so you will get all the practice you could ever want.</p>
+<p><a href="13-stack-vs-heap.html">Stack vs. Heap</a></p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>Vimrc - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#vimrc">Vimrc</a></li>
+</ul>
+      </div>
+<h1 id="vimrc">Vimrc</h1>
+<p>The default Vim settings are fine, but don’t give you very many of the nice bells and whistles. Turning some of these on should make life better for you. To modify Vim’s configuration, we simply add a file called <code>~/.vimrc</code>, and write out our desired preferences.</p>
+<p>Note: Files that start with a <code>.</code>, like <code>.vimrc</code>, are hidden by default. That means they won’t be displayed if you run <code>ls</code>. Use <code>ls -a</code> to display <strong>a</strong>ll files, hidden or not.</p>
+<p>Note: <code>rc</code> is a common ending for configuration files. On Linux, there is a <code>bashrc</code> for controlling the settings of <code>bash</code>. Keep an eye out for these around your computer and read them when you come across them.</p>
+<p>Put this in <code>~/.vimrc</code>.</p>
+<pre class="vim"><code>
+&quot; Here is a basic vimrc. Typically, you place this in your home directory
+&quot; and call it .vimrc. Next time you open vim, all settings will be applied, and
+&quot; your life will be a bit better. I&#39;ll make comments along the way, so you can
+&quot; know what&#39;s what.
+
+&quot; If you want to learn more about any option, try &quot;:help &lt;command&gt;&quot;
+&quot; Once you open one of those windows, your control will be in the information
+&quot; pane, feel free to just &quot;:q&quot; to close it.
+
+&quot; Use Vim settings, rather than Vi settings (much better!).
+&quot; This must be first, because it changes other options as a side effect.
+&quot; (Vim = Vi iMproved, Vi is an old text editor, like sed)
+set nocompatible
+
+&quot; Turn on some of the filetype magic, see &quot;:help filetype&quot; and
+&quot; scroll down to &quot;:help filetype-overview&quot;
+filetype plugin indent on
+
+&quot; Turn on syntax highlighting
+syntax on
+
+&quot; This makes backspace work as expected
+set backspace=indent,eol,start
+
+&quot; Don&#39;t create backups of files that you are currently editing. I would
+&quot; recommend, otherwise you get weird extra files all over. But this is
+&quot; up to you.
+set nobackup
+
+&quot; This turn on a &quot;line, column&quot; indicator in the bottom right.
+set ruler
+
+&quot; This displays parts of commands typed so far. If you were to type &quot;d&quot; in
+&quot; normal mode, it would show up somehwere along the bottom because it awaits
+&quot; some sort of directional command. That is, &quot;de&quot; Deletes to the End of the
+&quot; word. When you type the &quot;e&quot;, the &quot;d&quot; would disappear.
+set showcmd
+
+&quot; If you try to search for something by typing &quot;/search_word&quot;, incsearch will
+&quot; highlight as you start typing. With it off, no results are shown until you
+&quot; hit enter.
+set incsearch
+
+&quot; How big a tab should be. Some people like 3, some 4. I prefer 4.
+set tabstop=4
+
+&quot; Both of these make tabs work a little better. Kinda hard to explain.
+set shiftwidth=4
+set softtabstop=4
+
+&quot; First tab under an indented line will indent to match the line above.
+set smarttab
+
+&quot; All tabs become actual spaces. 
+set expandtab
+
+&quot; Try to be smart about indents when starting new lines. Like match the one
+&quot; above it, and indent if the previous line ended with &quot;{&quot;.
+set smartindent</code></pre>
+<p>Then open one of the Python files to see some of the changes. Play around for a bit and see how it feels!</p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

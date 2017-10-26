@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>Python - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#python">Python</a><ul>
+<li><a href="#variables">Variables</a></li>
+<li><a href="#functions">Functions</a></li>
+<li><a href="#moving-on">Moving On</a></li>
+</ul></li>
+</ul>
+      </div>
+<h1 id="python">Python</h1>
+<p>Now that we have enough knowledge to be dangerous, we can try out our first programming language: Python. This is an ideal starting language for a few reasons. It comes pre-installed on most systems these days. It excels at small utility programs. And it is has many of the most common features among programming languages, so it is a good representative of a large number of them.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">python</span>
+<span class="ex">Python</span> 2.7.13 (<span class="op">&lt;</span>stuff<span class="op">&gt;</span>)
+[<span class="op">&lt;</span><span class="fu">more</span> stuff<span class="op">&gt;</span>] blah
+<span class="op">&lt;</span><span class="ex">some</span> instructions<span class="op">&gt;</span>
+<span class="op">&gt;&gt;&gt;</span></code></pre></div>
+<p>The very first information printed (“Python X.Y.Z”) is the <code>version</code> information. The numbers indicate decreasing levels of change, so <code>X.Y.7</code> and <code>X.Y.8</code> would be very similar, while <code>2.Y.Z</code> and <code>3.Y.Z</code> would have major differeces. One downside of Python is that (at the time of writing) it is in a transition period from Python 2 (i.e. versions like <code>2.X.Y</code>) to Python 3. Most systems come with Python 2 installed, but most people are moving to 3. We won’t run into many of the differences right now, so it doesn’t matter which you have. However, when changes do pop up, I will do my best to make a note of them. (If you don’t have it… cry?)</p>
+<p>So let’s start playing with Python. You’ll note that the prompt has changed from <code>$</code> to <code>&gt;&gt;&gt;</code>. This is a handy way to know that we have left bash and moved into Python. This means that what we type will be interpreted as Python code and not bash commands. Thus, if you were to try something like <code>ls</code> here, you would get an error. So what should you try? Well, luckily, most programming languages read math the way that you are used to:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="op">&gt;&gt;&gt;</span> <span class="dv">1</span> <span class="op">+</span> <span class="dv">1</span>
+<span class="dv">2</span>
+<span class="op">&gt;&gt;&gt;</span> <span class="dv">2+1</span>
+<span class="dv">3</span>
+<span class="op">&gt;&gt;&gt;</span> <span class="dv">10</span> <span class="op">*</span><span class="dv">12</span>
+<span class="dv">120</span>
+<span class="op">&gt;&gt;&gt;</span> (<span class="dv">351</span> <span class="op">/</span> <span class="dv">9</span>) <span class="op">+</span> (<span class="op">-</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">10</span> <span class="op">/</span> <span class="dv">2</span>)
+<span class="dv">42</span></code></pre></div>
+<p>Great, we have found a secret calculator on your computer! Computers were, to a large extent, created to do math. As a result, they are very good at it. However, they can do much more than simple arithmetic. We are going to look at two features in particular that will become invaluable tools: variables and functions.</p>
+<h2 id="variables">Variables</h2>
+<p>One of the goals of programming languages is to allow the programmer to think about problems at the highest level. Let’s say we want to calculate the circumference of a circle. In a math class, you would talk about pi and diameters, but a computer doesn’t know what those things are. This is where Python comes in. We tell Python what pi and diameters are, and then it translates it into something that the next program down on the stack understands. And this happens multiple times until something turns words into numbers and numbers into electricity.</p>
+<p>To define a new variable, you simply give it a name and a value like this:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="op">&gt;&gt;&gt;</span> pi <span class="op">=</span> <span class="fl">3.14159</span></code></pre></div>
+<p>And now Python knows what pi is. If we ask it, we can see that it remembers.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="op">&gt;&gt;&gt;</span> pi
+<span class="fl">3.14159</span></code></pre></div>
+<p>Now let’s define a diameter and find the circumference.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="op">&gt;&gt;&gt;</span> d<span class="op">=</span><span class="dv">6</span>
+<span class="op">&gt;&gt;&gt;</span> pi <span class="op">*</span> d
+<span class="fl">18.849539999999998</span>
+<span class="op">&gt;&gt;&gt;</span> c <span class="op">=</span> pi <span class="op">*</span> d
+<span class="op">&gt;&gt;&gt;</span> c
+<span class="fl">18.849539999999998</span></code></pre></div>
+<p>We can see that we can use variables to set the value of other variables. But what happens if you try to set a variable to a new value?</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="op">&gt;&gt;&gt;</span> d <span class="op">=</span> <span class="dv">12</span>
+<span class="op">&gt;&gt;&gt;</span> d
+<span class="dv">12</span></code></pre></div>
+<p>We have now changed the value of <code>d</code> from 6 to 12. So what happens to <code>c</code>? Well let’s check:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="op">&gt;&gt;&gt;</span> c
+<span class="fl">18.849539999999998</span></code></pre></div>
+<p>So even though <code>c</code> was defined with <code>d</code>, changing <code>d</code> did not affect <code>c</code>. One way to think about this is to imagine Python simplifying when you define <code>c</code>, like this:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="op">&gt;&gt;&gt;</span> c <span class="op">=</span> pi <span class="op">*</span> d
+<span class="op">&gt;&gt;&gt;</span> c <span class="op">=</span> <span class="fl">3.14159</span> <span class="op">*</span> d
+<span class="op">&gt;&gt;&gt;</span> c <span class="op">=</span> <span class="fl">3.14159</span> <span class="op">*</span> <span class="dv">6</span>
+<span class="op">&gt;&gt;&gt;</span> c <span class="op">=</span> <span class="fl">18.849539999999998</span></code></pre></div>
+<p>So our definition of <code>c</code> does not actually include <code>d</code>.</p>
+<h2 id="functions">Functions</h2>
+<p>The equation for the circumference of a circle is not terribly complicated, but even something as simple as this can get tedious after a bit. Each time you have to define both <code>pi</code> and <code>d</code> and then muliply them together. That’s at least 3 separate lines of code, excluding anything we do with <code>c</code>. To simplify this process, we use our second tool, the function.</p>
+<p>Let’s think about the variables in our equation for circumference, <code>c = pi * d</code>. <code>pi</code> is a constant. No matter where it is, it will always be <code>3.14159</code>. <code>c</code> is the value we want to find, so all our work should lead to finding it. Finally, <code>d</code> is the important variable, which could be different every time we want to find a circumference.</p>
+<p>Here is how we define and use a function to calculate the circumference:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="op">&gt;&gt;&gt;</span> <span class="kw">def</span> circumference(d):
+...     pi <span class="op">=</span> <span class="fl">3.14159</span>
+...     c <span class="op">=</span> pi <span class="op">*</span> d
+...     <span class="cf">return</span> c
+...
+<span class="op">&gt;&gt;&gt;</span> circumference(<span class="dv">1</span>)
+<span class="fl">3.14159</span>
+<span class="op">&gt;&gt;&gt;</span> circumference(<span class="dv">42</span>)
+<span class="fl">131.94678</span></code></pre></div>
+<p>We’ve already seen variable definition, so we really only have two lines to discuss. The first is <code>def circumference(d):</code> and the second is <code>return c</code>. When we want to define a new function, we use this syntax:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> function_name(variables):</code></pre></div>
+<p>The line always starts with <code>def</code> to inform Python that we want to make a new function. After that, you pick a name for your function. It is standard to use all lower-case letters and an underscore to separate words. Next come the variables that the function needs to run. In the previous example, the final value only needed a <code>d</code>, but sometimes you need more. If you want to ask for more variables, you can use commas to separate them, like: <code>(a, b, x)</code>. And finally, we end with a colon.</p>
+<p>After the declaration of our new function follows the function body. This is composed of all the indented lines directly below. Whenever you call the function (using <code>function_name(variables)</code> as demonstrated above) the lines of the body are executed in order. The final line of the body is something we haven’t seen before. <code>return</code> is a special keyword used within functions. In short, it says what the value of the function is going to be. If we were to substitute <code>return 1</code> for <code>return c</code>, then any time we call the function it would just answer with <code>1</code>.</p>
+<pre class="note"><code>There is much debate over sizes of indent, but I&#39;ve found
+four spaces to work well across a wide variety of settings.
+It is also the recommendation of the Python style guide.</code></pre>
+<p>Our function is very easy for a person to read: all of the variables are clearly defined; they have informative names; and we can tell that calculating <code>c</code> is the purpose of this function. We can make this function more concise though:</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="op">&gt;&gt;&gt;</span> <span class="kw">def</span> circumference(d):
+...     <span class="cf">return</span> <span class="fl">3.14159</span> <span class="op">*</span> d
+...
+<span class="op">&gt;&gt;&gt;</span> circumference(<span class="dv">1</span>)
+<span class="fl">3.14159</span>
+<span class="op">&gt;&gt;&gt;</span> circumference(<span class="dv">42</span>)
+<span class="fl">131.94678</span></code></pre></div>
+<p>This brings up one of the core problems of computer science: there are hundreds of ways to write any program, so how do you choose? As with most choices, there are tradeoffs that you have to balance. On the one hand, for someone who doesn’t know the value of <code>pi</code> off the top of their head, having the value 3.14159 named makes it easy to understand what is happening. On the other, having to write <code>diameter</code> mulitple times can be a bit of a pain, so substituting <code>d</code> is simpler without losing too much information. Many people have come back to code that they wrote months (or even days) ago, and had no idea what was happening. A way to help choose might be to ask yourself, “If I come back to this next month, will I know what <code>d</code> stands for?” I would even recommend occasionally looking back at things you’ve written to practice reading code and maybe even find some of your bad habits.</p>
+<h2 id="moving-on">Moving On</h2>
+<p>We are going to quit out of Python for a moment to motivate our next topic. You can stop Python by either typing <code>Ctrl-D</code> (Control and d at the same time) or by typing <code>quit()</code>. If we start up python again, we will find something upsetting. All of our hard work is gone! <code>pi</code> is no longer defined and we can’t call our <code>circumference</code> function.</p>
+<p>This is because we were just using a Python Read-Evaluate-Print-Loop (REPL). This interactive mode just runs the code you give it and then waits for more. If we want to save our work, we are going to need to put it somewhere permanent and then tell Python where it is. Luckily, we have permanent storage called the filesystem! Next time, we are going to create a file and fill it with Python code.</p>
+<p><a href="4-files.html">Files</a></p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

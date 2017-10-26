@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>FizzBuzz (Fill-in) - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#fizzbuzz-fill-in">FizzBuzz (Fill-in)</a><ul>
+<li><a href="#extras">Extras</a></li>
+</ul></li>
+</ul>
+      </div>
+<h1 id="fizzbuzz-fill-in">FizzBuzz (Fill-in)</h1>
+<p>Problem statement:</p>
+<pre><code>Write a program that prints the numbers 1 to 100. However, if the number is
+divisible by 3, print *fizz*. If the number is divisible by 5, print *buzz*.
+And if it is divisible by both, print *fizzbuzz*.</code></pre>
+<p>You may find the <code>%</code> operator useful. <code>10 % 4</code> finds the remainder of 10 divided by 4, which is 2. For any two numbers <code>a</code> and <code>b</code>, <code>a</code> is “divisible” by <code>b</code> exactly when the remainder is 0.</p>
+<p>You may also want the <code>and</code> operator, which is true when both its first and second arguments are true, and false otherwise. So <code>True and True</code> is <code>True</code>, but any other combination <code>False</code>.</p>
+<p><code>fizzbuzz.py</code></p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co"># Print the numbers 1 - 100</span>
+x <span class="op">=</span> <span class="dv">1</span>
+<span class="cf">while</span> (____):
+
+    <span class="co"># Print numbers divisible by 3 and 5 as fizzbuzz</span>
+    <span class="cf">if</span> ____:
+        <span class="bu">print</span> <span class="st">&#39;fizzbuzz&#39;</span>
+    <span class="co"># Print numbers divisible by 3 as fizz</span>
+    <span class="cf">elif</span> ____:
+        <span class="bu">print</span> <span class="st">&#39;fizz&#39;</span>
+    <span class="co"># Print numbers divisible by 5 as buzz</span>
+    <span class="cf">elif</span> ____:
+        <span class="bu">print</span> <span class="st">&#39;buzz&#39;</span>
+    <span class="cf">else</span>:
+        <span class="bu">print</span> x
+
+    <span class="co"># Update counter</span>
+    ____</code></pre></div>
+<h2 id="extras">Extras</h2>
+<p>There are as many ways to write a program as there are to skin a cat. The one presented here fits best with what we know at this point. To explore another and practice reading documentation, try replacing the <code>x</code> and <code>while</code> loop with a <code>for</code> loop using the <code>range</code> function. (LINK TO RANGE AND 2/3 DIFFERENCES)</p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

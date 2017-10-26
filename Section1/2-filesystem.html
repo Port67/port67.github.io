@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>The Filesystem - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#the-filesystem">The Filesystem</a><ul>
+<li><a href="#paths">Paths</a></li>
+<li><a href="#trees-are-recursive">Trees are Recursive</a></li>
+<li><a href="#files-cant-have-children">Files Can’t Have Children</a></li>
+<li><a href="#directories-are-infinite">Directories are Infinite</a></li>
+<li><a href="#basic-commands">Basic Commands</a></li>
+</ul></li>
+</ul>
+      </div>
+<h1 id="the-filesystem">The Filesystem</h1>
+<p>All of the information on your computer needs to be kept somewhere. When you save something you are working on, download a new song, or even download an app, you are creating blocks of information on your computer called files. A file roughly corresponds to a single song or image or video and so on. The trick is keeping all of these files organized so that both you and your computer know where they are. We call this organization the filesystem. You may have some experience with it, using Finder on Mac or Konqueror, Nautilus, or Thunar on Linux. These are graphical interfaces, but we are going to use the terminal for a little more power.</p>
+<p>Just like last time, we need to open up our terminal application. I am going to introduce a few new commands that let us interact with the filesystem. A good place to start is figuring out where we are:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="bu">pwd</span></code></pre></div>
+<p><code>pwd</code> shows us the <strong>p</strong>resent <strong>w</strong>orking <strong>d</strong>irectory. My result looks like this:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">/Users/patrick</span></code></pre></div>
+<p>If all of your files were all together in one big pile, it would be difficult to find and organize your computer. Luckily, the filesystem has a way of helping you sort everything. In addition to files, your filesystem has directories (also known as folders). These directories can hold files and even more folders to help you keep track of everything. You may already be familiar with your Documents or Downloads folders, but your computer actually has thousands.</p>
+<p>These earliest lessons serve a dual purpose. The aim is to introduce a number of necessary tools before we jump in, but also to become familiar with some of the recurring themes. As such, we are going to take a minute to talk about trees.</p>
+<pre><code>   |
+  / \
+ /\ /\
+o  oo o</code></pre>
+<p>Computer science trees are almost all bark and almost always upside-down. (Caption)</p>
+<p>We use the term tree as “something with branches and leaves.” So let’s consider the filesystem again. In this case, it might look like:</p>
+<pre><code>                  Home
+                /      \
+        Documents       Downloads
+        /               /        \
+resume.doc          song.mp3    picture.png</code></pre>
+<p>With a bit of imagination, it is possible to see how this could be a tree. You have a root or main trunk called <code>Home</code>, two branches called <code>Documents</code> and <code>Downloads</code>, and three leaves coming off of those branches. I know it is a bit of a stretch, but get used to it because they are everywhere. There are a couple details to notice here:</p>
+<h2 id="paths">Paths</h2>
+<p>Our tree structure defines a unique path from wherever you are to any file. Suppose we wanted to know where <code>song.mp3</code> was. Looking at the picture above, we can say:</p>
+<ul>
+<li>Start at the root of the tree (<code>Home</code>)</li>
+<li>Move down to <code>Downloads</code></li>
+<li>Move down to <code>song.mp3</code></li>
+</ul>
+<p>These paths come up often, so we have a compact way of writing it. In this case, it would be <code>Home/Downloads/song.mp3</code>. That is the absolute (or “from the root”) path to <code>song.mp3</code>.</p>
+<p>We also have relative paths. These describe how to get somewhere from where we are already. So let’s pretend we are sitting at the Downloads folder. We have two special names that we use in relative paths. The first is <code>.</code>, which means “the current directory.” In our case, <code>.</code> is <code>Downloads</code>. So to get to <code>song.mp3</code>, we just have to say:</p>
+<ul>
+<li>Start where we are (<code>Downloads</code>)</li>
+<li>Move down to <code>song.mp3</code></li>
+</ul>
+<p>Which translates nicely to <code>./song.mp3</code>. We can do even better in this specific example by just using <code>song.mp3</code> because the computer already knows where we are. It’s good to know how <code>.</code> works though.</p>
+<p>Our second special name is <code>..</code>, which means the parent of where we are. The directions to <code>resume.doc</code> would be:</p>
+<ul>
+<li>Move up to our parent (<code>Home</code>)</li>
+<li>Move down to <code>Documents</code></li>
+<li>Move down to <code>resume.doc</code></li>
+</ul>
+<p>Translated, we have <code>../Documents/resume.doc</code>. Paths are a simple but powerful way of describing how to move around the filesystem, and we will see how to exploit them shortly.</p>
+<h2 id="trees-are-recursive">Trees are Recursive</h2>
+<p>If we cut off any branch and just examine it, we can see that it is still a tree. We even include a single leaf in our definition of trees. This property leads to a simple design. A nice example of this is moving entire chunks of the tree. For example, let’s make <code>Downloads</code> a child of <code>Documents</code>. We cut off the connection between <code>Home</code> and <code>Downloads</code> and recreate it under <code>Documents</code>:</p>
+<pre><code>                 Home
+                /
+        Documents
+        /       \
+resume.doc       Downloads
+                 /        \
+             song.mp3    picture.png</code></pre>
+<p>Our tree is now a little lopsided, but that is fine. We just moved all of those files by changing one little line. This is a major win for us. Also relative paths…</p>
+<h2 id="files-cant-have-children">Files Can’t Have Children</h2>
+<p>In the tree jargon, files are leaves. In the same way that real leaves can’t have branches coming out of them, files can’t have directories or other files below them. Files exist to hold data, while directories exist to keep things in order.</p>
+<h2 id="directories-are-infinite">Directories are Infinite</h2>
+<p>To complement files not having any children, directories can have as many as you want. (Probably like 2^32 or something…) Expanding on the example above, you could have:</p>
+<pre><code>                             Home
+     _________________________|______________________________
+    /               /            \             \             \
+Documents      Downloads      Pictures      TODO.txt      Recipes</code></pre>
+<p>Here we have four child directories and a file. But you could have however many make sense for you. You might be someone who takes pictures all day, in which case you could have thousands of pictures in your Pictures folder. Or you might have a set of directories within Pictures for Family, Vacation, Work, etc. which help you keep track of all your photos.</p>
+<h2 id="basic-commands">Basic Commands</h2>
+<p>Now that we know all about paths and the tree structure, let’s see what we can do. Assume our present working directory is Home, and we are working from the tree that has Downloads as a child of Documents.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">ls</span> <span class="op">&lt;</span>path<span class="op">&gt;</span></code></pre></div>
+<p><strong>L</strong>i<strong>s</strong>t the contents of the given directory at <path>. With no argument, list the contents of the present working directory.</p>
+<p>Possibly the most useful command, <code>ls</code> shows you what files and folders are around you. If we want to know what is in Documents, we could do <code>ls Documents</code>, returning <code>resume.doc Downloads</code>. We could even look inside Downloads with <code>ls Documents/Downloads</code>, but this quickly gets out of hand.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="bu">cd</span> <span class="op">&lt;</span>path<span class="op">&gt;</span></code></pre></div>
+<p><strong>C</strong>hange <strong>d</strong>irectory. With no argument, move to the user’s home directory.</p>
+<p><code>cd</code> is the solution to our issue above. Instead of referencing <code>Documents/Downloads/song.mp3</code>, we can first move: <code>cd Documents/Downloads</code>, and then just use <code>song.mp3</code>. Try moving somewhere for yourself and then <code>pwd</code>. You can also use a relative path here, so <code>cd ../..</code> would move us to the parent of our parent. In our case, it would move us from <code>Home/Documents/Downloads</code> back up to <code>Home</code>. Just <code>cd</code> by itself should always take you back to the start.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">touch</span> <span class="op">&lt;</span>path<span class="op">&gt;</span></code></pre></div>
+<p>Change file access and modification times.</p>
+<p><code>touch</code> does not have a neat mnemonic, and one of its most common uses is not even listed in the description. We will get to file metadata like access and modification times eventually, but for now we will focus on another use. <code>touch</code> creates an empty file at the path you give it if there is nothing there already. This is the quickest way to create a file.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">mkdir</span> <span class="op">&lt;</span>path<span class="op">&gt;</span></code></pre></div>
+<p><strong>M</strong>a<strong>k</strong>e <strong>dir</strong>ectories.</p>
+<p>As simple as they come, this command creates a directory at the given path location.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">rm</span> <span class="op">&lt;</span>path<span class="op">&gt;</span></code></pre></div>
+<p><strong>R</strong>e<strong>m</strong>ove files.</p>
+<p>This is our first command that has a real chance of causing damage. Sometimes it is smart enough to double check that you really want to delete some important file, but most of the time it will just erase it forever. This is not intended as a scare tactic, I just want to make it clear that we are taking the training wheels off. It is up to you to ask yourself “Am I sure?” before using <code>rm</code>.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">rmdir</span> <span class="op">&lt;</span>path<span class="op">&gt;</span></code></pre></div>
+<p><strong>R</strong>e<strong>m</strong>ove <strong>dir</strong>ectories.</p>
+<p>Almost as easy as <code>mkdir</code>, <code>rmdir</code> has the one “gotcha” that the directory must be empty for you to delete it. You can do this by deleting all the files within first.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">mv</span> <span class="op">&lt;</span>source<span class="op">&gt;</span> <span class="op">&lt;</span>destination<span class="op">&gt;</span></code></pre></div>
+<p><strong>M</strong>o<strong>v</strong>e files.</p>
+<p>This moves the file at the <code>&lt;source&gt;</code> path to <code>&lt;destination&gt;</code>. As an example, (with Home as our <code>pwd</code>) <code>mv Documents/Downloads Downloads</code>. This command will move the <code>Downloads</code> directory (and all of its children) back to the <code>Home</code> directory, like in the original tree. Equivalently, we could also do:</p>
+<ul>
+<li><code>mv Documents/Downloads ./Downloads</code> (using a relative path)</li>
+<li><code>mv Documents/Downloads ./</code> (move the source to the <code>pwd</code> keeping the same name)</li>
+</ul>
+<p>This brings up a second nifty use of <code>mv</code>. We can rename files. Suppose we were going to make a new resume and want to use <code>resume.doc</code> as the name. We can’t have two files with the same name in the same directory (try writing the paths for both), so we have to change the name of the old one. We can do that with <code>mv Documents/resume.doc Documents/oldresume.doc</code>.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">cp</span> <span class="op">&lt;</span>source<span class="op">&gt;</span> <span class="op">&lt;</span>destination<span class="op">&gt;</span></code></pre></div>
+<p><strong>C</strong>o<strong>p</strong>y files.</p>
+<p>This is almost identical to <code>mv</code>, but it doesn’t change the original file. Using the example above, <code>cp Documents/resume.doc Documents/oldresume.doc</code> results in both <code>resume.doc</code> and <code>oldresume.doc</code> existing within <code>Documents</code>.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">man</span> <span class="op">&lt;</span>command<span class="op">&gt;</span></code></pre></div>
+<p>Format and display the on-line <strong>man</strong>ual pages.</p>
+<p>This is how you learn more about commands or check how they work. If you try <code>man man</code> you’ll see that I shamelessly copied some of my descriptions from the man pages for the above commands. <code>man</code> should always be your first stop if you have any questions about commands.</p>
+<p>Once you are in a man page, you can move up and down with “j” and “k”, and quit with “q”. This actually opens a program called “less” (a joke on the earlier program “more”…). Also this style of movement will come up again, so keep it in mind.</p>
+<p><a href="3-python.html">Python</a></p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

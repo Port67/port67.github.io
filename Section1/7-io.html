@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>Input and Output - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#inputoutput">Input/Output</a></li>
+</ul>
+      </div>
+<h1 id="inputoutput">Input/Output</h1>
+<p>Last time we ended with this program,</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> math
+
+<span class="kw">def</span> pythagorean_theorem(a, b):
+    c <span class="op">=</span> math.sqrt(a<span class="op">*</span>a <span class="op">+</span> b<span class="op">*</span>b)
+    <span class="cf">return</span> c
+
+x <span class="op">=</span> pythagorean_theorem(<span class="dv">5</span>, <span class="dv">13</span>)</code></pre></div>
+<p>While this is certainly a good place to start, we have a couple problems. The script as we have written it is not even as powerful as a calculator. All it does is find one hypotenuse; it doesn’t even tell us what the answer is! At the moment, our best option is to jsut use the REPL and manually try things. But we have already written the code to solve for <em>any</em> hypotenuse, so we are only lacking a good way to access it.</p>
+<p>This is where the concept of Input/Output (I/O) comes in. Input is the process of sending information into a program, and output is the program’s ability to put information out into the world.</p>
+<p>Output is so important to computer science that most programming languages make it easy. In Python, all we have to do is say <code>print</code>.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> math
+
+<span class="kw">def</span> pythagorean_theorem(a, b):
+    c <span class="op">=</span> math.sqrt(a<span class="op">*</span>a <span class="op">+</span> b<span class="op">*</span>b)
+    <span class="cf">return</span> c
+
+x <span class="op">=</span> pythagorean_theorem(<span class="dv">5</span>, <span class="dv">13</span>)
+<span class="bu">print</span> <span class="st">&quot;Hello, world!&quot;</span>
+<span class="bu">print</span> x</code></pre></div>
+<pre class="note"><code>Printing in Python is one of the most visible differences between
+Python2 and Python3. In 2, we use `print stuff`. Whereas in Python3,
+print became just a regular function: `print(stuff)`. All you need
+to remember is to use parentheses for 3, and don&#39;t for 2.</code></pre>
+<p>Now we can ask python to read our file as input instead of typing into the REPL. With a path as an argument to Python, it reads the file one line at a time, exactly as it would if we were typing the file into the REPL line by line.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">python</span> pyt.py
+<span class="ex">Hello</span>, world!
+<span class="ex">13.92838827718412</span></code></pre></div>
+<p>Welcome to the world of programming! “Hello, world!” is a traditional first program in computer science. The phrase pops up all the time, and it just represents an early success. Like this one! It is impossible to overstate how impressive those nine lines of code are. With just the knowledge gained up to this point, you could write some truly interesting programs. I’m obviously not going to leave you hanging here, but give yourself a pat on the back.</p>
+<p>But that’s only half the battle. We now need to handle Input. While this program might not need a nice interface (that is, how the person interacts with the program and vice versa), we are going to give it one just for fun. We are going to expand the script to ask us for the two side values and then <code>print</code> out the result. Luckily, the function that helps us do this is aptly named <code>input</code>.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> math
+
+<span class="kw">def</span> pythagorean_theorem(a, b):
+    c <span class="op">=</span> math.sqrt(a<span class="op">*</span>a <span class="op">+</span> b<span class="op">*</span>b)
+    <span class="cf">return</span> c
+
+a <span class="op">=</span> <span class="bu">input</span>(<span class="st">&#39;Enter side a: &#39;</span>)
+b <span class="op">=</span> <span class="bu">input</span>(<span class="st">&#39;Enter side b: &#39;</span>)
+
+<span class="bu">print</span> pythagorean_theorem(a, b)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">python</span> pyt.py
+<span class="ex">Enter</span> side a: 10
+<span class="ex">Enter</span> side b: 22
+<span class="ex">24.1660919472</span></code></pre></div>
+<p>And that is a nifty program. It might save you 10 minutes on homework if you are still in high school. As a quick review to make sure this is all clear, we are setting the variable <code>a</code> to the return value of the <code>input</code> function. <code>input</code> takes a single argument, a string (the programming word for a sequence of letters, spaces, punctuation, numbers, etc.), which it prints. Then it takes everything you type before pressing <code>enter/return</code> and returns it. In our example, <code>a</code> is set to 10, and <code>b</code> to 22. After that, it runs our function on the two values and <code>print</code>’s the output. We could have set a variable <code>c</code> to the hypotenuse length, and then <code>print c</code>, but this way also works.</p>
+<p>With basic functions and I/O, you could theoretically write all sorts of cool programs. But that’s not our goal here (well, it is eventually, but not yet). Next up, we are going to be talking about “things” in programming languages. In particular, we are going to find out the difference between <code>a</code>, <code>'a'</code>, <code>[a]</code>, and more.</p>
+<p><a href="8-types.html">Types</a></p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

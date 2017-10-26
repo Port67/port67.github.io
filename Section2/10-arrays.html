@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>Arrays - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#arrays">Arrays</a></li>
+</ul>
+      </div>
+<h1 id="arrays">Arrays</h1>
+<p>From our basic types of <code>char</code>, <code>unsigned</code>, <code>int</code>, and <code>float</code>, we can construct more types. The first we have access to is the “array”. In C, an “array” is a group of values all lined up next to each other. Declaring a new array variable is easy:</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">char</span> my_array[<span class="dv">3</span>];</code></pre></div>
+<p>This line declares a new variable named <code>my_array</code>, which holds 3 <code>char</code>’s. Arrays can hold many values, but they all have to be the same type. This is due to the size issue that types solved in the first place. If I am going to have multiple values, then I definitely need to know how much space to allocate for each of them.</p>
+<p>In the upcoming pictures, I am going to introduce this shorthand for all of our sanity.</p>
+<pre><code>                char
++---+---+---+---+   +---+---+---+---+
+| 1 | 0 | 0 | 1 |   | 1 | 0 | 0 | 0 |
++---+---+---+---+   +---+---+---+---+
+        \                   /
+         \                 /
+              +========+
+              |  char  |
+              +========+</code></pre>
+<p>I am going to compress a type’s bit representation into this smaller box so that I can include multiple next to each other in a reasonable amount of space.</p>
+<p>Back to our array, what does it look like? Well, it is 3 <code>char</code>’s perfectly lined up in memory.</p>
+<pre><code>          my_array
++========+========+========+
+|  char  |  char  |  char  |
++========+========+========+</code></pre>
+<p>Because we know how big a <code>char</code> is, we know how big a <code>my_array</code> is: <code>3 * sizeof(char)</code>. In this case, <code>my_array</code> is 3 bytes. We can even check this to make sure I know what I am talking about.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {
+
+    <span class="dt">char</span> my_array[<span class="dv">3</span>];
+
+    printf(<span class="st">&quot;my_array is %d bytes long</span><span class="sc">\n</span><span class="st">&quot;</span>, <span class="kw">sizeof</span>(my_array));
+}</code></pre></div>
+<p>The <code>sizeof</code> keyword in C takes a variable or type and returns the number of bytes it takes up. Running our code, we see:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">./a.out</span>
+<span class="ex">my_array</span> is 3 bytes long</code></pre></div>
+<p>If you change <code>my_array</code> to be an array of <code>int</code>’s instead of <code>char</code>’s, how big will it be? Guess, and then check for yourself by modifying the code above. Next, try guessing how changing the number of elements stored will affect the size. Check that too.</p>
+<p>At this point, you have seen enough <code>main</code> functions to replicate them on your own, so I am going to just give you the important lines and let you fill in the rest. Hopefully you have plenty of examples from previous lessons to work from now!</p>
+<p>We can initialize the values of an array just like so:</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">unsigned</span> my_array[<span class="dv">3</span>] = {<span class="dv">74</span>, <span class="dv">11</span>, <span class="dv">9</span>};</code></pre></div>
+<p>If we put more numbers inside the <code>{}</code>’s than we have asked for, we <em>might</em> get a warning. If we put fewer than we ask for, and then try to use an uninitialized value, we almost certainly won’t. These are the dangers of C. My goal is to give you enough knowledge to avoid these issues most of the time and debug when you have to.</p>
+<p>To access values, we use a very similar syntax:</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">unsigned</span> first  = my_array[<span class="dv">0</span>];
+<span class="dt">unsigned</span> second = my_array[<span class="dv">1</span>];
+<span class="dt">unsigned</span> third  = my_array[<span class="dv">2</span>];</code></pre></div>
+<p>This can be a point of confusion, so let’s take a second to understand it. When we count the elements of an array, we start at 0. Here’s the picture again:</p>
+<pre><code>|         my_array         |
++========+========+========+
+|  char  |  char  |  char  |
++========+========+========+
+|  first | second | third  |</code></pre>
+<p>The value we give within the <code>[]</code>’s is an “index”. It represents some element within the array. <code>my_array</code> tells us where the start, and then the index tells us how much to move over. Let’s update our picture:</p>
+<pre><code>my_array
+   |
+   V
+   +========+========+========+
+   |  char  |  char  |  char  |
+   +========+========+========+
+                     ^
+                     |
+              my_array + 2*sizeof(char)</code></pre>
+<p>So our index tells the computer how much to move over. The nifty thing is that this syntax works even if we change types, and therefore size of elements in the array.</p>
+<pre><code>my_array
+   |
+   V
+   +========+========+========+
+   |   int  |   int  |   int  |
+   +========+========+========+
+                     ^
+                     |
+              my_array + 2*sizeof(int)</code></pre>
+<p>As you can see, our picture is exactly the same! Because the compiler knows the type of the elements in the array, it can adjust however it needs to. This takes a lot of work off the programmer. Instead of trying to figure out how many bytes of an offset we need, we just write <code>my_array[2]</code> and get the third element every time.</p>
+<p>Hopefully the index numbers make some sense now. To get the first element of the array, we start at the beginning and move over <code>0*sizeof(type)</code>, where <code>type</code> is the type of elements in the array. To get the last value in the array, we start at the beginning and move over <code>(length - 1)*sizeof(type)</code>, where <code>length</code> is the number of elements in the array.</p>
+<p><a href="11-strings.html">Strings</a></p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

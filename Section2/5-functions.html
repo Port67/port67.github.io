@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>Function Headers - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#function-headers">Function Headers</a></li>
+</ul>
+      </div>
+<h1 id="function-headers">Function Headers</h1>
+<p>If we were limited to only using a <code>main</code> function, C would become unreadable extremely quickly. Just like in Python, we can create functions in C to help us organize and reuse our code. Function definitions look very similar to the <code>main</code> function,</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">float</span> circumference(<span class="dt">float</span> radius) {
+    <span class="cf">return</span> <span class="dv">2</span> * radius * <span class="fl">3.14159</span>;
+}</code></pre></div>
+<p>Remembering the patterns from <code>main</code>, we can see that the function called <code>circumference</code> takes a <code>float</code> and binds it to the variable <code>radius</code> and returns a <code>float</code>.</p>
+<p>To use our function inside <code>main</code>, we need to “call” it. Calling a function looks similar to the definition, but we drop the type annotations (i.e. <code>float</code>).</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">float</span> circumference(<span class="dt">float</span> radius) {
+    <span class="cf">return</span> <span class="dv">2</span> * radius * <span class="fl">3.14159</span>;
+}
+
+<span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {
+    <span class="dt">float</span> x;
+    x = circumference(<span class="fl">2.43</span>);
+    <span class="cf">return</span> <span class="dv">0</span>;
+}</code></pre></div>
+<p>You might be tempted to <code>return x</code> here, but remember that the return value of main indicates the success or failure of the program. Because there isn’t really anything that could go wrong, this program always returns 0.</p>
+<p>An interesting feature of functions is that they can be declared with no value, just like variables. Typically, a declaration just looks like a normal definition, without the <code>{}</code>’s.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">float</span> circumference(<span class="dt">float</span> radius);</code></pre></div>
+<p>Just like we declared the type of a variable without giving it a value (e.g. <code>float x</code>) we declared the type of a function without giving it a value. The type of <code>circumference</code> is: given a <code>float</code>, return a <code>float</code>.</p>
+<p>One of the first powers we gain from this is the ability to move code around. Often, I like to have my <code>main</code> function at the top. But if it relies on other functions in the file, I have to put it below them. With these function declarations or “headers”, I can put the bodies below my <code>main</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">float</span> circumference(<span class="dt">float</span> radius);
+
+<span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {
+    <span class="dt">float</span> x;
+    x = circumference(<span class="fl">2.43</span>);
+    <span class="cf">return</span> <span class="dv">0</span>;
+}
+
+<span class="dt">float</span> circumference(<span class="dt">float</span> radius) {
+    <span class="cf">return</span> <span class="dv">2</span> * radius * <span class="fl">3.14159</span>;
+}</code></pre></div>
+<p>Notice there is a subtle difference here between variable declarations and function declarations. With variables, we have to be very careful to make sure that the variable has a value before we try to use it. With functions, we can use the function above where we define it in the code. This is because the compiler reads all your code, and can match up function declarations with bodies. But the value of your variable isn’t known until the code is run.</p>
+<p>I don’t expect you to fully understand how this works right now because I haven’t even begun talking about compilers. But it’s always good to leave some questions open for you to think about and work through on your own. As an exercise, pretend you are a compiler. Looking at the code, you are welcome to write down any information you want about this program. Using that information, see what you can simplify about it. (A great compiler would just simplify this entire program to <code>return 0</code>. The key observation being that <code>x</code> is never used. Ignoring that option, there are still plenty of places you could improve).</p>
+<p>While the above program can be optimized in many places, the following code cannot. Think about the differences between <code>x</code> and <code>y</code> and what that means for the compiler.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">float</span> circumference(<span class="dt">float</span> radius);
+
+<span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {
+    <span class="dt">float</span> y;
+    <span class="cf">if</span> (argc &lt;= <span class="dv">1</span>) {
+        y = circumference(<span class="fl">2.43</span>);
+    } <span class="cf">else</span> {
+        y = circumference(argc);
+    }
+    <span class="cf">return</span> <span class="dv">0</span>;
+}
+
+<span class="dt">float</span> circumference(<span class="dt">float</span> radius) {
+    <span class="cf">return</span> <span class="dv">2</span> * radius * <span class="fl">3.14159</span>;
+}</code></pre></div>
+<p><a href="6-binary.html">Binary</a></p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

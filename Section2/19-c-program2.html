@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>C Program 2 - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#adding-a-robot">Adding a Robot</a><ul>
+<li><a href="#the-robot">The Robot</a></li>
+<li><a href="#movement">Movement</a></li>
+</ul></li>
+</ul>
+      </div>
+<h1 id="adding-a-robot">Adding a Robot</h1>
+<p>With the map done, we now need a character to wander around it.</p>
+<h2 id="the-robot">The Robot</h2>
+<p>We need a way to store information about our robot. The first piece we will want is a position on the grid. As we saw last time, this can be stored with two integers. Once we realize that, a struct will probably be our best bet. So we can start sketching our robot like so,</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="kw">struct</span> robot {
+    <span class="co">// The grid position</span>
+    <span class="dt">int</span> x;
+    <span class="dt">int</span> y;
+}</code></pre></div>
+<p>Our initialization code is almost always the same, so we can start writing that too.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
+<span class="pp">#include </span><span class="im">&lt;stdlib.h&gt;</span>
+
+<span class="co">// snip</span>
+
+<span class="kw">struct</span> robot *robo = malloc(<span class="kw">sizeof</span>(*robo));
+
+<span class="cf">if</span> (robo == NULL) {
+    fprintf(stderr, <span class="st">&quot;malloc for robot failed</span><span class="sc">\n</span><span class="st">&quot;</span>);
+    exit(<span class="dv">1</span>);
+}
+
+robo-&gt;x = <span class="dv">0</span>;
+robo-&gt;y = <span class="dv">0</span>;</code></pre></div>
+<p>That’s a nice base to work from. If we add fields to our struct, all we have to do is initialize them. <code>malloc</code> will automatically get the right amount of memory from the type and our error handling also won’t need updating.</p>
+<p>With that established, what else will our robot need to do? As the goal is to move from <code>(0,0)</code> to <code>(4,4)</code>, we will need a way to move. We will also need a way to break the rocks that stand in our way.</p>
+<h2 id="movement">Movement</h2>
+<p>We come to a purely design based question now. The only way to know the answer is to have experience writing this kind of code or having incredible foresight. As most people don’t have either, we are going to approach this a couple different ways.</p>
+<p>The crux of our problem lies in the type of the function(s) we will use for moving our robot. Our options are to create one single function that may grow fairly large, or create multiple smaller functions and risk repeating our code. The only way to see the difference is to actually write it and see.</p>
+<p>Option #1: Single Function</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="co">// Move a robot one unit</span>
+<span class="co">// Return 0 on successful move, 1 on error</span>
+<span class="dt">int</span> move(<span class="kw">struct</span> robot *robo, <span class="dt">unsigned</span> direction) {
+
+    <span class="co">// 0 -&gt; left</span>
+    <span class="cf">if</span> (direction == <span class="dv">0</span>) {
+        <span class="cf">if</span> (robo-&gt;x - <span class="dv">1</span> &lt; <span class="dv">0</span>) {
+            fprintf(<span class="st">&quot;error: moved off map</span><span class="sc">\n</span><span class="st">&quot;</span>);
+            <span class="cf">return</span> <span class="dv">1</span>;
+        }
+        robo-&gt;x -= <span class="dv">1</span>;
+        <span class="cf">return</span> <span class="dv">0</span>;
+
+    <span class="co">// 1 -&gt; right</span>
+    } <span class="cf">else</span> <span class="cf">if</span> (direction == <span class="dv">1</span>) {
+        <span class="cf">if</span> (robo-&gt;x + <span class="dv">1</span> &gt; <span class="dv">4</span>) {
+            fprintf(<span class="st">&quot;error: moved off map</span><span class="sc">\n</span><span class="st">&quot;</span>);
+            <span class="cf">return</span> <span class="dv">1</span>;
+        }
+        robo-&gt;x += <span class="dv">1</span>;
+        <span class="cf">return</span> <span class="dv">0</span>;
+
+    <span class="co">// 2 -&gt; down</span>
+    } <span class="cf">else</span> <span class="cf">if</span> (direction == <span class="dv">2</span>) {
+        <span class="cf">if</span> (robo-&gt;y - <span class="dv">1</span> &lt; <span class="dv">0</span>) {
+            fprintf(<span class="st">&quot;error: moved off map</span><span class="sc">\n</span><span class="st">&quot;</span>);
+            <span class="cf">return</span> <span class="dv">1</span>;
+        }
+        robo-&gt;y -= <span class="dv">1</span>;
+        <span class="cf">return</span> <span class="dv">0</span>;
+
+    <span class="co">// 3 -&gt; up</span>
+    } <span class="cf">else</span> <span class="cf">if</span> (direction == <span class="dv">3</span>) {
+        <span class="cf">if</span> (robo-&gt;y + <span class="dv">1</span> &gt; <span class="dv">4</span>) {
+            fprintf(<span class="st">&quot;error: moved off map</span><span class="sc">\n</span><span class="st">&quot;</span>);
+            <span class="cf">return</span> <span class="dv">1</span>;
+        }
+        robo-&gt;y += <span class="dv">1</span>;
+        <span class="cf">return</span> <span class="dv">0</span>;
+
+    <span class="co">// Bad direction</span>
+    } <span class="cf">else</span> {
+        fprintf(<span class="st">&quot;error: unknown movement direction</span><span class="sc">\n</span><span class="st">&quot;</span>);
+        <span class="cf">return</span> <span class="dv">1</span>;
+    }
+
+}</code></pre></div>
+<p>Option #2: Multiple Function</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> move_right(<span class="kw">struct</span> robot *robo) {
+
+    <span class="co">// Check move, assume grid has width 5</span>
+    <span class="cf">if</span> (robo-&gt;x + <span class="dv">1</span> &gt; <span class="dv">4</span>) {
+        fprintf(<span class="st">&quot;error: moved off map</span><span class="sc">\n</span><span class="st">&quot;</span>);
+        <span class="cf">return</span> <span class="dv">1</span>;
+    }
+
+    <span class="co">// Apply move</span>
+    robo-&gt;x += <span class="dv">1</span>;
+    <span class="cf">return</span> <span class="dv">0</span>;
+}
+
+<span class="dt">int</span> move_left(<span class="kw">struct</span> robot *robo) {
+
+    <span class="co">// Check move, assume grid has width 5</span>
+    <span class="cf">if</span> (robo-&gt;x - <span class="dv">1</span> &lt; <span class="dv">0</span>) {
+        fprintf(<span class="st">&quot;error: moved off map</span><span class="sc">\n</span><span class="st">&quot;</span>);
+        <span class="cf">return</span> <span class="dv">1</span>;
+    }
+
+    <span class="co">// Apply move</span>
+    robo-&gt;x += <span class="dv">1</span>;
+    <span class="cf">return</span> <span class="dv">0</span>;
+}
+
+<span class="dt">int</span> move_up(<span class="kw">struct</span> robot *robo) {
+
+    <span class="co">// Check move, assume grid has height 5</span>
+    <span class="cf">if</span> (robo-&gt;y + <span class="dv">1</span> &gt; <span class="dv">4</span>) {
+        fprintf(<span class="st">&quot;error: moved off map</span><span class="sc">\n</span><span class="st">&quot;</span>);
+        <span class="cf">return</span> <span class="dv">1</span>;
+    }
+
+    <span class="co">// Apply move</span>
+    robo-&gt;y += <span class="dv">1</span>;
+    <span class="cf">return</span> <span class="dv">0</span>;
+}
+
+<span class="dt">int</span> move_down(<span class="kw">struct</span> robot *robo) {
+
+    <span class="co">// Check move, assume grid has height 5</span>
+    <span class="cf">if</span> (robo-&gt;y - <span class="dv">1</span> &lt; <span class="dv">0</span>) {
+        fprintf(<span class="st">&quot;error: moved off map</span><span class="sc">\n</span><span class="st">&quot;</span>);
+        <span class="cf">return</span> <span class="dv">1</span>;
+    }
+
+    <span class="co">// Apply move</span>
+    robo-&gt;y -= <span class="dv">1</span>;
+    <span class="cf">return</span> <span class="dv">0</span>;
+}</code></pre></div>
+<p>As written, these implementations are very similar. They are only a couple of lines different in length. The actual logic is identical aside from the extra direction processing in the single function. So the differences are not very clear yet. We mostly only know that the single function is a little more flexible. Any direction can be passed, so we don’t have to be sure which direction we are moving when we want to move. In contrast, the multiple functions are more rigid. They can only move in a single direction, but they do tell us which direction that is.</p>
+<p>You can never really be sure which solution will be best until you try to use and extend it. For example, if we want to add a check to prevent walking onto stones or walls we have to add it in four separate places. This is a hint that we haven’t found the perfect way to write this yet.</p>
+<p>Another way to test the implementation is to try and use it. If we know exactly how it is used, then we might be able to simplify things. Next time, we are going to write the code that needs to call our movement functions.</p>
+<p><a href="20-c-program3.html">A C Program 3</a></p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

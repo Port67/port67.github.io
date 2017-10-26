@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>Interpreted vs. Compiled - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#compiling">Compiling</a></li>
+</ul>
+      </div>
+<h1 id="compiling">Compiling</h1>
+<p>I briefly displayed a C “Hello, world!” program for you before, but here it is again as a refresher.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
+
+<span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {
+
+    printf(<span class="st">&quot;Hello, world!&quot;</span>);
+    <span class="cf">return</span> <span class="dv">0</span>;
+}</code></pre></div>
+<p>As always, I suggest you make a directory (<code>~/Projects/c</code>) and a file to work in (<code>hello_world.c</code>). If this were python, we could then run our program like this:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">c</span> hello_world.c</code></pre></div>
+<p>Unfortunately, C is a compiled language, so we have to do a little more work. We have used the program <code>python</code> to read code written in the language Python and run it. When writing C, or any other compiled language, you need to use a program called a “compiler”. Most systems will have either <code>gcc</code> or <code>clang</code>. If you run <code>gcc --version</code> on a Mac, you might find that even though you asked for <code>gcc</code> you are actually getting <code>clang</code>.</p>
+<p>To compile C using these programs, you can simply pass the file as an argument. I’m going to use <code>gcc</code> in my examples, but just substitute <code>clang</code> if your system only has <code>clang</code>.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">gcc</span> hello_world.c</code></pre></div>
+<p>If we now view the contents of our directory with <code>ls</code>, we will find a new file called <code>a.out</code>. This is called an “executable” file. That is, we can “execute” or “run” it using <code>./a.out</code>. If you type just <code>a.out</code> at the command line, you will get a warning like,</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="ex">-bash</span>: a.out: command not found</code></pre></div>
+<p>This is because <code>bash</code> has a list of places that it looks for executables, and <code>a.out</code> isn’t in any of those places. But you can tell <code>bash</code> where it is using <code>.</code>. This is just shorthand for “right here”. You can use any valid path for <code>a.out</code> to tell <code>bash</code> how to find it. For example, adjusting these to be appropriate for your computer, any of these should work:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">./a.out</span>
+$ <span class="ex">../c/a.out</span>         <span class="co"># Assuming you followed my structure above</span>
+$ <span class="ex">~/Projects/c/a.out</span> <span class="co"># Same as above</span>
+$ <span class="ex">/Users/USERNAME/Projects/c/a.out</span> <span class="co"># On Macs</span>
+$ <span class="ex">/home/USERNAME/Projects/c/a.out</span>  <span class="co"># On Linux</span></code></pre></div>
+<p>The last two use “absolute” paths, which you can find using <code>pwd</code> in the directory that holds <code>a.out</code>.</p>
+<p>If you did run any of those commands above, you might find something strange. The output did not work as well as hoped,</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">./a.out</span>
+<span class="ex">Hello</span>, world!$ ../c/a.out
+<span class="ex">Hello</span>, world!$</code></pre></div>
+<p>When we call <code>print</code> in Python, it automatically sticks a newline on the end of what we ask it to print out. As will come up again and again with C, it does practically nothing that you don’t explicitly tell it to do. To fix our problem, we just need to add a newline character to our string.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
+
+<span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {
+
+    printf(<span class="st">&quot;Hello, world!</span><span class="sc">\n</span><span class="st">&quot;</span>);
+    <span class="cf">return</span> <span class="dv">0</span>;
+}</code></pre></div>
+<p><code>\n</code> is a special character. The <code>\</code> indicates that the next character should be treated specially. This helps us in a couple tricky situations. The first is the newline. If you were to include a new line by using the enter/return key, your program’s formatting would get messed up. So we just use <code>\n</code>. Sometimes you might want to print the <code>&quot;</code> character in your string. If you left it bare, C would assume it was the end of the string you wanted to print, and the rest would just confuse it. With <code>\&quot;</code> though, it is clear what you mean. Just note that this also means you have to use <code>\\</code> to print <code>\</code>.</p>
+<p>As an example, we can print a variety of things.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">printf(<span class="st">&quot;I heard that </span><span class="sc">\\</span><span class="st"> is called a </span><span class="sc">\&quot;</span><span class="st">backslash</span><span class="sc">\&quot;\n</span><span class="st">&quot;</span>);</code></pre></div>
+<p>Putting that in place of our “Hello, world!”, we can see it prints reasonably. However, it does sacrifice readability. Navigating these issues is part of language design. Many times you will come across code that looks like <code>\&quot;\n&quot;</code> and it will seem completely absurd to you. Figuring out how the authors got there is often the fastest way to learning.</p>
+<p>One way to look at this is to try to think up a way to clearly indicate quotes to be printed and quotes that indicate the start/end of a string. <code>\&quot;</code> is a reasonably compact representation of the difference. One of the more elegant solutions is even simpler though: use <code>'</code>. We can get rid of two <code>\</code>’s just by using single quotes.</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">printf(<span class="st">&quot;I heard that </span><span class="sc">\\</span><span class="st"> is called a &#39;backslash&#39;</span><span class="sc">\n</span><span class="st">&quot;</span>);</code></pre></div>
+<p><code>\n</code> is just the tip of the iceberg of places where we have to be careful in C. However, I mentioned before that C offers us power in exchange for our time. <code>\n</code> is useful, so useful that Python includes it. Try this in the Python interpreter.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="op">&gt;&gt;&gt;</span> <span class="bu">print</span> <span class="st">&quot;line 1</span><span class="ch">\n</span><span class="st">line 2&quot;</span>
+line <span class="dv">1</span>
+line <span class="dv">2</span>
+<span class="op">&gt;&gt;&gt;</span></code></pre></div>
+<p>The design choice that Python made was to simply assume that you <em>always</em> want a newline at the end of the strings you print. Which is a reasonably fair assumption, but does hide things from us. C assumes nothing, which is both a blessing and a curse.</p>
+<p><a href="2-control-flow.html">Control Flow</a></p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

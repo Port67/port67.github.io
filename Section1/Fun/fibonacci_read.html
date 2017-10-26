@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>Fibonacci (Reading) - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#fibonacci-reading">Fibonacci (Reading)</a></li>
+</ul>
+      </div>
+<h1 id="fibonacci-reading">Fibonacci (Reading)</h1>
+<p>Problem statement:</p>
+<pre><code>Write a function fib(n) that returns a value following the specification:
+
+fib(0) = 1
+fib(1) = 1
+fib(n) = fib(n-1) + fib(n-2)</code></pre>
+<p>For reference, here are the first 10 numbers in the fibonacci sequence.</p>
+<pre><code>1, 1, 2, 3, 5, 8, 13, 21, 34, 55</code></pre>
+<p><code>fibo.py</code></p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">def</span> fib(n):
+    <span class="co"># fib(0) = 1</span>
+    <span class="cf">if</span> n <span class="op">==</span> <span class="dv">0</span>:
+        <span class="cf">return</span> <span class="dv">1</span>
+    <span class="co"># fib(1) = 1</span>
+    <span class="cf">elif</span> n <span class="op">==</span> <span class="dv">1</span>:
+        <span class="cf">return</span> <span class="dv">1</span>
+    <span class="co"># fib(n) = fib(n-1) + fib(n-2)</span>
+    <span class="cf">else</span>:
+        <span class="cf">return</span> fib(n<span class="dv">-1</span>) <span class="op">+</span> fib(n<span class="dv">-2</span>)</code></pre></div>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

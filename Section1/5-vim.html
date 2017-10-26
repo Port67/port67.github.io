@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>Vim - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#vim">Vim</a><ul>
+<li><a href="#more-intro-vim">More Intro Vim</a></li>
+</ul></li>
+</ul>
+      </div>
+<h1 id="vim">Vim</h1>
+<p>If you are using the same directory as last time (something like <code>~/Projects</code>) and you still have the <code>text.png</code> and <code>test.html</code> files, feel free to <strong>r</strong>e<strong>m</strong>ove them. As hinted at last time, we are going to fill a file using Vim. So make a file with a nice name, perhaps <code>learnvim.txt</code>. (Remember <code>touch</code>)</p>
+<p>Vim works much like a typical bash command:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">vim</span> <span class="op">&lt;</span>path<span class="op">&gt;</span></code></pre></div>
+<p><strong>V</strong>i <strong>IM</strong>proved, a programmers text editor</p>
+<p><code>vim</code> opens the file at <code>&lt;path&gt;</code> for editing.</p>
+<p>It’s time to look inside a file and make some changes:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">vim</span> learnvim.txt</code></pre></div>
+<p>You should now be looking at a mostly blank screen. Along the left side, you may have a column of <code>~</code>’s, which simply indicate empty lines. Importantly, you should have a shaded box in the upper left corner. This is your cursor.</p>
+<p>Perhaps surprisingly, Vim’s default mode does not actually let you type. The philosophy here is that most of the time, you are not actually inserting characters into code or whatever else you are writing. More often than not, you are moving around and editing. The mode you start in is then somewhat aptly named <code>Normal</code> mode. The idea is that <code>Normal</code> mode should be your default, and you only leave it to do something specific.</p>
+<p>But our goal right now is to edit a file, so we want to go into <code>Insert</code> mode. Following the convention of making shortcut somewhat mnemonic, to get to <strong>I</strong>nsert mode, you just type <code>i</code>. In reaction to entering <code>Insert</code> mode, Vim will most likely put <code>-- INSERT --</code> at the bottom of your window. This is just a helpful reminder to let you know what mode you are in. If you type now, things should work mostly as you expect. Let’s add something now to test it out. A standard when doing anything for the first time in computer science is to say “Hello, world!”, so I’d suggest that.</p>
+<p>Once you’ve typed that, we want to save and quit. So first go back to <code>Normal</code> mode by pressing escape (<code>esc</code> in the upper left corner of your keyboard). Next, we want to give Vim a command, so we type <code>:</code> which should show up where <code>-- INSERT --</code> was before. Then we use <code>w</code> to <strong>w</strong>rite (or save) the file, <code>q</code> to <strong>q</strong>uit, and <code>enter</code>/<code>return</code> to give the command.</p>
+<p>We should now be back at the standard terminal prompt. We can check if our changes to the file were properly saved with a new bash command:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">cat</span> <span class="op">&lt;</span>file<span class="op">&gt;</span></code></pre></div>
+<p>Con<strong>cat</strong>enate and print files.</p>
+<p>Pretty much what it says, <code>cat</code> will print the contents of a file (or more if you list more on the command line).</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="fu">cat</span> learnvim.txt
+<span class="ex">Hello</span>, world!</code></pre></div>
+<p>Great, it worked! If you were to quit the terminal, restart your computer, or even physically move your hard drive to a new computer, that file would still be there and still say “Hello, world!”. If that isn’t magic, I don’t know what is.</p>
+<h2 id="more-intro-vim">More Intro Vim</h2>
+<p>While I technically taught you enough to use Vim, it would a mistake to leave you with effectively 0 knowledge of <code>Normal</code> mode. Especially after telling you that you should spend most of your time there! However, Vim is enormous. It is the kind of tool that you continue learning and getting better at for as long as you use it. All of its shortcuts and tricks were made to help, but until you find yourself saying “I wish there were a better way to do X”, you probably won’t use a shortcut to do X.</p>
+<p>Nevertheless, I am going to introduce a couple of my most commonly used ones here so that you start to get familiar with how they work. I also want you to try these out as we start writing more files, so that you can practice thinking about what you want to do before you do it.</p>
+<pre class="vim"><code>a</code></pre>
+<p><strong>A</strong>ppend, enter insert mode after the character under the cursor.</p>
+<p>This command is very similar to <code>i</code>, it just lets you start typing after the current character. I find myself using its sibling more often:</p>
+<pre class="vim"><code>A</code></pre>
+<p>Capital <code>A</code> puts you into insert mode at the end of the current line. I like to think of the this as “I <strong>really</strong> want to append”. It’s like <code>a</code>, but stronger.</p>
+<p>Likewise, we have a capital I:</p>
+<pre class="vim"><code>I</code></pre>
+<p>Capital <code>I</code> puts you in insert mode at the beginning of the line. The <strong>really</strong> idea doesn’t apply here quite as well, but the <code>a</code>/<code>A</code> and <code>i</code>/<code>I</code> comparison should help you remember.</p>
+<pre class="vim"><code>h/j/k/l</code></pre>
+<p>Our last set of commands all go together. They are how you move around in <code>Normal</code> mode. In order, they move you left/down/up/right. One neat thing about the terminal is that it uses a “monospaced” font. This means that every symbol that you type takes up the same amount of space. In fact, they take up exactly as much space as your cursor. This leads to some nice looking style choices and convenient movement. If you type some random lines of text and then spend some time moving around it in normal mode, you’ll notice that it is very easy to tell what characters are above and below each other.</p>
+<p>We’ll come back to Vim a couple times to give you some upgrades once you’ve earned them ;)</p>
+<p><a href="6-executing-python.html">Executing Python</a></p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

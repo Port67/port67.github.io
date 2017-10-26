@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>A Reflection - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#reflection-on-c">Reflection on C</a><ul>
+<li><a href="#networking">Networking</a></li>
+<li><a href="#operating-systems">Operating Systems</a></li>
+<li><a href="#more-about-your-computer">More about your computer</a></li>
+</ul></li>
+</ul>
+      </div>
+<h1 id="reflection-on-c">Reflection on C</h1>
+<p>We’ve covered an enormous amount of material in this section. I certainly don’t expect that it you have a perfect understanding of it all yet, but you should be at least thinking about the right things. With the right picture in your head about what is happening behind the scenes, programming becomes much easier. If you try to print a string and get garbage, you should immediately think “I forgot the final null byte.”</p>
+<p>At this point, I really haven’t given you much of an opportunity to practice. But that is about to change. We have covered enough that I can start pushing more of the work of writing programs onto you, and I will be filling in the extra libraries and functions that you need. Using pointers is just part of working with C, and I think it is best to help you understand what they are and how they work before I set you loose with them.</p>
+<p>To really gain mastery with programs and C, the only option is to practice. But writing programs that print out the fibonacci sequence or sum up grocery bills gets boring quickly, so I am going to walk you through real problems. That way you can learn to code while also learning about the rest of the world of computer science.</p>
+<h2 id="networking">Networking</h2>
+<p>One of your options for the next track to follow is networking. This is how computers communicate with each other. The biggest computer network is the Internet, but it isn’t the only one. Businesses often connect big groups of computers to all work together. Companies like Amazon need hundreds to run their website and store all their data.</p>
+<p>My goal for this section was to give you enough information that we can start talking about bigger topics without being bogged down by programming details. For instance, the most basic networking code works like this,</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">char</span> *incoming_buffer = <span class="co">// SOME LOWER LEVEL THING;</span>
+
+printf(<span class="st">&quot;The first byte from the network is: %c</span><span class="sc">\n</span><span class="st">&quot;</span>, incoming_buffer[<span class="dv">0</span>]);</code></pre></div>
+<p>Obviously I am glossing over some major details but that’s about it. You should be able to look at that and have a reasonable estimate of how it works. “Buffer” is a term used for a space in memory, often an array, that holds temporary data, in this case data from the network. We ask the computer for the contents of that buffer in the first line, and then print some of it out in the next. That’s all there is to network programming.</p>
+<p>The real trick is then doing interesting things with that data and sending things back to whoever sent stuff to you. A great example of this is a chat server. A bunch of people log into the server and then send their messages to it. The server then accepts those messages and forwards them to the clients who print it out for the user to see. We are just shuffling data around between computers.</p>
+<p>Without this section, we would have needed to do a bit of work to understand even those two lines of code above. But the good news is that this information applies to basically any domain that you could write a program for. Now that we have this foundation, we can go on to talk about all sorts of fun things.</p>
+<p>(TCP/IP, physical networking, chat server, router, wifi, ports)</p>
+<h2 id="operating-systems">Operating Systems</h2>
+<p>If instead you would like to move down the abstraction stack, you can learn about operating systems (OS’s). The most popular OS’s are Linux, MacOS, and Windows. They are just about the lowest level of software running on your computer. They are what make your computer work.</p>
+<p>The OS provides an abstraction of all the hardware in your computer case so that C can use the different pieces without knowing exactly what they are. I can buy a hard drive from any manufacturer, and C doesn’t care. It just calls “write(data, file)”, and the OS handles getting that data into the file.</p>
+<p>(filesystem, parallelism, concurrency, ram, HDD/SSD, cpu)</p>
+<h2 id="more-about-your-computer">More about your computer</h2>
+<p>The route with the least programming, this is about getting familiar with using your computer and the new functionality that you can find on it.</p>
+<p>154???</p>
+<p>(installing packages, config files, bash, python, vimrc, bashrc)</p>
+<p><a href="Fun/index.html">Fun</a></p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>FizzBuzz - Port67</title>
+  <style>
+    .left {
+        min-width: 300px;
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css">
+  <link rel="stylesheet" href="/css/code.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+</head>
+<body id="main-flex">
+
+  <header>
+    <div class="left"></div>
+
+    <ul id="head" class="center-col">
+      <li><a href="/index.html">Port67</a></li>
+      <li><a href="/README.html">README</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </header>
+
+  <section>
+    <div class="left"></div>
+
+    <article id="content" class="center-col">
+      <div id="toc">
+<ul>
+<li><a href="#fizzbuzz">FizzBuzz</a><ul>
+<li><a href="#extras">Extras</a></li>
+</ul></li>
+</ul>
+      </div>
+<h1 id="fizzbuzz">FizzBuzz</h1>
+<p>The <code>FizzBuzz</code> problem is a classic exercise in CS. It is based on a children’s word game that helps them learn math. But for us, it will help us work on our control flow. It goes like this:</p>
+<pre><code>Write a program that prints the numbers 1 to 100. However, if the number is
+divisible by 3, print *fizz*. If the number is divisible by 5, print *buzz*.
+And if it is divisible by both, print *fizzbuzz*.</code></pre>
+<p>Any time you are going to write any code, you start by opening up your terminal, navigating to a reasonable place (e.g. <code>~/Projects/Python/fun</code>), and opening a new file (like, <code>fizzbuzz.py</code>).</p>
+<p>One way we could start is by outlining the problem with comments. In this case, we have four reasonably clear tasks.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co"># FizzBuzz.py</span>
+
+<span class="co"># Print the numbers 1 - 100</span>
+
+<span class="co"># Print numbers divisible by 3 as fizz</span>
+
+<span class="co"># Print numbers divisible by 5 as buzz</span>
+
+<span class="co"># Print numbers divisible by 3 and 5 as fizzbuzz</span></code></pre></div>
+<p>We now have a good place to start: printing the numbers 1-100. I’m only going to write out pieces, or snippets, of the file here at any given time to save space. But I will do my best to make it easy to know where things should go.</p>
+<p>Thinking back to the <a href="../ControlFlow.md">control flow</a> lesson, we actually did something like this already.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">x <span class="op">=</span> <span class="dv">1</span>
+<span class="cf">while</span> (x <span class="op">&lt;=</span> <span class="dv">1000</span>):
+    <span class="bu">print</span> x
+    x <span class="op">+=</span> <span class="dv">1</span></code></pre></div>
+<p>With some tweaking, this will work nicely.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co"># Print the numbers 1 - 100</span>
+x <span class="op">=</span> <span class="dv">1</span>
+<span class="cf">while</span> (x <span class="op">&lt;=</span> <span class="dv">100</span>):
+    <span class="bu">print</span> x
+    x <span class="op">+=</span> <span class="dv">1</span></code></pre></div>
+<p>Ending the <code>while</code> loop earlier tackles the first task. If we now save and quit (<code>:wq</code>) we can test the program.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">python</span> fizzbuzz.py
+<span class="ex">1</span>
+<span class="ex">2</span>
+<span class="ex">3</span>
+<span class="ex">...</span>
+<span class="ex">100</span></code></pre></div>
+<p>Great! Now onto the second task: if a number is divisible by 3, print fizz. We can almost translate this directly from English into Python.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co"># Print the numbers 1 - 100</span>
+x <span class="op">=</span> <span class="dv">1</span>
+<span class="cf">while</span> (x <span class="op">&lt;=</span> <span class="dv">100</span>):
+    <span class="co"># Print numbers divisible by 3 as fizz</span>
+    <span class="cf">if</span> (x <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span>):
+        <span class="bu">print</span> <span class="st">&#39;fizz&#39;</span>
+    <span class="cf">else</span>:
+        <span class="bu">print</span> x
+    x <span class="op">+=</span> <span class="dv">1</span></code></pre></div>
+<p>The <code>%</code> operator does division, and returns the remainder. For example, <code>10 % 3</code> is 1. Divisible by 3 means the same thing as having 0 remainder after division, so we check that.</p>
+<p>Testing again:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">python</span> fizzbuzz.py
+<span class="ex">1</span>
+<span class="ex">2</span>
+<span class="ex">fizz</span>
+<span class="ex">4</span>
+<span class="ex">...</span>
+<span class="ex">fizz</span>
+<span class="ex">100</span></code></pre></div>
+<p>Still looking good! The third task works the same way, with a slight twist so both checks work.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co"># Print the numbers 1 - 100</span>
+x <span class="op">=</span> <span class="dv">1</span>
+<span class="cf">while</span> (x <span class="op">&lt;=</span> <span class="dv">100</span>):
+
+    <span class="co"># Print numbers divisible by 3 as fizz</span>
+    <span class="cf">if</span> (x <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span>):
+        <span class="bu">print</span> <span class="st">&#39;fizz&#39;</span>
+    <span class="co"># Print numbers divisible by 5 as buzz</span>
+    <span class="cf">elif</span> (x <span class="op">%</span> <span class="dv">5</span> <span class="op">==</span> <span class="dv">0</span>):
+        <span class="bu">print</span> <span class="st">&#39;buzz&#39;</span>
+    <span class="cf">else</span>:
+        <span class="bu">print</span> x
+
+    x <span class="op">+=</span> <span class="dv">1</span></code></pre></div>
+<p><code>elif</code> is short for <code>else if</code>, and is a way to chain together <code>if</code> statements. This <code>if</code> block can be read “If x is divisible by 3, print fizz. If it is not divisible by 3, but is divisible by 5, print buzz. If none of the above, print x”. We can have multiple <code>elif</code>’s to check multiple different cases. In fact, we will need a second to complete this program. I’ve also added some whitespace to make the program a little easier on the eyes.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">python</span> fizzbuzz.py
+<span class="ex">1</span>
+<span class="ex">2</span>
+<span class="ex">fizz</span>
+<span class="ex">4</span>
+<span class="ex">buzz</span>
+<span class="ex">...</span>
+<span class="ex">13</span>
+<span class="ex">14</span>
+<span class="ex">fizz</span>
+<span class="ex">16</span>
+<span class="ex">...</span>
+<span class="ex">fizz</span>
+<span class="ex">buzz</span></code></pre></div>
+<p>Our program is almost there, but we haven’t handled the case where a number is divisible by both 3 and 5. 15 is the first number divisible by both, and as we can see in the output, we are only printing fizz. To see why, let’s think about the program. If a number is divisible by 3, our <code>if</code> block will print fizz without ever checking if it is also divisible by 5.</p>
+<p>To finish off our program, we just need to check the fizzbuzz case first.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="co"># Print the numbers 1 - 100</span>
+x <span class="op">=</span> <span class="dv">1</span>
+<span class="cf">while</span> (x <span class="op">&lt;=</span> <span class="dv">100</span>):
+
+    <span class="co"># Print numbers divisible by 3 and 5 as fizzbuzz</span>
+    <span class="cf">if</span> (x <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span>) <span class="kw">and</span> (x <span class="op">%</span> <span class="dv">5</span> <span class="op">==</span> <span class="dv">0</span>):
+        <span class="bu">print</span> <span class="st">&#39;fizzbuzz&#39;</span>
+    <span class="co"># Print numbers divisible by 3 as fizz</span>
+    <span class="cf">elif</span> (x <span class="op">%</span> <span class="dv">3</span> <span class="op">==</span> <span class="dv">0</span>):
+        <span class="bu">print</span> <span class="st">&#39;fizz&#39;</span>
+    <span class="co"># Print numbers divisible by 5 as buzz</span>
+    <span class="cf">elif</span> (x <span class="op">%</span> <span class="dv">5</span> <span class="op">==</span> <span class="dv">0</span>):
+        <span class="bu">print</span> <span class="st">&#39;buzz&#39;</span>
+    <span class="cf">else</span>:
+        <span class="bu">print</span> x
+
+    x <span class="op">+=</span> <span class="dv">1</span></code></pre></div>
+<p><code>and</code> is a function that does exactly what its name says. It is true if the first <code>and</code> the second arguments are true. Otherwise it is false.</p>
+<p>And finally,</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">python</span> fizzbuzz.py
+<span class="ex">1</span>
+<span class="ex">2</span>
+<span class="ex">fizz</span>
+<span class="ex">4</span>
+<span class="ex">buzz</span>
+<span class="ex">...</span>
+<span class="ex">13</span>
+<span class="ex">14</span>
+<span class="ex">fizzbuzz</span>
+<span class="ex">16</span>
+<span class="ex">...</span>
+<span class="ex">fizz</span>
+<span class="ex">buzz</span></code></pre></div>
+<h2 id="extras">Extras</h2>
+<p>There are as many ways to write a program as there are to skin a cat. The one presented here fits best with what we know at this point. To explore another and practice reading documentation, try replacing the <code>x</code> and <code>while</code> loop with a <code>for</code> loop using the <code>range</code> function. (LINK TO RANGE AND 2/3 DIFFERENCES)</p>
+<p>The <code>elif</code> keyword is a blessing for us. It actually can be expanded using <code>if</code> and <code>else</code>. To see why the short version is so much better, try expanding our final <code>if</code> block using this rule.</p>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="cf">if</span> x:
+    <span class="bu">print</span> x
+<span class="cf">elif</span> y:
+    <span class="bu">print</span> y
+<span class="cf">else</span>:
+    <span class="bu">print</span> z
+
+<span class="co"># The above is the same as:</span>
+
+<span class="cf">if</span> x:
+    <span class="bu">print</span> x
+<span class="cf">else</span>:
+    <span class="cf">if</span> y:
+        <span class="bu">print</span> y
+    <span class="cf">else</span>:
+        <span class="bu">print</span> z</code></pre></div>
+<p>Even just the two <code>elif</code> block that we use above gets out of hand. But I would encourage you to write it out and think up some test cases (maybe 1 and 3 to start). Working through test cases is a great way to double check that you know what your code is doing.</p>
+    </article>
+
+    <div class="right"/></div>
+  </section>
+  
+  <footer>
+    <div class="left"></div>
+
+    <ul id="foot" class="center-col">
+      <li><a>© 2017 Patrick Dougherty</a></li>
+      <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
+    </ul>
+
+    <div class="right"></div>
+  </footer>
+
+</body>
+</html>
