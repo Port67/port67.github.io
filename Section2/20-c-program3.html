@@ -6,40 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>C Program 3 - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#accepting-commands">Accepting Commands</a></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section2/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="accepting-commands">Accepting Commands</h1>
 <p>The last major component of our game will be an interface for accepting commands. We are going to read them from a file, but you should be able to adjust the code to work from the command line fairly easily.</p>
 <p>We can start with our snippet from the IO lesson,</p>
@@ -110,22 +93,19 @@ down</code></pre>
 }</code></pre></div>
 <p>I used a function called <code>strcmp</code> here, for “string comparison.” If two strings are equal, then it returns 0. The line read from the file includes the <code>\n</code> character, so make sure the string you compare it to also has the newline.</p>
 <p>We can now plug in our movement function(s).</p>
-<h1 id="next">Next</h1>
-<p><a href="21-c-program4.html">A C Program 4</a></p>
+      <a href="19-c-program2.html" id="small-back">Previous</a>
+      <a href="21-c-program4.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="19-c-program2.html" id="big-back">❮</a>
+    <a href="21-c-program4.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>

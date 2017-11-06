@@ -6,42 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>Strings - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#strings">Strings</a><ul>
-<li><a href="#null-terminated-strings">Null-terminated Strings</a></li>
-</ul></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section2/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="strings">Strings</h1>
 <p>C does not have a special <code>string</code> type. Instead, it just uses a list of <code>char</code>’s. However, C provides a number of functions and features that make working with strings easier. String are central to many aspects of programming, so it’s important to get to know them (and their pitfalls).</p>
 <p><code>printf</code> uses one of these features. Using the tools from last time, let’s create a string:</p>
@@ -77,22 +58,19 @@ printf(<span class="st">&quot;%s</span><span class="sc">\n</span><span class="st
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c">printf(<span class="st">&quot;The final byte is %d!</span><span class="sc">\n</span><span class="st">&quot;</span>, my_string[<span class="dv">5</span>]);</code></pre></div>
 <p>Now I cheated a little bit here. I used <code>%d</code> even though I wanted to print out a <code>char</code>. The issue is that <code>%c</code> doesn’t print anything when it is given a null byte. When we read that block as an <code>int</code> using <code>%d</code>, we see that the byte is in fact all 0’s. Try with <code>%c</code> to see what happens.</p>
 <p>Strings are a tricky part of C. They are the source of many <em>huge</em> security issues. However, knowing how and why everything works is the best way I know of avoiding these traps. Whenever you have an issue with strings, you should ask yourself if you are holding up your end of the bargain. Do all of your strings end with <code>\0</code>? Does your string have a null byte earlier than it should? Sometimes the compiler knows where to put them to help you, but you should always think about your ending null bytes when working in C.</p>
-<h1 id="next">Next</h1>
-<p><a href="12-pointers.html">Pointers</a></p>
+      <a href="10-arrays.html" id="small-back">Previous</a>
+      <a href="12-pointers.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="10-arrays.html" id="big-back">❮</a>
+    <a href="12-pointers.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>

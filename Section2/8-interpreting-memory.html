@@ -6,43 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>Interpreting Memory - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#interpreting-memory">Interpreting Memory</a><ul>
-<li><a href="#unsigned-integers-and-2s-complement">Unsigned Integers and 2’s Complement</a></li>
-<li><a href="#overflow">Overflow</a></li>
-</ul></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section2/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="interpreting-memory">Interpreting Memory</h1>
 <p>Hopefully you’ve thought a bit about the problem I posed last time. I am going to present one of the best solutions to it right now, and it always helps to have some idea of what you are looking for when an answer it shown to you. That way, instead of getting lost, you see answers to your problems. Consider yourself warned…</p>
 <h2 id="unsigned-integers-and-2s-complement">Unsigned Integers and 2’s Complement</h2>
@@ -142,22 +122,19 @@
 | 0 | 0 | 0 | 0 |   | 0 | 0 | 0 | 0 | = 0
 +---+---+---+---+   +---+---+---+---+</code></pre>
 <p>If you look closely, you can see that the type only ever actually overflows on <code>-1 + 1 = 0</code>. The transition from <code>127</code> to <code>-128</code> is merely a result of our rules of interpretation. 2’s complement has exactly the characteristics that we want our type to have, so we stick with it.</p>
-<h1 id="next">Next</h1>
-<p><a href="9-c-types.html">C Types</a></p>
+      <a href="7-memory.html" id="small-back">Previous</a>
+      <a href="9-c-types.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="7-memory.html" id="big-back">❮</a>
+    <a href="9-c-types.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>

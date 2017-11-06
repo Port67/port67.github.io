@@ -6,43 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>Scope - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#scope">Scope</a><ul>
-<li><a href="#returning-a-new-value">Returning a New Value</a></li>
-<li><a href="#using-pointers">Using Pointers</a></li>
-</ul></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section2/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="scope">Scope</h1>
 <p>Our next task is to see how the stack and heap affect you when programming. The easiest way to see this is with functions. Here is an attempt at writing a function that increases the value of the argument by one:</p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span>
@@ -252,22 +232,19 @@ $ <span class="ex">./plus_one</span>
 <p>In contrast, the pointer version is quite efficient. The only space we need is to store the pointer. However, it becomes much harder to tell if <code>plus_one</code> modifies <code>c</code>. From the function declaration, we know that it uses the address of <code>c</code> somehow. But we have to look at the actual function body to know what happens.</p>
 <p>These tradeoffs represent two different ends of the spectrum of program design. On the one hand, you worry about space efficieny. Does your program use a reasonable amount of memory when it runs? It’s always good to keep that number as low as possible. However, you also have to consider further work on the program. Have you documented and designed your program well enough that a reader should know what <code>plus_one</code> does to <code>c</code>? If not, it may be worth it to use the <code>return</code> version. How easy it is to read and understand your program is a good measure of its quality.</p>
 <p>This post has grown quite lengthy due to the pictures, but I haven’t even made it to the heap yet! Next time, we will solve the problem of passing new data back up to <code>main</code>.</p>
-<h1 id="next">Next</h1>
-<p><a href="15-scope2.html">Variable Scope 2</a></p>
+      <a href="13-stack-vs-heap.html" id="small-back">Previous</a>
+      <a href="15-scope2.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="13-stack-vs-heap.html" id="big-back">❮</a>
+    <a href="15-scope2.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>

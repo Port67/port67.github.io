@@ -6,43 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>Structs - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#data-structures">Data Structures</a><ul>
-<li><a href="#using-structs">Using Structs</a></li>
-<li><a href="#struct-internals">Struct Internals</a></li>
-</ul></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section2/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="data-structures">Data Structures</h1>
 <p>One of the main jobs of programs and programming languages is to represent data. We’ve worked with many small representations through types. Each type tells us how to interpret a few bytes as numbers or letters or strings. But it’s time to start thinking bigger. We want to be able to work with data that represents books, people, cars, cities, planes, or anything you can think of.</p>
 <p>As we talked about before, modern computers, phones, and even coffee-makers handle enormous numbers of bytes regularly. It would be pretty difficult to make all that work correctly if all we had were <code>int</code>’s and <code>char</code>’s. So we need a new way to add structure to our data that gives it some extra meaning.</p>
@@ -175,22 +155,19 @@ hs</code></pre>
 hs + offset(initials)
 hs + 4</code></pre>
 <p>Our <code>.</code> is just simple addition to find the field in memory.</p>
-<h1 id="next">Next</h1>
-<p><a href="17-io.html">Input Output</a></p>
+      <a href="15-scope2.html" id="small-back">Previous</a>
+      <a href="17-io.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="15-scope2.html" id="big-back">❮</a>
+    <a href="17-io.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>

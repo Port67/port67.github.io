@@ -6,44 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>Pointers - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#pointers">Pointers</a><ul>
-<li><a href="#using-memory">Using Memory</a></li>
-<li><a href="#pointers-vs.values">Pointers vs. Values</a></li>
-<li><a href="#double-pointer-as-a-list-of-strings">Double Pointer as a List of Strings</a></li>
-</ul></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section2/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="pointers">Pointers</h1>
 <p>We have almost covered everything we need to understand the declaration of the <code>main</code> function. For reference:</p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> main(<span class="dt">int</span> argc, <span class="dt">char</span> **argv) {}</code></pre></div>
@@ -148,22 +127,19 @@ arg2 + 0 * sizeof(char *)
 105 (points to &#39;b&#39;)</code></pre>
 <p>We’ve successfully made it down to <code>'b'</code>! And if we eliminate the intermediate variable, it’s actually a nice syntax: <code>argv[1][0]</code>. Read from right to left, that says “take the first element of the second element of <code>argv</code>”. Which, filling in our types, says “take the first character of the second string of <code>argv</code>”. Which is pretty easy!</p>
 <p>Note: Pointers are one of the biggest humps to get over when learning C. Don’t worry if you don’t understand them just yet. We will use them non-stop going forward, so you will get all the practice you could ever want.</p>
-<h1 id="next">Next</h1>
-<p><a href="13-stack-vs-heap.html">Stack vs. Heap</a></p>
+      <a href="11-strings.html" id="small-back">Previous</a>
+      <a href="13-stack-vs-heap.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="11-strings.html" id="big-back">❮</a>
+    <a href="13-stack-vs-heap.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>

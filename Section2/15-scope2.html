@@ -6,43 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>The Heap - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#scope-2-the-heap">Scope 2: The Heap</a><ul>
-<li><a href="#malloc">Malloc</a></li>
-<li><a href="#allocating-strings">Allocating Strings</a></li>
-</ul></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section2/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="scope-2-the-heap">Scope 2: The Heap</h1>
 <p>Our problems last time were focused around modifying somethin that already existed. Our function <code>plus_one</code> was attempting to update the value of <code>c</code>, which was already in memory. We didn’t have to worry about <code>main</code>’s stack getting cleared, like we did with <code>plus_one</code>.</p>
 <p>But what if we wanted to create a completely new value from within a function, and then use it again after that function’s stack has been cleared? We know of one way to return new values from our function: <code>return</code>! That might look something like:</p>
@@ -177,22 +157,19 @@ $ <span class="ex">./a.out</span>
 }</code></pre></div>
 <p>After changing all the <code>int *</code>’s to <code>char *</code>’s, there is only one big difference. We have to remember the null byte on the end of our string! If we want a string that has 3 characters, like <code>&quot;Hey&quot;</code>, we need to ask for <strong>4</strong> bytes of memory so that we can make sure the last byte is null.</p>
 <p>The really big problem here is that if you forget, you aren’t always punished. It could be that the next byte in memory happens to be 0, in which case things will operate as expected. But if that changes for any reason, suddenly your program will stop working. C strings always end with a null byte! Don’t forget it!</p>
-<h1 id="next">Next</h1>
-<p><a href="16-structs.html">Structs</a></p>
+      <a href="14-scope.html" id="small-back">Previous</a>
+      <a href="16-structs.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="14-scope.html" id="big-back">❮</a>
+    <a href="16-structs.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>

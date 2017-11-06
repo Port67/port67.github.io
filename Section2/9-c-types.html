@@ -6,46 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>C Types - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#types-in-c">Types in C</a><ul>
-<li><a href="#char">char</a></li>
-<li><a href="#unsigned">unsigned</a></li>
-<li><a href="#int">int</a></li>
-<li><a href="#float">float</a></li>
-<li><a href="#printf-fun">Printf Fun</a></li>
-</ul></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section2/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="types-in-c">Types in C</h1>
 <p>After last time, I hope that you are starting to get a feel for what types are. They are a set of rules for interpreting the raw binary data as something else. I am now going to present some of the standard types of C, and talk about their rules.</p>
 <p>The <code>printf</code> function will help us do some interesting things here. <code>printf</code> is used to print and format strings. Formatting gives us the ability to insert the value of variables into the string, but types play a role in how they are printed. In general, <code>printf</code> can be given a string with a number of format specifiers, and a variable for every format specifier. For example,</p>
@@ -166,22 +143,19 @@ $ <span class="ex">./a.out</span>
 <span class="ex">The</span> casted (char) <span class="ex">value</span> of x is: a</code></pre></div>
 <p>As we (maybe) expected, ASCII maps the byte <code>0110 0001</code> to <code>a</code>, so the output is <code>a</code>.</p>
 <p>I want to end on a word of warning. As I promised, C gives us all kinds of power. However, I hope you can get a glimpse of how wrong this all can go. Type casting is dangerous business. But, it is a tool that you will have to use and it is best that you have some idea of how it works. Programming is all about choosing the best tool for the job, so you need to know about everything you have access to.</p>
-<h1 id="next">Next</h1>
-<p><a href="10-arrays.html">Arrays</a></p>
+      <a href="8-interpreting-memory.html" id="small-back">Previous</a>
+      <a href="10-arrays.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="8-interpreting-memory.html" id="big-back">❮</a>
+    <a href="10-arrays.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>

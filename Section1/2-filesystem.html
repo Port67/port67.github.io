@@ -6,45 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>The Filesystem - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#the-filesystem">The Filesystem</a><ul>
-<li><a href="#paths">Paths</a></li>
-<li><a href="#branches-and-leaves">Branches and Leaves</a></li>
-<li><a href="#directories-are-infinite">Directories are Infinite</a></li>
-</ul></li>
-<li><a href="#basic-commands">Basic Commands</a></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section1/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="the-filesystem">The Filesystem</h1>
 <p>All of the information on your computer needs to be kept somewhere. When you save something you are working on, download a new song, or even download an app, you are creating blocks of information on your computer called files. A file roughly corresponds to a single song or image or video and so on. The trick is keeping all of these files organized so that both you and your computer know where they are. We call this organization the filesystem. You may have some experience with it, using Finder on Mac or Konqueror, Nautilus, or Thunar on Linux. These are graphical interfaces, but we are going to use the terminal for a little more power.</p>
 <p>Just like last time, we need to open up our terminal application. I am going to introduce a few new commands that let us interact with the filesystem. A good place to start is figuring out where we are:</p>
@@ -139,22 +117,19 @@ Documents      Downloads      Pictures      TODO.txt      Recipes</code></pre>
 <p>Format and display the on-line <strong>man</strong>ual pages.</p>
 <p>This is how you learn more about commands or check how they work. If you try <code>man man</code> you’ll see that I shamelessly copied some of my descriptions from the man pages for the above commands. <code>man</code> should always be your first stop if you have any questions about commands.</p>
 <p>Once you are in a man page, you can move up and down with “j” and “k”, and quit with “q”. This actually opens a program called “less” (a joke on the earlier program “more”…). Also this style of movement will come up again, so keep it in mind.</p>
-<h1 id="next">Next</h1>
-<p><a href="3-python.html">Python</a></p>
+      <a href="1-terminal.html" id="small-back">Previous</a>
+      <a href="3-python.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="1-terminal.html" id="big-back">❮</a>
+    <a href="3-python.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>

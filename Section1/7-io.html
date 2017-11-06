@@ -6,43 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>Input and Output - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#inputoutput">Input/Output</a><ul>
-<li><a href="#output">Output</a></li>
-</ul></li>
-<li><a href="#input">Input</a></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section1/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="inputoutput">Input/Output</h1>
 <p>Last time we ended with this program,</p>
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> math
@@ -92,22 +72,19 @@ b <span class="op">=</span> <span class="bu">input</span>(<span class="st">&#39;
 <span class="ex">24.1660919472</span></code></pre></div>
 <p>And that is a nifty program. It might save you 10 minutes on homework if you are still in high school. As a quick review to make sure this is all clear, we are setting the variable <code>a</code> to the return value of the <code>input</code> function. <code>input</code> takes a single argument, a string (the programming word for a sequence of letters, spaces, punctuation, numbers, etc.), which it prints. Then it takes everything you type before pressing <code>enter/return</code> and returns it. In our example, <code>a</code> is set to 10, and <code>b</code> to 22. After that, it runs our function on the two values and <code>print</code>’s the output. We could have set a variable <code>c</code> to the hypotenuse length, and then <code>print c</code>, but this way also works.</p>
 <p>With basic functions and I/O, you could theoretically write all sorts of cool programs. But that’s not our goal here (well, it is eventually, but not yet). Next up, we are going to be talking about “things” in programming languages. In particular, we are going to find out the difference between <code>a</code>, <code>'a'</code>, <code>[a]</code>, and more.</p>
-<h1 id="next">Next</h1>
-<p><a href="8-types.html">Types</a></p>
+      <a href="6-executing-python.html" id="small-back">Previous</a>
+      <a href="8-types.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="6-executing-python.html" id="big-back">❮</a>
+    <a href="8-types.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>

@@ -6,44 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>Python - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#python">Python</a><ul>
-<li><a href="#variables">Variables</a></li>
-<li><a href="#functions">Functions</a></li>
-<li><a href="#moving-on">Moving On</a></li>
-</ul></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section1/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="python">Python</h1>
 <p>Now that we have enough knowledge to be dangerous, we can try out our first programming language: Python. This is an ideal starting language for a few reasons. It comes pre-installed on most systems these days. It excels at small utility programs. And it is has many of the most common features among programming languages, so it is a good representative of a large number of them.</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="ex">python</span>
@@ -121,22 +100,19 @@ It is also the recommendation of the Python style guide.</code></pre>
 <h2 id="moving-on">Moving On</h2>
 <p>We are going to quit out of Python for a moment to motivate our next topic. You can stop Python by either typing <code>Ctrl-D</code> (Control and d at the same time) or by typing <code>quit()</code>. If we start up python again, we will find something upsetting. All of our hard work is gone! <code>pi</code> is no longer defined and we can’t call our <code>circumference</code> function.</p>
 <p>This is because we were just using a Python Read-Evaluate-Print-Loop (REPL). This interactive mode just runs the code you give it and then waits for more. If we want to save our work, we are going to need to put it somewhere permanent and then tell Python where it is. Luckily, we have permanent storage called the filesystem! Next time, we are going to create a file and fill it with Python code.</p>
-<h1 id="next">Next</h1>
-<p><a href="4-files.html">Files</a></p>
+      <a href="2-filesystem.html" id="small-back">Previous</a>
+      <a href="4-files.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="2-filesystem.html" id="big-back">❮</a>
+    <a href="4-files.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>

@@ -6,44 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>Binary - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#why-types">Why Types?</a><ul>
-<li><a href="#circuits">Circuits</a></li>
-<li><a href="#binary">Binary</a></li>
-<li><a href="#bytes">Bytes</a></li>
-</ul></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section2/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="why-types">Why Types?</h1>
 <p>Although we have talked about types, first in Python and now in C, I haven’t really explained what they are or why we have them. To get at that, we need to jump down all the way to the bottom of our abstraction layers and talk about the hardware of the computer. This is probably the lowest we will ever go. In fact, we need to briefly talk about some electrical engineering to understand how computers work.</p>
 <h2 id="circuits">Circuits</h2>
@@ -81,22 +60,19 @@ in binary:  1 10 100 1000 10000 10^5 10^6   ...</code></pre>
 <p>A single 0 or 1 of binary is called a “bit” as opposed to the decimal “digit”. A group of 8 “bits” is called a “byte”. (Sometimes people call groups of 4 “nibbles”, but I think that is mostly just for a good laugh. I told you CS people love their name jokes.) Bytes are the single most important measure in computer science.</p>
 <p>If you know your metric system prefixes, then “gigabytes” and “megabytes” should instantly jump out at you. If you don’t, then “giga” means 10^9, or one billion, and “mega” means 10^6, or one million. Thus a gigabyte is one billion bytes, or eight billion bits. The numbers get out of hand very fast. Modern smartphones hold billions and billions of bytes. And they fit in your pocket!</p>
 <p>I realize we are quite a distance from the idea of types that we started with. We just need one more piece to figure this out: memory.</p>
-<h1 id="next">Next</h1>
-<p><a href="7-memory.html">Memory</a></p>
+      <a href="5-functions.html" id="small-back">Previous</a>
+      <a href="7-memory.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="5-functions.html" id="big-back">❮</a>
+    <a href="7-memory.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>

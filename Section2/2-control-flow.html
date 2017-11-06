@@ -6,44 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>Control Flow - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#control-flow">Control Flow</a><ul>
-<li><a href="#if">If</a></li>
-<li><a href="#while">While</a></li>
-<li><a href="#for">For</a></li>
-</ul></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section2/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="control-flow">Control Flow</h1>
 <p>Control flow is very similar in C to what we have seen in Python. The syntax is a little bit different, but you’ll start to get a feel for it.</p>
 <h2 id="if">If</h2>
@@ -104,22 +83,19 @@ printf(<span class="st">&quot;False</span><span class="sc">\n</span><span class=
     printf(<span class="st">&quot;Counting...</span><span class="sc">\n</span><span class="st">&quot;</span>);
 }</code></pre></div>
 <p>This code is functionally identical to the while loop above. We just packed all of the information into the first expression. There isn’t a great way to read a for loop into English, but it works like this: starting with <code>x = 1</code>, check if <code>x &lt; 10</code>. If it is, then run the body of the loop followed by <code>x++</code>. If <code>x</code> is not less than 10, continue on past the loop. For now, it’s best to see this as a better way of writing the <code>while</code> loops we have been writing that increment some variable before looping again.</p>
-<h1 id="next">Next</h1>
-<p><a href="3-main-breakdown.html">main Breakdown</a></p>
+      <a href="1-interpreted-compiled.html" id="small-back">Previous</a>
+      <a href="3-main-breakdown.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="1-interpreted-compiled.html" id="big-back">❮</a>
+    <a href="3-main-breakdown.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>

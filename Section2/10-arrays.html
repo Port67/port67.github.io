@@ -6,42 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>Arrays - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#arrays">Arrays</a><ul>
-<li><a href="#using-arrays">Using Arrays</a></li>
-</ul></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section2/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="arrays">Arrays</h1>
 <p>From our basic types of <code>char</code>, <code>unsigned</code>, <code>int</code>, and <code>float</code>, we can construct more types. The first we have access to is the “array”. In C, an “array” is a group of values all lined up next to each other. Declaring a new array variable is easy:</p>
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">char</span> my_array[<span class="dv">3</span>];</code></pre></div>
@@ -110,22 +91,19 @@
               my_array + 2*sizeof(int)</code></pre>
 <p>As you can see, our picture is exactly the same! Because the compiler knows the type of the elements in the array, it can adjust however it needs to. This takes a lot of work off the programmer. Instead of trying to figure out how many bytes of an offset we need, we just write <code>my_array[2]</code> and get the third element every time.</p>
 <p>Hopefully the index numbers make some sense now. To get the first element of the array, we start at the beginning and move over <code>0*sizeof(type)</code>, where <code>type</code> is the type of elements in the array. To get the last value in the array, we start at the beginning and move over <code>(length - 1)*sizeof(type)</code>, where <code>length</code> is the number of elements in the array.</p>
-<h1 id="next">Next</h1>
-<p><a href="11-strings.html">Strings</a></p>
+      <a href="9-c-types.html" id="small-back">Previous</a>
+      <a href="11-strings.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="9-c-types.html" id="big-back">❮</a>
+    <a href="11-strings.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>

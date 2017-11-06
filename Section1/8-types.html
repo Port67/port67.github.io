@@ -6,44 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>Types - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#types">Types</a><ul>
-<li><a href="#type-errors">Type Errors</a></li>
-<li><a href="#int-and-str">Int and Str</a></li>
-<li><a href="#combining-types">Combining Types</a></li>
-</ul></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section1/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="types">Types</h1>
 <p>One of the features that differentiates programming languages is how they handle “types.” Type systems are a set of rules that control how you are allowed to use different values. When you tell the computer to run your program, it doesn’t check to make sure that what you are doing is sensible. It just runs your set of instructions until it reaches the end or causes an error. Type systems help diminish the chance of the runtime errors and provide extra information in error messages.</p>
 <h2 id="type-errors">Type Errors</h2>
@@ -84,22 +63,19 @@ Traceback (most recent call last):
   File <span class="st">&quot;&lt;stdin&gt;&quot;</span>, line <span class="dv">1</span>, <span class="kw">in</span> <span class="op">&lt;</span>module<span class="op">&gt;</span>
 <span class="pp">TypeError</span>: unsupported operand <span class="bu">type</span>(s) <span class="cf">for</span> <span class="op">+</span>: <span class="st">&#39;int&#39;</span> <span class="kw">and</span> <span class="st">&#39;str&#39;</span></code></pre></div>
 <p>Notice that our error is easy to see without even running the code.</p>
-<h1 id="next">Next</h1>
-<p><a href="9-control-flow.html">Control Flow</a></p>
+      <a href="7-io.html" id="small-back">Previous</a>
+      <a href="9-control-flow.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="7-io.html" id="big-back">❮</a>
+    <a href="9-control-flow.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>

@@ -6,45 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>C Program - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#a-program-in-c">A Program in C</a><ul>
-<li><a href="#the-map">The Map</a><ul>
-<li><a href="#the-data-structure">The Data Structure</a></li>
-<li><a href="#the-implementation">The Implementation</a></li>
-</ul></li>
-</ul></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section2/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="a-program-in-c">A Program in C</h1>
 <p>I’ve presented an enormous amount of information in this section without providing any real examples tying it all together. Here is my attempt at that.</p>
 <h2 id="the-map">The Map</h2>
@@ -130,22 +108,19 @@
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> arr[<span class="dv">3</span>][<span class="dv">2</span>] = { {<span class="dv">1</span>, <span class="dv">2</span>}, {<span class="dv">3</span>, <span class="dv">4</span>}, {<span class="dv">5</span>, <span class="dv">6</span>} };</code></pre></div>
 <p>This example uses 3 arrays with 2 elements each. Our grid code uses 5 arrays with 5 elements each.</p>
 <p>And that’s all we need for now. We have a basic map and can query the various cells to see what is in them. Next time, we will add a robot.</p>
-<h1 id="next">Next</h1>
-<p><a href="19-c-program2.html">A C Program 2</a></p>
+      <a href="17-io.html" id="small-back">Previous</a>
+      <a href="19-c-program2.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="17-io.html" id="big-back">❮</a>
+    <a href="19-c-program2.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>

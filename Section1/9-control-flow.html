@@ -6,45 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>Control Flow - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#control-flow">Control Flow</a><ul>
-<li><a href="#if">If</a></li>
-<li><a href="#while">While</a></li>
-<li><a href="#for">For</a></li>
-</ul></li>
-<li><a href="#an-example">An Example</a></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section1/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="control-flow">Control Flow</h1>
 <p>Our programs so far have been somewhat lackluster. One of the most glaring issues is that they do exactly the same thing every time. The program that asked us for the sides of a triangle before printing the hypotenuse could give different answers, but was still somewhat boring.</p>
 <p>In all the code we have written so far, Python has simply executed every line from top to bottom, in order. You could imagine a small pointer moving down line by line, indicating which line Python is executing. (This pointer does in fact exist inside the computer and is called the <code>program counter</code>.) The way this pointer moves is called <code>control flow</code>, and we are now going to learn how to make it do more than fall from top to bottom.</p>
@@ -122,22 +100,19 @@ because they really are the same number.  But try checking
 main()</code></pre></div>
 <p>As a matter of good practice, I have added comments to my code. Some are to help understand how it works, like the explanation of <code>break</code> and <code>elif</code>. Others explain why I chose to do something, like print the previous guesses.</p>
 <p>This game has lots of area for improvement. Some things to think about and improve: what happens when the player runs out of guesses? what if the player wants to play again? Could you make the previous guess information more useful by also telling the player if the guess was too high or too low? Working through these kinds of problems is the difference between good code and bad code. Interestingly, it is also the difference between a good game and a bad game. These exercises will also force you to work through some of the most common bugs and tough spots in programs.</p>
-<h1 id="next">Next</h1>
-<p><a href="10-reflection.html">A Reflection</a></p>
+      <a href="8-types.html" id="small-back">Previous</a>
+      <a href="10-reflection.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="8-types.html" id="big-back">❮</a>
+    <a href="10-reflection.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>

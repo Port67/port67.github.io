@@ -6,43 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>Stack vs. Heap - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#stack-vs.heap">Stack vs. Heap</a><ul>
-<li><a href="#the-stack">The Stack</a></li>
-<li><a href="#the-heap">The Heap</a></li>
-</ul></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section2/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="stack-vs.heap">Stack vs. Heap</h1>
 <p>Now, at this point you may be thinking to yourself: “why do we need pointers?” And that would be a reasonable question to ask! So far we have seen pointers used very similarly to arrays. As we saw a little bit of last time though, pointers give us a bit of flexibility that arrays do not.</p>
 <p>The main advantage we saw was that we could spread out our data in memory, so that each had room to grow. That way, we held pointers that were all the same size, even though the strings could be any size they wanted to be. If we had arrays, then all the data would have to be packed into one, long, continuous chunk. And finding the second or third string would require looking for null bytes. Instead of all that, we could just use <code>argv[1]</code> to get the second pointer, and that string could change size without troubling us.</p>
@@ -129,22 +109,19 @@
   +-------------+ </code></pre>
 <p>We can see that this is just a vertical picture of what we had with our array of strings last time. The nice thing about the heap is that the computer can put data in it, like the arguments to the program, and then it just has to give us the address so we can access it too!</p>
 <p>Without pointers, it would be very difficult to keep track of where all our data is. With pointers, we can use as much space as we want for long term storage. We sacrifice a little bit of speed so that the computer doesn’t have to worry about packing the data in tightly. It is also much easier to delete from the heap. We just tell the computer we don’t want the storage anymore, and it can do whatever it wants with it.</p>
-<h1 id="next">Next</h1>
-<p><a href="14-scope.html">Variable Scope</a></p>
+      <a href="12-pointers.html" id="small-back">Previous</a>
+      <a href="14-scope.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="12-pointers.html" id="big-back">❮</a>
+    <a href="14-scope.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>

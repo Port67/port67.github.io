@@ -6,46 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>main Breakdown - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#main-breakdown">Main Breakdown</a><ul>
-<li><a href="#return-type">Return Type</a></li>
-<li><a href="#function-name">Function Name</a></li>
-<li><a href="#function-arguments">Function Arguments</a></li>
-<li><a href="#function-body">Function Body</a></li>
-<li><a href="#importing">Importing</a></li>
-</ul></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section2/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="main-breakdown">Main Breakdown</h1>
 <p>When writing Python, we could place code outside of any function, or at the top-level, and the interpreter would execute it. This program prints <code>1</code> every time you run it.</p>
 <div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">x <span class="op">=</span> <span class="dv">1</span>
@@ -107,22 +84,19 @@ $ <span class="ex">./a.out</span> this is a test
 <span class="ex">Argument</span> 3: a
 <span class="ex">Argument</span> 4: test</code></pre></div>
 <p>You should try getting rid of that horrible grammar mistake <code>There are 1 arguments</code>. All it takes is an <code>if</code> statement, which you know all about!</p>
-<h1 id="next">Next</h1>
-<p><a href="4-variables.html">Variables</a></p>
+      <a href="2-control-flow.html" id="small-back">Previous</a>
+      <a href="4-variables.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="2-control-flow.html" id="big-back">❮</a>
+    <a href="4-variables.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>

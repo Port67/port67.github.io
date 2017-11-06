@@ -6,42 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>Vim - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#vim">Vim</a><ul>
-<li><a href="#more-intro-vim">More Intro Vim</a></li>
-</ul></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section1/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="vim">Vim</h1>
 <p>If you are using the same directory as last time (something like <code>~/Projects</code>) and you still have the <code>text.png</code> and <code>test.html</code> files, feel free to <strong>r</strong>e<strong>m</strong>ove them. As hinted at last time, we are going to fill a file using Vim. So make a file with a nice name, perhaps <code>learnvim.txt</code>. (Remember <code>touch</code>)</p>
 <p>Vim works much like a typical bash command:</p>
@@ -75,22 +56,19 @@
 <pre class="vim"><code>h/j/k/l</code></pre>
 <p>Our last set of commands all go together. They are how you move around in <code>Normal</code> mode. In order, they move you left/down/up/right. One neat thing about the terminal is that it uses a “monospaced” font. This means that every symbol that you type takes up the same amount of space. In fact, they take up exactly as much space as your cursor. This leads to some nice looking style choices and convenient movement. If you type some random lines of text and then spend some time moving around it in normal mode, you’ll notice that it is very easy to tell what characters are above and below each other.</p>
 <p>We’ll come back to Vim a couple times to give you some upgrades once you’ve earned them ;)</p>
-<h1 id="next">Next</h1>
-<p><a href="6-executing-python.html">Executing Python</a></p>
+      <a href="4-files.html" id="small-back">Previous</a>
+      <a href="6-executing-python.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="4-files.html" id="big-back">❮</a>
+    <a href="6-executing-python.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>

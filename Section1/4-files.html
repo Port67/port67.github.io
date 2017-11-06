@@ -6,43 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <meta name="author" content="Patrick Dougherty">
   <title>Files - Port67</title>
-  <style>
-    .left {
-        min-width: 300px;
-    }
-  </style>
-  <link rel="stylesheet" href="/css/site.css">
-  <link rel="stylesheet" href="/css/code.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
 </head>
-<body id="main-flex">
+<body>
 
   <header>
-    <div class="left"></div>
-
-    <ul id="head" class="center-col">
+    <ul id="head" class="center-col links">
       <li><a href="/index.html">Port67</a></li>
       <li><a href="/README.html">README</a></li>
       <li><a href="/contact.html">Contact</a></li>
     </ul>
-
-    <div class="right"></div>
   </header>
 
   <section>
-    <div class="left"></div>
-
     <article id="content" class="center-col">
-      <div id="toc">
-<ul>
-<li><a href="#files">Files</a><ul>
-<li><a href="#file-types">File Types</a></li>
-<li><a href="#vim">Vim</a></li>
-</ul></li>
-<li><a href="#next">Next</a></li>
-</ul>
-      </div>
+      <a href="/Section1/index.html" id="return">❮ Back To Section</a>
+      <hr>
 <h1 id="files">Files</h1>
 <p>From here on out, we are going to be making files and folders somewhat regularly. I am going to walk through a reasonable setup right now, but after this, it will be up to you. You are free to organize your filesytem however you please, to a certain extent. I would recommend creating everything as a descendant of your home directory. As a refresher, this is the present working directory that your terminal most likely starts in and that <code>cd</code> with no arguments will take you to.</p>
 <p>So let’s give ourselves a nice open space to play in:</p>
@@ -68,22 +48,19 @@ $ <span class="ex">see</span> test.png</code></pre></div>
 <h2 id="vim">Vim</h2>
 <p>There are many apps that <em>do</em> let us edit files the way we need to, but we are going to stick to terminal programs for the time being. There are two modern powerhouses in the terminal text editing game: Vim and Emacs. People have been fighting over which one is better since the dawn of time and will most likely continue to do so forever. In the end, the decision is pretty much meaningless, and just depends on who teaches you. In this case, that is me, and I am a Vim guy. You are certainly welcome to use any editor you want (so long as it doesn’t include extra stuff like Word or Open Office), but I would recommend Vim for now. Eventually, you will be able to choose an editor for yourself, maybe even branching into the graphical ones like Atom or Sublime.</p>
 <p>One of the better qualities of Vim is that it comes installed on most systems. And when it is not, it is highly likely and older version called Vi is. (Vim comes from “Vi Improved”). Vim is going to take a full lesson to get started with, so I’ll end this here. In fact, one of the most Google’d questions about programming is, “how do I exit Vim?” So I’ll wait until next time to suggest opening it.</p>
-<h1 id="next">Next</h1>
-<p><a href="5-vim.html">Vim</a></p>
+      <a href="3-python.html" id="small-back">Previous</a>
+      <a href="5-vim.html" id="small-forward">Next</a>
     </article>
-
-    <div class="right"/></div>
+    <a href="3-python.html" id="big-back">❮</a>
+    <a href="5-vim.html" id="big-forward">❯</a>
   </section>
-  
-  <footer>
-    <div class="left"></div>
 
-    <ul id="foot" class="center-col">
-      <li><a>© 2017 Patrick Dougherty</a></li>
+  <footer>
+    <hr>
+    <ul id="foot" class="center-col links">
+      <li><p>© 2017 Patrick Dougherty</p></li>
       <li><a href="https://github.com/patrickdoc/Port67Source">source</a></li>
     </ul>
-
-    <div class="right"></div>
   </footer>
 
 </body>
