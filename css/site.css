@@ -125,9 +125,11 @@ ol {
     font-family: 'Inconsolata', monospace;
 }
 
-ol p {
-    font-family: 'Lora', serif;
+ol dd {
+    font-size: 19px;
+    margin-left: 20px;
 }
+
 
 a {
     text-decoration: none;
