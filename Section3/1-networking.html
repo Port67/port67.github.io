@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>Networking - Port67</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
+</head>
+<body>
+
+  <header>
+    <div class="links">
+      <a href="/index.html">Port67</a>
+      <a></a>
+      <a href="/README.html">README</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+  </header>
+
+  <section>
+    <article>
+<h1 id="what-is-networking">What is Networking?</h1>
+<p>We now have a fair bit of experience talking to computers. We write code and then tell the computer how to read it. We have some translators along the way, like Python and C, but mostly we know how to get the computer to do what we want it to.</p>
+<p>While working on a single computer is useful, a lot of the time, you are actually interested in communicating with other computers. When you are browsing the internet, you are actually sending out requests to other computers. You call out for the home page of something.com, and, most of the time, that specific file is found on a computer somewhere in the world. That computer then sends the contents of the file back to you, and the browser displays it.</p>
+<p>Streaming songs or videos works the exact same way. The name “streaming” comes from the fact that there is a literal stream of data starting at Netflix or Spotify and flowing all the way to you. This stream contains all the information needed to play the audio or video that you requested.</p>
+<p>By the end of this section, you should be able to write your own networking code and understand how the internet works from the computer’s perspective.</p>
+<h2 id="a-bit-of-history">A Bit of History</h2>
+<p>The first tool we need is a way to connect computers. If computers run on electricity, then all we need is a wire.</p>
+<p>We could theoretically network two computers together something like this,</p>
+<pre><code>+------+      +------+
+|      |      |      |
+|  A   |------|  B   |
+|      |      |      |
++------+      +------+</code></pre>
+<p>Where the wire between them allows for communication. However, we would actually need a pair of wires so that the computers could send messages at the same time. Like water, electricity can only flow in one direction at a time. But this idea does not work well for any more than two. Look at what happens when you want to do four.</p>
+<pre><code>+------+       +------+
+|      |       |      |
+|  A   |-------|  B   |
+|      |       |      |
++------+       +------+
+   |    \     /   |
+   |     \   /    |
+   |       X      |
+   |     /   \    |
+   |    /     \   |
++------+       +------+
+|      |       |      |
+|  C   |-------|  D   |
+|      |       |      |
++------+       +------+</code></pre>
+<p>Already we need 6 pairs of wires to allow all of them to communicate.</p>
+<p>In the 1970’s, the famed Xerox Palo Alto Research Center (PARC) created a solution called Ethernet. It specified a way to greatly simplify networking. Here’s what it looked like,</p>
+<pre><code>+------+      +------+       +------+      +------+
+|      |      |      |       |      |      |      |
+|  A   |      |  B   |       |  C   |      |  D   |
+|      |      |      |       |      |      |      |
++------+      +------+       +------+      +------+
+   |             |              |             |
+   |             |              |             |
+---X-------------X--------------X-------------X----</code></pre>
+<p>Now each computer clamps onto a single long wire. The <code>X</code>’s literally chomped through the plastic and metal shielding on the coaxial cable to make a connection with the inner wire. This system has 3 important features that are often summed up as Carrier Sense, Multiple Access with Collision Detection.</p>
+<p>Carrier Sense means that the computer can tell when the network is busy. It knows when the wire is in use, so it can avoid interfering with other traffic.</p>
+<p>Multiple Access means that many different computers can all connect to the same network. In the first attempt with 6 wire pairs, we had no way to share any of the connections. This system lets the computers all use the same wire.</p>
+<p>Finally, Collision Detection lets a sender know when its message runs into another along the way. Here’s an example to see how that might happen,</p>
+<pre><code>                 Network is idle
++------+      +------+       +------+      +------+
+|      |      |      |       |      |      |      |
+|  A   |      |  B   |       |  C   |      |  D   |
+|      |      |      |       |      |      |      |
++------+      +------+       +------+      +------+
+   |             |              |             |
+   |             |              |             |
+---X-------------X--------------X-------------X----
+
+            A sends to C, D sends to B
++------+      +------+       +------+      +------+
+|      |      |      |       |      |      |      |
+|  A   |      |  B   |       |  C   |      |  D   |
+|      |      |      |       |      |      |      |
++------+      +------+       +------+      +------+
+   |             |              |             |
+   |             |              |             |
+---X-----O&gt;------X--------------X----&lt;O-------X----
+
+            Messages collide and are lost
++------+      +------+       +------+      +------+
+|      |      |      |       |      |      |      |
+|  A   |      |  B   |       |  C   |      |  D   |
+|      |      |      |       |      |      |      |
++------+      +------+       +------+      +------+
+   |             |              |             |
+   |             |              |             |
+---X-------------X------OO------X-------------X----</code></pre>
+<p>Because of Collision Detection, A and D now both know that their messages did not reach their targets.</p>
+<p>With a solid physical infrastructure in our hands, we can discuss the ways in which the computers agree to use the network. This is called the “protocol”, and it defines how things must react to different events. For example, how should A and D respond when they find out their transmissions collided?</p>
+      <a href="2-ethernet.html" id="small-forward">Next</a>
+    </article>
+    <a href="2-ethernet.html" id="big-forward">❯</a>
+  </section>
+
+  <footer>
+    <hr>
+    <div class="links">
+      <p>© 2017 Patrick Dougherty</p>
+      <a></a>
+      <a href="https://github.com/patrickdoc/Port67Source">source</a>
+      <a href="mailto:help@port67.org">help@port67.org</a>
+    </div>
+  </footer>
+
+</body>
+</html>

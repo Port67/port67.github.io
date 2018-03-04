@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Patrick Dougherty">
+  <title>Ethernet - Port67</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700%7cInconsolata:400,700">
+  <link rel="stylesheet" href="/css/site.mini.css">
+</head>
+<body>
+
+  <header>
+    <div class="links">
+      <a href="/index.html">Port67</a>
+      <a></a>
+      <a href="/README.html">README</a>
+      <a href="/contact.html">Contact</a>
+    </div>
+  </header>
+
+  <section>
+    <article>
+<h1 id="ethernet">Ethernet</h1>
+<p>Here is the picture of our network from last time,</p>
+<pre><code>+------+      +------+       +------+      +------+
+|      |      |      |       |      |      |      |
+|  A   |      |  B   |       |  C   |      |  D   |
+|      |      |      |       |      |      |      |
++------+      +------+       +------+      +------+
+   |             |              |             |
+   |             |              |             |
+---X-------------X--------------X-------------X----</code></pre>
+<p>We have four nodes, or computers, attached to our shared wire. We now need a set of rules to make communication easier.</p>
+<p>A good place to start might be to determine how to send a message to another node. Suppose A wants to talk to C. How should C recognize that the message is intended for it? Much like house numbers, each computer will have a unique address. These are called “media access control addresses”, or MAC addresses for short. They are 48 bit (or 6 byte) numbers. It is standard to write each byte in hexadecimal notation, with colons or hyphens in between each byte.</p>
+<h2 id="hexadecimal">Hexadecimal</h2>
+<p>Like binary or decimal, hexadecimal is the standard counting system with a different base, in this case 16. What makes hex useful is that it perfectly compresses 4 bits into a single character. Here’s a chart</p>
+<pre><code>decimal:    0    1    2    3    4    5    6    7
+binary:     0    1   10   11  100  101  110  111
+hex:        0    1    2    3    4    5    6    7
+
+decimal:    8    9   10   11   12   13   14   15
+binary:  1000 1001 1010 1011 1100 1101 1110 1111
+hex:        8    9    a    b    c    d    e    f</code></pre>
+<p>When hex uses up all of the digits, it moves onto letters, but only <code>a-f</code>. But, because it is exactly 4 bits, two hex characters always make a byte. This comes from the fact that <code>16 = 2^4</code>. Hex is a common way of writing binary data because it is more compact and easier to read. Letters can be written in upper or lower case.</p>
+<p>Take for example some sample MAC addresses.</p>
+<pre><code>E1:0E:6A:DC:8F:CC
+59:ec:5a:71:49:f5
+52:52:41:63:5E:BE</code></pre>
+<p>To give you a taste of what that would look like in binary, here’s the first,</p>
+<pre><code>1110 0001 : 0000 1110 : 0110 1010 : 1101 1100 : 1000 1111 : 1100 1100</code></pre>
+<p>Which is rather difficult to read.</p>
+<h2 id="using-mac-addresses">Using MAC Addresses</h2>
+<p>If we zoom in on a single computer, it actually looks a little more like this,</p>
+<pre><code>+------+  
+|      |  
+|  A   |  
+|  _   |  
++-|N|--+  
+   -      
+   |      
+---X---</code></pre>
+<p><code>N</code> is our network adapter. It is a small piece of hardware responsible for handling all of the actual network tasks. It will transform data into electricity and send it out on the wire, or it will decode the data and present it to the computer.</p>
+<p>The MAC address belongs to <code>N</code>. If <code>A</code> wants to talk to <code>C</code>, it just needs to attach a proper address to the message.</p>
+<pre><code>+------+      +------+
+|      |      |      |
+|  A   |      |  C   |      N:  E1:0E:6A:DC:8F:CC
+|  _   |      |  _   |      O:  59:EC:5A:71:49:F5
++-|N|--+      +-|O|--+
+   -             -    
+   |             |    
+---X-------------X---</code></pre>
+<p>A’s message to C might look something like,</p>
+<pre><code>+===================+===============+
+| 59:EC:5A:71:49:F5 |  &quot;Hello, C!&quot;  |
++===================+===============+</code></pre>
+<p>My picture just shows the data, but we know how to translate all of that into binary, and therefore electricity. For example, <code>59</code> is <code>0101 1001</code> and <code>l</code> is <code>0110 1100</code>. A large amount of work has been done so that we don’t have to deal with those translations though. I’m going to mostly just write data in the form that we understand, but remember that this translation is always happening.</p>
+<p>When the network adapter <code>O</code> sees this message on the wire, it can simply check the first 6 bytes. If they match <code>O</code>’s address, it will pass the message onto <code>C</code>. If it doesn’t match, <code>O</code> just ignores the message. You <em>can</em> set your network adapter to “promiscuous” mode, where it reads every message even if the addresses don’t match. But most of the time <code>O</code> will only read the data that it is supposed to.</p>
+<p>If <code>C</code> wants to reply to <code>A</code>, it can just wrap it’s message with <code>N</code>’s address,</p>
+<pre><code>+===================+==================+
+| E1:0E:6A:DC:8F:CC |  &quot;Greetings, A&quot;  |
++===================+==================+</code></pre>
+<p>That’s all there is for simple communications. Just add an address to the beginning of your message. Next, we will have to solve some physical problems. In particular, what happens when messages “collide” on the wire? There is only room for one current on the wire at a time, so the network adapters will have to negotiate time on the wire somehow.</p>
+      <a href="1-networking.html" id="small-back">Previous</a>
+      <a href="3-collisions.html" id="small-forward">Next</a>
+    </article>
+    <a href="1-networking.html" id="big-back">❮</a>
+    <a href="3-collisions.html" id="big-forward">❯</a>
+  </section>
+
+  <footer>
+    <hr>
+    <div class="links">
+      <p>© 2017 Patrick Dougherty</p>
+      <a></a>
+      <a href="https://github.com/patrickdoc/Port67Source">source</a>
+      <a href="mailto:help@port67.org">help@port67.org</a>
+    </div>
+  </footer>
+
+</body>
+</html>
